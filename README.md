@@ -13,8 +13,6 @@ $ pip install -r requirements.txt
 ```
 
 4. Suorita seuraava komento.
-
 ```
 $ python3 src/index.py
-
 ```
