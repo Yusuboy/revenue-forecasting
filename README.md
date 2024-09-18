@@ -19,7 +19,7 @@ The goal of this project is to refine forecasting methods to better predict shor
 
 1. Clone the repository to your machine and navigate to the root directory.
     ```bash
-    git clone git@github.com:Yusuboy/HR-Web-App.git
+    git clone git@github.com:Yusuboy/revenue-forecasting.git
     ```
 
 2. Set up a virtual environment and install the requirements in the root directory.
