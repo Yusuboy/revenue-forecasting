@@ -31,5 +31,5 @@ The goal of this project is to refine forecasting methods to better predict shor
 
 3. Run the following command.
     ```bash
-    $ python3 src/index.py
+    $ flask --app src.app run
     ```
