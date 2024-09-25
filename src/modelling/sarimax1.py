@@ -4,14 +4,18 @@ import statsmodels.api as sm
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import matplotlib.pyplot as plt
 
-# Load the training dataset (Oct 2021 - Mar 2024)
+# Load the training dataset 
 train_data = pd.read_csv('training_data.csv')
 
+
 print(str(train_data.shape))
-# Load the validation dataset (April 2024 - August 2024)
+print(train_data)
+print('----------------------')
+# Load the validation dataset 
 validation_data = pd.read_csv('validation_data.csv')
 print(str(validation_data.shape))
-
+print(validation_data)
+print('----------------------')
 # Remove currency symbols and convert to numeric in both datasets
 train_data['Revenue FIN'] = train_data['Revenue FIN'].replace('[€,]', '', regex=True).astype(float)
 train_data['Revenue IND'] = train_data['Revenue IND'].replace('[€,]', '', regex=True).astype(float)
@@ -63,7 +67,7 @@ results_IND = model_IND.fit()
 model_NS = sm.tsa.SARIMAX(endog=y_train_NS, exog=X_train_NS, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
 results_NS = model_NS.fit()
 
-# Forecast on the validation set (April 2024 - August 2024)
+# Forecast on the validation set 
 forecast_FIN = results_FIN.forecast(steps=len(y_valid_FIN), exog=X_valid_FIN)
 forecast_IND = results_IND.forecast(steps=len(y_valid_IND), exog=X_valid_IND)
 forecast_NS = results_NS.forecast(steps=len(y_valid_NS), exog=X_valid_NS)
@@ -72,16 +76,16 @@ forecast_NS = results_NS.forecast(steps=len(y_valid_NS), exog=X_valid_NS)
 forecast_total = forecast_FIN + forecast_IND + forecast_NS
 
 # Print forecasted values in integer format
-print("Forecasted Revenue FIN (April 2024 - August 2024):")
+print("Forecasted Revenue FIN:")
 print(forecast_FIN.apply(lambda x: f'{int(x):,d}'))
 
-print("Forecasted Revenue IND (April 2024 - August 2024):")
+print("Forecasted Revenue IND:")
 print(forecast_IND.apply(lambda x: f'{int(x):,d}'))
 
-print("Forecasted Revenue NS (April 2024 - August 2024):")
+print("Forecasted Revenue NS:")
 print(forecast_NS.apply(lambda x: f'{int(x):,d}'))
 
-print("Total Forecasted Revenue (April 2024 - August 2024):")
+print("Total Forecasted Revenue:")
 print(forecast_total.apply(lambda x: f'{int(x):,d}'))
 
 # Calculate accuracy metrics (RMSE and MAE) for each component and format as integers
