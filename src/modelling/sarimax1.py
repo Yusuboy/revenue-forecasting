@@ -122,7 +122,7 @@ monthly_errors = pd.DataFrame({
     'Forecasted Total Revenue': forecast_total.apply(lambda x: f'{int(x):,d}')
 })
 
-print("\nMonthly Forecasting Errors (April 2024 - August 2024):")
+print("\nMonthly Forecasting Errors:")
 print(monthly_errors)
 
 # Combine the actual revenue from training and validation datasets for plotting
@@ -137,7 +137,7 @@ plt.plot(actual_total_valid.index, actual_total_valid, label='Actual Total Reven
 # Only plot forecasted revenue for the validation period
 plt.plot(validation_data.index, forecast_total, label='Forecasted Total Revenue (Validation)', linestyle='--', color='red')
 
-plt.title('Actual vs Forecasted Total Revenue (Oct 2021 - Aug 2024)')
+plt.title('Actual vs Forecasted Total Revenue')
 plt.xlabel('Date')
 plt.ylabel('Revenue (€)')
 plt.legend()
