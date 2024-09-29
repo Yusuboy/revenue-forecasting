@@ -33,11 +33,11 @@ forecasts = {}
 rmse_values = {}
 mae_values = {}
 
-# Model 1: Revenue FIN, explaining variables: Hours 10* FI, Hours 20* FI, Hours 30*FI
+# Model 1: Revenue FIN, explaining variables: Hours 10* FI, Hours 20* FI, Hours 30*FI, D/M FIN
 y_train_fin = train_data['Revenue FIN']
-X_train_fin = train_data[['Hours 10* FI', 'Hours 20* FI', 'Hours 30*FI', 'time_trend']]
+X_train_fin = train_data[['Hours 10* FI', 'Hours 20* FI', 'Hours 30*FI', 'D/M FIN', 'time_trend']]
 y_valid_fin = validation_data['Revenue FIN']
-X_valid_fin = validation_data[['Hours 10* FI', 'Hours 20* FI', 'Hours 30*FI', 'time_trend']]
+X_valid_fin = validation_data[['Hours 10* FI', 'Hours 20* FI', 'Hours 30*FI', 'D/M FIN', 'time_trend']]
 
 # Fit the SARIMAX model for Revenue FIN
 sarimax_models['Revenue FIN'] = sm.tsa.SARIMAX(endog=y_train_fin, exog=X_train_fin, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
@@ -46,11 +46,11 @@ sarimax_results['Revenue FIN'] = sarimax_models['Revenue FIN'].fit()
 # Forecast on the validation set for Revenue FIN
 forecasts['Revenue FIN'] = sarimax_results['Revenue FIN'].forecast(steps=len(y_valid_fin), exog=X_valid_fin)
 
-# Model 2: Revenue IND, explaining variables: Hours 20* IN, Hours 30*IN
+# Model 2: Revenue IND, explaining variables: Hours 20* IN, Hours 30*IN, D/M IND
 y_train_ind = train_data['Revenue IND']
-X_train_ind = train_data[['Hours 20* IN', 'Hours 30*IN', 'time_trend']]
+X_train_ind = train_data[['Hours 20* IN', 'Hours 30*IN', 'D/M IND', 'time_trend']]
 y_valid_ind = validation_data['Revenue IND']
-X_valid_ind = validation_data[['Hours 20* IN', 'Hours 30*IN', 'time_trend']]
+X_valid_ind = validation_data[['Hours 20* IN', 'Hours 30*IN', 'D/M IND', 'time_trend']]
 
 # Fit the SARIMAX model for Revenue IND
 sarimax_models['Revenue IND'] = sm.tsa.SARIMAX(endog=y_train_ind, exog=X_train_ind, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
@@ -59,11 +59,11 @@ sarimax_results['Revenue IND'] = sarimax_models['Revenue IND'].fit()
 # Forecast on the validation set for Revenue IND
 forecasts['Revenue IND'] = sarimax_results['Revenue IND'].forecast(steps=len(y_valid_ind), exog=X_valid_ind)
 
-# Model 3: Revenue NS, explaining variables: Hours 20* NS, Hours 30*NS
+# Model 3: Revenue NS, explaining variables: Hours 20* NS, Hours 30*NS, D/M NS
 y_train_ns = train_data['Revenue NS']
-X_train_ns = train_data[['Hours 20* NS', 'Hours 30*NS', 'time_trend']]
+X_train_ns = train_data[['Hours 20* NS', 'Hours 30*NS', 'D/M NS', 'time_trend']]
 y_valid_ns = validation_data['Revenue NS']
-X_valid_ns = validation_data[['Hours 20* NS', 'Hours 30*NS', 'time_trend']]
+X_valid_ns = validation_data[['Hours 20* NS', 'Hours 30*NS', 'D/M NS', 'time_trend']]
 
 # Fit the SARIMAX model for Revenue NS
 sarimax_models['Revenue NS'] = sm.tsa.SARIMAX(endog=y_train_ns, exog=X_train_ns, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
