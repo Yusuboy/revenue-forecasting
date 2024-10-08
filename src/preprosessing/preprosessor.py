@@ -15,7 +15,7 @@ def add_id_column(df):
     return df
 
 def add_calendar_columns(df):
-    df['Trans Date'] = pd.to_datetime(df['Trans Date'])
+    df['Trans Date'] = pd.to_datetime(df['Trans Date'], format='%d/%m/%Y %H:%M', errors='raise')
     df['Year'] = df['Trans Date'].dt.year  # Extract as integer year
     df['Month'] = df['Trans Date'].dt.month  # Extract as integer month (1-12)
     return df
