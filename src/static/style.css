@@ -1,0 +1,47 @@
+body {
+    background-color: #343a40; /* Dark background */
+}
+
+h1 {
+    color: #ffffff; /* White for headings */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-outline-primary {
+    color: #007bff; /* Outline button color */
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff; /* Fill on hover */
+    color: white;
+}
+
+.list-group-item {
+    background-color: #495057; /* Darker item background */
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999; /* Make sure it's on top of everything */
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
