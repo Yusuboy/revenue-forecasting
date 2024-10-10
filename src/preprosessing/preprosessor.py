@@ -139,13 +139,19 @@ def create_datafile(df_tlx_sums, df_bil_sums, df_tlx, df_bil, calendar_file_path
     df_calendar = pd.read_csv(calendar_file_path)
     df_calendar['Year'] = df_calendar['Year'].astype(int)
     df_calendar['Month'] = df_calendar['Month'].astype(int)
-    df_tlx_sums['Year'] = df_tlx_sums['Year'].astype(int)
-    df_tlx_sums['Month'] = df_tlx_sums['Month'].astype(int)
+    #df_tlx_sums['Year'] = df_tlx_sums['Year'].astype(int)
+    #df_tlx_sums['Month'] = df_tlx_sums['Month'].astype(int)
     df_bil_sums['Year'] = df_bil_sums['Year'].astype(int)
     df_bil_sums['Month'] = df_bil_sums['Month'].astype(int)
     
-    df_merged = pd.merge(df_calendar, df_tlx_sums, on=['Year', 'Month'], how='outer')
-    df_merged = pd.merge(df_merged, df_bil_sums, on=['Year', 'Month'], how='outer')
+    # hours data not used, skip merging it
+    df_merged = pd.merge(df_calendar, df_bil_sums, on=['Year', 'Month'], how='outer')
+    #df_merged = pd.merge(df_merged, df_bil_sums, on=['Year', 'Month'], how='outer')
+    
+    # drop the Sep 2021 that has incorrect data
+    index_to_drop = df_merged[(df_merged['Year']==2021) & (df_merged['Month']<10)].index
+    df_merged.drop(index_to_drop, inplace=True)
+
     df_merged.to_csv(output_datafile_path)
     df_tlx.to_csv(prosessed_tlx_file_path)
     df_bil.to_csv(prosessed_bil_file_path)
@@ -158,3 +164,5 @@ def main(bil_file_path, tlx_file_path, calendar_file_path, output_datafile_path,
     df_tlx_sums = tlx_sums_per_month(df_tlx)
     
     create_datafile(df_tlx_sums, df_bil_sums, df_tlx, df_bil, calendar_file_path, output_datafile_path, prosessed_bil_file_path, prosessed_tlx_file_path)
+
+main('revenue.csv', 'hours.csv', 'calendar.csv', 'data.csv', 'revenue_preprosessed.csv', 'hours_preprosessed.csv')
