@@ -99,8 +99,7 @@ class ForecastUtils:
         data = df[(df.index >= start_date) & (df.index <= end_date)]
         return data
     
-    # Return a subset of data between start and end dates.
-    # This method expects that there is a date index created in the dataset. If using data load methods of this utility class, it's already done there.
+    # Calculate validation results and print them. Based on parameters, results can also be saved in a csv file and/or plotted.
     @staticmethod    
     def validation_results(validation_data, forecast_FIN, forecast_IND, forecast_NS, model_name='model', save_errors=False, plot_errors=False, train_data=None):
       
