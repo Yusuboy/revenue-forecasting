@@ -157,10 +157,27 @@ class ForecastUtils:
         # Print errors to csv file for further use if requested
         if(save_errors):
             filename = model_name + '_errors.csv'
-            monthly_errors.to_csv(filename)
+            formatted_errors.to_csv(filename)
 
+        # Show plot if requested in a parameter
         if(plot_errors):
             ForecastUtils.plot_results(train_data, validation_data, forecast_FIN, forecast_IND, forecast_NS)
+
+        # Calculate and return model comparatation values
+        comparation_values = [
+            monthly_errors['Error% Total'].abs().mean(),
+            monthly_errors['Error% FIN'].abs().mean(),
+            monthly_errors['Error% IND'].abs().mean(),
+            monthly_errors['Error% NS'].abs().mean(),
+        ]
+        
+        print('Model performance comparation values:')
+        print(f'Mean of total error absolute values in the validation period: {comparation_values[0]:,.1f}%')
+        print(f'Mean of FIN error absolute values in the validation period: {comparation_values[1]:,.1f}%')
+        print(f'Mean of IND error absolute values in the validation period: {comparation_values[2]:,.1f}%')
+        print(f'Mean of NS error absolute values in the validation period: {comparation_values[3]:,.1f}%')
+
+        return comparation_values
 
 
     @staticmethod  
