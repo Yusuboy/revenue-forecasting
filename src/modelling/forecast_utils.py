@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 # Utility function to provide common functions. At this point, services include
 # - load_data - load the datafile to dataframe
 # - load_rate_normalized_data - load data and normalize revenues by rate raises
@@ -179,7 +180,6 @@ class ForecastUtils:
 
         return comparation_values
 
-
     @staticmethod  
     def plot_results(train_data, validation_data, forecast_FIN, forecast_IND, forecast_NS):  
                                                                                                         
@@ -203,3 +203,8 @@ class ForecastUtils:
         plt.legend()
         plt.tight_layout()
         plt.show(block='False')
+
+    @staticmethod  
+    def model_comparison():
+        print('foo')
+    
