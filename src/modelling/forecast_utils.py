@@ -1,7 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
 # Utility function to provide common functions. At this point, services include
 # - load_data - load the datafile to dataframe
 # - load_rate_normalized_data - load data and normalize revenues by rate raises
@@ -172,7 +171,7 @@ class ForecastUtils:
             monthly_errors['Error% NS'].abs().mean(),
         ]
         
-        print('Model performance comparation values:')
+        print(f'Model performance comparation values for {model_name}')
         print(f'Mean of total error absolute values in the validation period: {comparation_values[0]:,.1f}%')
         print(f'Mean of FIN error absolute values in the validation period: {comparation_values[1]:,.1f}%')
         print(f'Mean of IND error absolute values in the validation period: {comparation_values[2]:,.1f}%')
@@ -202,9 +201,5 @@ class ForecastUtils:
         plt.ylabel('Revenue')
         plt.legend()
         plt.tight_layout()
-        plt.show(block='False')
+        plt.show(block=False)
 
-    @staticmethod  
-    def model_comparison():
-        print('foo')
-    

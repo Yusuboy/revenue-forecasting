@@ -108,9 +108,10 @@ class RevenueForecastRunrate:
         return forecast_FIN, forecast_IND, forecast_NS, forecast_total
 
     # Utility function to validate the model
-    def validate(self, forecast_fin, forecast_ind, forecast_ns, validation_start, validation_end):
+    def validate(self, forecast_fin, forecast_ind, forecast_ns, validation_start, validation_end, save_errors=False, plot_errors=False):
         validation_data = ForecastUtils.split_data(self.data, validation_start, validation_end)
-        ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=False, plot_errors=True, train_data=self.train_data)
+        model_name = 'runrate without trend' if not self.use_trend else 'runrate with trend'
+        ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=save_errors, plot_errors=plot_errors, model_name=model_name, train_data=self.train_data)
 
 # Usage example / dummy test
 if __name__ == "__main__":  
