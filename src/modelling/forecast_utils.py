@@ -103,40 +103,56 @@ class ForecastUtils:
     @staticmethod    
     def validation_results(validation_data, forecast_FIN, forecast_IND, forecast_NS, model_name='model', save_errors=False, plot_errors=False, train_data=None):
       
-        predict_total = forecast_FIN + forecast_IND + forecast_NS
+        forecast_total = forecast_FIN + forecast_IND + forecast_NS
         actual_total = validation_data['Revenue FIN'] + validation_data['Revenue IND'] + validation_data['Revenue NS']
 
         # Create the DataFrame to compare actual and forecasted revenues
         monthly_errors = pd.DataFrame({
-            'Actual Revenue FIN': validation_data['Revenue FIN'].apply(lambda x: f'{int(x):,d}'),
-            'Forecasted Revenue FIN': pd.Series(forecast_FIN, index=validation_data.index).apply(lambda x: f'{int(x):,d}'),
-            'Actual Revenue IND': validation_data['Revenue IND'].apply(lambda x: f'{int(x):,d}'),
-            'Forecasted Revenue IND': pd.Series(forecast_IND, index=validation_data.index).apply(lambda x: f'{int(x):,d}'),
-            'Actual Revenue NS': validation_data['Revenue NS'].apply(lambda x: f'{int(x):,d}'),
-            'Forecasted Revenue NS': pd.Series(forecast_NS, index=validation_data.index).apply(lambda x: f'{int(x):,d}'),
-            'Actual Total Revenue': actual_total.apply(lambda x: f'{int(x):,d}'),
-            'Forecasted Total Revenue': pd.Series(predict_total, index=validation_data.index).apply(lambda x: f'{int(x):,d}')
+            'Actual FIN': validation_data['Revenue FIN'],
+            'Forecast FIN': pd.Series(forecast_FIN, index=validation_data.index),
+            'Actual IND': validation_data['Revenue IND'],
+            'Forecast IND': pd.Series(forecast_IND, index=validation_data.index),
+            'Actual NS': validation_data['Revenue NS'],
+            'Forecast NS': pd.Series(forecast_NS, index=validation_data.index),
+            'Actual Total': actual_total,
+            'Forecast Total': pd.Series(forecast_total, index=validation_data.index)
         })
 
         # Add Error% FIN, Error% IND, Error% NS and Total Revenue Error% columns
         monthly_errors['Error% FIN'] = monthly_errors.apply(
-            lambda row: None if row['Actual Revenue FIN'] is None else 
-            f"{((float(row['Actual Revenue FIN'].replace(',', '')) - float(row['Forecasted Revenue FIN'].replace(',', ''))) / float(row['Actual Revenue FIN'].replace(',', '')) * 100):.2f}%", axis=1
+            lambda row: None if row['Actual FIN'] is None else 
+            ((float(row['Actual FIN']) - float(row['Forecast FIN'])) / float(row['Actual FIN']) * 100), axis=1
         )
         monthly_errors['Error% IND'] = monthly_errors.apply(
-            lambda row: None if row['Actual Revenue IND'] is None else 
-            f"{((float(row['Actual Revenue IND'].replace(',', '')) - float(row['Forecasted Revenue IND'].replace(',', ''))) / float(row['Actual Revenue IND'].replace(',', '')) * 100):.2f}%", axis=1
+            lambda row: None if row['Actual IND'] is None else 
+            ((float(row['Actual IND']) - float(row['Forecast IND'])) / float(row['Actual IND']) * 100), axis=1
         )
         monthly_errors['Error% NS'] = monthly_errors.apply(
-            lambda row: None if row['Actual Revenue NS'] is None else 
-            f"{((float(row['Actual Revenue NS'].replace(',', '')) - float(row['Forecasted Revenue NS'].replace(',', ''))) / float(row['Actual Revenue NS'].replace(',', '')) * 100):.2f}%", axis=1
+            lambda row: None if row['Actual NS'] is None else 
+            ((float(row['Actual NS']) - float(row['Forecast NS'])) / float(row['Actual NS']) * 100), axis=1
         )
         monthly_errors['Error% Total'] = monthly_errors.apply(
-            lambda row: None if row['Actual Total Revenue'] is None else 
-            f"{((float(row['Actual Total Revenue'].replace(',', '')) - float(row['Forecasted Total Revenue'].replace(',', ''))) / float(row['Actual Total Revenue'].replace(',', '')) * 100):.2f}%", axis=1
+            lambda row: None if row['Actual Total'] is None else 
+            ((float(row['Actual Total']) - float(row['Forecast Total'])) / float(row['Actual Total']) * 100), axis=1
         )    
 
-        print(monthly_errors)
+        def format_columns(row):
+            row['Actual FIN'] = f'{row['Actual FIN']:,.0f}' 
+            row['Forecast FIN'] = f'{row['Forecast FIN']:,.0f}' 
+            row['Actual IND'] = f'{row['Actual IND']:,.0f}' 
+            row['Forecast IND'] = f'{row['Forecast IND']:,.0f}'
+            row['Actual NS'] = f'{row['Actual NS']:,.0f}' 
+            row['Forecast NS'] = f'{row['Forecast NS']:,.0f}'   
+            row['Actual Total'] = f'{row['Actual Total']:,.0f}' 
+            row['Forecast Total'] = f'{row['Forecast Total']:,.0f}'                      
+            row['Error% FIN'] = f'{row['Error% FIN']:,.1f}%' 
+            row['Error% IND'] = f'{row['Error% IND']:,.1f}%' 
+            row['Error% NS'] = f'{row['Error% NS']:,.1f}%'
+            row['Error% Total'] = f'{row['Error% Total']:,.1f}%'
+            return row
+
+        formatted_errors = monthly_errors.apply(format_columns, axis=1)
+        print(formatted_errors)
 
         # Print errors to csv file for further use if requested
         if(save_errors):
@@ -149,7 +165,7 @@ class ForecastUtils:
     @staticmethod  
     def plot_results(train_data, validation_data, forecast_FIN, forecast_IND, forecast_NS):  
                                                                                                         
-        # Plot forecasted vs actual Revenue IND and Revenue FIN, including the extended forecast period
+        # Plot forecasted vs actual Revenue IND and Revenue FIN
         plt.figure(figsize=(10, 6))
 
         # Plot training data
