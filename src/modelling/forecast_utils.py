@@ -60,9 +60,7 @@ class ForecastUtils:
         # This removes effect of rate raises when calculating cyclicity and 
         # leaves only true change in trend (actual volume change) to numbers.
         for i, row in df.iterrows():
-            revenue_fin = multiplier_fin/row['raise_multiplier_fin'] * row['Revenue FIN']
-            #print(f"original revenue ' {row['Year']} {row['Month']} {row['Revenue FIN']}, {revenue_fin}")
-                
+            revenue_fin = multiplier_fin/row['raise_multiplier_fin'] * row['Revenue FIN']               
             revenue_ind = multiplier_fin / row['raise_multiplier_ind'] * row['Revenue IND']
             revenue_ns = multiplier_ns / row['raise_multiplier_ns'] * row['Revenue NS']
             df.at[i, 'Revenue FIN'] = revenue_fin
@@ -157,7 +155,7 @@ class ForecastUtils:
         # Print errors to csv file for further use if requested
         if(save_errors):
             filename = model_name + '_errors.csv'
-            formatted_errors.to_csv(filename)
+            monthly_errors.to_csv(filename)
 
         # Show plot if requested in a parameter
         if(plot_errors):
