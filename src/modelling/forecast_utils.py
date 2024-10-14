@@ -162,6 +162,7 @@ class ForecastUtils:
         if(plot_errors):
             ForecastUtils.plot_results(train_data, validation_data, forecast_FIN, forecast_IND, forecast_NS)
 
+
     @staticmethod  
     def plot_results(train_data, validation_data, forecast_FIN, forecast_IND, forecast_NS):  
                                                                                                         
@@ -174,14 +175,14 @@ class ForecastUtils:
             plt.plot(train_data.index, train_data['Revenue IND'], label='Actual Revenue IND (Training)', color='green', linestyle='--')
 
         # Plot validation data
-        plt.plot(validation_data.index, validation_data['Revenue FIN'], label='Actual Revenue FIN', color='blue')
-        plt.plot(validation_data.index, forecast_FIN, label='Forecasted Revenue FIN', linestyle='--', color='red')
-        plt.plot(validation_data.index, validation_data['Revenue IND'], label='Actual Revenue IND', color='green')        
-        plt.plot(validation_data.index, forecast_IND, label='Forecasted Revenue IND', linestyle='--', color='orange')
+        plt.plot(validation_data.index, validation_data['Revenue FIN'], label='Actual FIN', color='blue')
+        plt.plot(validation_data.index, forecast_FIN, label='Forecasted FIN', linestyle='--', color='red')
+        plt.plot(validation_data.index, validation_data['Revenue IND'], label='Actual IND', color='green')        
+        plt.plot(validation_data.index, forecast_IND, label='Forecasted IND', linestyle='--', color='orange')
 
-        plt.title('Forecasted vs Actual Revenue for IND and FIN (Including Extended Forecast Period)')
+        plt.title('Forecasted vs Actual for IND and FIN ')
         plt.xlabel('Date')
         plt.ylabel('Revenue')
         plt.legend()
         plt.tight_layout()
-        plt.show()
+        plt.show(block='False')
