@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Forecasting Page</title>
+</head>
+<body>
+    <h1>Revenue Forecasting</h1>
+    <form action="/forecast" method="POST" enctype="multipart/form-data">
+        <label for="data_file">Upload Data File (CSV):</label>
+        <input type="file" name="data_file" required><br><br>
+
+        <label for="train_start">Training Start Date (YYYY-MM-DD):</label>
+        <input type="date" name="train_start" required><br><br>
+
+        <label for="train_end">Training End Date (YYYY-MM-DD):</label>
+        <input type="date" name="train_end" required><br><br>
+
+        <label for="forecast_start">Forecast Start Date (YYYY-MM-DD):</label>
+        <input type="date" name="forecast_start" required><br><br>
+
+        <label for="forecast_end">Forecast End Date (YYYY-MM-DD):</label>
+        <input type="date" name="forecast_end" required><br><br>
+
+        <input type="submit" value="Run Forecast">
+    </form>
+</body>
+</html>

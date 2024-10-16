@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Forecast Results</title>
+</head>
+<body>
+    <h1>Forecast Results</h1>
+
+    <h2>Forecasted FIN Revenue:</h2>
+    <p>{{ forecast_fin }}</p>
+
+    <h2>Forecasted IND Revenue:</h2>
+    <p>{{ forecast_ind }}</p>
+
+    <h2>Forecasted NS Revenue:</h2>
+    <p>{{ forecast_ns }}</p>
+
+    <h2>Total Forecasted Revenue:</h2>
+    <p>{{ forecast_total }}</p>
+
+    <h2>Forecast Plot:</h2>
+    <img src="{{ url_for('static', filename=plot_path.split('/')[-1]) }}" alt="Forecast Plot">
+
+    <a href="/">Go Back</a>
+</body>
+</html>
