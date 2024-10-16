@@ -24,12 +24,9 @@ class RevenueForecastRunrate:
 
         def calculate_linear_trend(series):
             
-            trend_length = len(series)
-            if len(series) >= 12:
-                trend_lenght = 12
-            
-            X = np.arange(len(series[-trend_lenght:])).reshape(-1, 1)
-            y = series[-trend_lenght:].values
+            trend_length = len(series) if (len(series) < 12) else 12           
+            X = np.arange(len(series[-trend_length:])).reshape(-1, 1)
+            y = series[-trend_length:].values
             model = LinearRegression()
             model.fit(X, y)
             return model.coef_[0]
@@ -38,8 +35,8 @@ class RevenueForecastRunrate:
 
         # Define the cyclicity based on full years found in the train data
         first_year = self.train_data.iloc[0]['Year'] if (self.train_data.iloc[0]['Month']==1) else self.train_data.iloc[0]['Year']+1
-        last_year = self.train_data.iloc[-1]['Year'] if (self.train_data.iloc[-1]['Month']==12) else self.train_data.iloc[0]['Year']-1
-        cyclic_years = self.train_data[(self.train_data['Year'] < first_year) | (self.train_data['Year'] > last_year)]
+        last_year = self.train_data.iloc[-1]['Year'] if (self.train_data.iloc[-1]['Month']==12) else self.train_data.iloc[-1]['Year']-1
+        cyclic_years = self.train_data[(self.train_data['Year'] >= first_year) & (self.train_data['Year'] <= last_year)]
 
         # Calculate cyclicity for each revenue category, taking into account the working days
         self.cyclicity_FIN = cyclic_years.groupby('Month').apply(lambda x: (x['Revenue FIN'] / x['D/M FIN']).mean())
@@ -108,7 +105,7 @@ class RevenueForecastRunrate:
         return forecast_FIN, forecast_IND, forecast_NS, forecast_total
 
     # Utility function to validate the model
-    def validate(self, forecast_fin, forecast_ind, forecast_ns, validation_start, validation_end, save_errors=False, plot_errors=False):
+    def validate(self, forecast_fin, forecast_ind, forecast_ns, validation_start, validation_end, save_errors=False, plot_errors=True):
         validation_data = ForecastUtils.split_data(self.data, validation_start, validation_end)
         model_name = 'runrate without trend' if not self.use_trend else 'runrate with trend'
         result = ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=save_errors, plot_errors=plot_errors, model_name=model_name, train_data=self.train_data)

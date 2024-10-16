@@ -206,7 +206,8 @@ class RevenueForecastMulticaptive2:
         forecast_ind.index = validation_data.index
         forecast_ns.index = validation_data.index
 
-        result = ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=save_errors, plot_errors=plot_errors, model_name='multicaptive', train_data=self.train_data)
+        result = ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=save_errors, plot_errors=plot_errors, model_name='multicaptive_normalized', train_data=self.train_data)
+
         return result
 
 # Usage example / dummy test

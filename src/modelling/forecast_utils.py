@@ -101,6 +101,8 @@ class ForecastUtils:
     @staticmethod    
     def validation_results(validation_data, forecast_FIN, forecast_IND, forecast_NS, model_name='model', save_errors=False, plot_errors=False, train_data=None):
       
+        print('Validate: ' + model_name)
+
         forecast_total = forecast_FIN + forecast_IND + forecast_NS
         actual_total = validation_data['Revenue FIN'] + validation_data['Revenue IND'] + validation_data['Revenue NS']
 
@@ -179,7 +181,7 @@ class ForecastUtils:
 
     @staticmethod  
     def plot_results(train_data, validation_data, forecast_FIN, forecast_IND, forecast_NS):  
-                                                                                                        
+
         # Plot forecasted vs actual Revenue IND and Revenue FIN
         plt.figure(figsize=(10, 6))
 
@@ -199,5 +201,5 @@ class ForecastUtils:
         plt.ylabel('Revenue')
         plt.legend()
         plt.tight_layout()
-        plt.show(block=False)
+        plt.show()
 

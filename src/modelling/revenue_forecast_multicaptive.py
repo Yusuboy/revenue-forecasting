@@ -14,7 +14,7 @@ from scipy.stats import linregress
 # - Validation
 #
 # The model uses a unified dataset read in initialization and functions only get dates as parameters
-class RevenueForecastMulticaptive2:
+class RevenueForecastMulticaptive:
 
     # Initialize the model. 
     def __init__(self):
@@ -185,7 +185,7 @@ class RevenueForecastMulticaptive2:
 if __name__ == "__main__":
 
     # Instantiate the service
-    service = RevenueForecastMulticaptive2() 
+    service = RevenueForecastMulticaptive() 
 
     # Train the model (it's internal submodels)
     service.train_model('2021-10-01', '2024-03-31') 
