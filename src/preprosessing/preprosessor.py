@@ -165,4 +165,4 @@ def main(bil_file_path, tlx_file_path, calendar_file_path, output_datafile_path,
     
     create_datafile(df_tlx_sums, df_bil_sums, df_tlx, df_bil, calendar_file_path, output_datafile_path, prosessed_bil_file_path, prosessed_tlx_file_path)
 
-main('revenue.csv', 'hours.csv', 'calendar.csv', 'data.csv', 'revenue_preprosessed.csv', 'hours_preprosessed.csv')
+# main('revenue.csv', 'hours.csv', 'calendar.csv', 'data.csv', 'revenue_preprosessed.csv', 'hours_preprosessed.csv')

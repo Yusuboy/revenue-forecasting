@@ -101,6 +101,8 @@ class ForecastUtils:
     @staticmethod    
     def validation_results(validation_data, forecast_FIN, forecast_IND, forecast_NS, model_name='model', save_errors=False, plot_errors=False, train_data=None):
       
+        print('Validate: ' + model_name)
+
         forecast_total = forecast_FIN + forecast_IND + forecast_NS
         actual_total = validation_data['Revenue FIN'] + validation_data['Revenue IND'] + validation_data['Revenue NS']
 
@@ -135,18 +137,18 @@ class ForecastUtils:
         )    
 
         def format_columns(row):
-            row['Actual FIN'] = f'{row['Actual FIN']:,.0f}' 
-            row['Forecast FIN'] = f'{row['Forecast FIN']:,.0f}' 
-            row['Actual IND'] = f'{row['Actual IND']:,.0f}' 
-            row['Forecast IND'] = f'{row['Forecast IND']:,.0f}'
-            row['Actual NS'] = f'{row['Actual NS']:,.0f}' 
-            row['Forecast NS'] = f'{row['Forecast NS']:,.0f}'   
-            row['Actual Total'] = f'{row['Actual Total']:,.0f}' 
-            row['Forecast Total'] = f'{row['Forecast Total']:,.0f}'                      
-            row['Error% FIN'] = f'{row['Error% FIN']:,.1f}%' 
-            row['Error% IND'] = f'{row['Error% IND']:,.1f}%' 
-            row['Error% NS'] = f'{row['Error% NS']:,.1f}%'
-            row['Error% Total'] = f'{row['Error% Total']:,.1f}%'
+            row["Actual FIN"] = f'{row["Actual FIN"]:,.0f}'
+            row["Forecast FIN"] = f'{row["Forecast FIN"]:,.0f}'
+            row["Actual IND"] = f'{row["Actual IND"]:,.0f}'
+            row["Forecast IND"] = f'{row["Forecast IND"]:,.0f}'
+            row["Actual NS"] = f'{row["Actual NS"]:,.0f}'
+            row["Forecast NS"] = f'{row["Forecast NS"]:,.0f}'
+            row["Actual Total"] = f'{row["Actual Total"]:,.0f}'
+            row["Forecast Total"] = f'{row["Forecast Total"]:,.0f}'
+            row["Error% FIN"] = f'{row["Error% FIN"]:,.1f}%'
+            row["Error% IND"] = f'{row["Error% IND"]:,.1f}%'
+            row["Error% NS"] = f'{row["Error% NS"]:,.1f}%'
+            row["Error% Total"] = f'{row["Error% Total"]:,.1f}%'
             return row
 
         formatted_errors = monthly_errors.apply(format_columns, axis=1)
@@ -179,7 +181,7 @@ class ForecastUtils:
 
     @staticmethod  
     def plot_results(train_data, validation_data, forecast_FIN, forecast_IND, forecast_NS):  
-                                                                                                        
+
         # Plot forecasted vs actual Revenue IND and Revenue FIN
         plt.figure(figsize=(10, 6))
 
@@ -199,5 +201,4 @@ class ForecastUtils:
         plt.ylabel('Revenue')
         plt.legend()
         plt.tight_layout()
-        plt.show(block=False)
-
+        plt.show()
