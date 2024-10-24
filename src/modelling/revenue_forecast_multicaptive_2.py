@@ -225,4 +225,3 @@ if __name__ == "__main__":
 
     # service.validate(forecast_fin, forecast_ind, forecast_ns, '2024-08-01', '2024-08-30', save_errors=True)
     service.validate(forecast_fin, forecast_ind, forecast_ns, '2024-11-01', '2025-11-30', save_errors=True)
-    
