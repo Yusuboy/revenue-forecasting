@@ -4,7 +4,7 @@ import statsmodels.api as sm
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.linear_model import LinearRegression
 
-from forecast_utils import ForecastUtils
+from modelling.new_forecast_utils import ForecastUtils
 
 # Revenue forecasting model utilizin SARIMAX and wrapping 4 services
 # - Initializion
@@ -108,10 +108,10 @@ class RevenueForecastRunrate:
         return forecast_FIN, forecast_IND, forecast_NS, forecast_total
 
     # Utility function to validate the model
-    def validate(self, forecast_fin, forecast_ind, forecast_ns, validation_start, validation_end, save_errors=False, plot_errors=False):
+    def validate(self, forecast_fin, forecast_ind, forecast_ns, validation_start, validation_end, save_errors=False):
         validation_data = ForecastUtils.split_data(self.data, validation_start, validation_end)
         model_name = 'runrate without trend' if not self.use_trend else 'runrate with trend'
-        result = ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=save_errors, plot_errors=plot_errors, model_name=model_name, train_data=self.train_data)
+        result = ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=save_errors, model_name=model_name, train_data=self.train_data)
         return result
 
 # Usage example / dummy test
@@ -122,7 +122,7 @@ if __name__ == "__main__":
     service_with_trend = RevenueForecastRunrate(use_trend=True) 
 
     # Train the model (it's internal submodels)
-    service_without_trend.train_model('2021-10-01', '2024-03-31') 
+    service_without_trend.train_model('2021-10-01', '2024-09-30') 
     service_with_trend.train_model('2021-10-01', '2024-03-31') 
 
     # Forecasting
