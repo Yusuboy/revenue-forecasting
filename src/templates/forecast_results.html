@@ -1,26 +1,739 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Forecast Results</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forecast Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 15px;
+            background-color: #212529; /* Dark background for the body */
+            color: #ffffff; /* Light text color */
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #2c2c2c; /* Darker background for the table */
+        }
+    
+        th, td {
+            border: 1px solid #444; /* Darker border color */
+            padding: 10px;
+            text-align: center;
+            color: #ffffff; /* Light text color */
+        }
+    
+        th {
+            background-color: #333; /* Dark gray for table header */
+        }
+    
+        .header-row th {
+            background-color: #444; /* Slightly lighter dark gray */
+            font-weight: bold;
+        }
+    
+        .table-header-row th {
+            background-color: #555; /* Medium gray */
+            font-weight: bold;
+        }
+    
+        .section-header-row th {
+            background-color: #666; /* Lighter gray */
+            font-weight: bold;
+        }
+    
+        .sum-row {
+            background-color: #3c763d; /* Dark green for sum row */
+            font-weight: bold;
+            color: #ffffff; /* White text color */
+        }
+    
+        .buttons-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+    
+        .buttons-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none; /* Remove border for a cleaner look */
+            background-color: #007bff; /* Bootstrap primary color */
+            color: #ffffff; /* Light text color */
+            transition: background-color 0.3s ease; /* Smooth transition for hover */
+        }
+    
+        .buttons-container button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    
+        .remove-button {
+            background-color: transparent;
+            border: none;
+            color: #dc3545; /* Bootstrap danger color */
+            cursor: pointer;
+            font-size: 16px;
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+        }
+    
+        .remove-button:hover {
+            color: #c82333; /* Darker red on hover */
+        }
+    
+        .no-border {
+            border: none !important;
+        }
+    
+        .highlighted {
+            background-color: #28af1c; /* Darker highlighted background */
+            color: #ffffff; /* White text color */
+        }
+    
+        .selectable {
+            cursor: pointer;
+        }
+    
+        .manually-changed {
+            background-color: #d42020; /* Subtle yellow, keep it for manual changes */
+            transition: background-color 0.5s ease; /* Smooth transition */
+        }
+    </style>
 </head>
 <body>
-    <h1>Forecast Results</h1>
 
-    <h2>Forecasted FIN Revenue:</h2>
-    <p>{{ forecast_fin }}</p>
+    <h2 style="text-align: center;">12 Month Forecast</h2>
+    
 
-    <h2>Forecasted IND Revenue:</h2>
-    <p>{{ forecast_ind }}</p>
+    <table id="forecast-table">
+        <tr class="section-header-row">
+            <th>Month</th>
+            <th>Aug</th>
+            <th>Sep</th>
+            <th>Oct</th>
+            <th>Nov</th>
+            <th>Dec</th>            
+            <th>Jan</th>
+            <th>Feb</th>
+            <th>Mar</th>
+            <th>Apr</th>
+            <th>May</th>
+            <th>Jun</th>
+            <th>Jul</th>
+            <th>Aug</th>
+            <th>Sep</th>
+            <th>Oct</th>
+            <th>Nov</th>
+        </tr>
 
-    <h2>Forecasted NS Revenue:</h2>
-    <p>{{ forecast_ns }}</p>
 
-    <h2>Total Forecasted Revenue:</h2>
-    <p>{{ forecast_total }}</p>
+        <tr class="section-header-row">
+            <th colspan="17">Time & Material Forecast</th>
+        </tr>
 
-    <h2>Forecast Plot:</h2>
-    <img src="{{ url_for('static', filename=plot_path.split('/')[-1]) }}" alt="Forecast Plot">
+        <!-- Finland multiplicative -->
+        <tr class="header-row">
+            <td></td>
+            <th colspan="16">Finland</th>
+        </tr>
+        <tr>
+            <td>Multiplicative</td>
+            <td>{{ aug[0]['Forecast FIN'] }}</td>            
+            <td>{{ oct[0]['Forecast FIN'] }}</td>
+            <td>{{ sep[0]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="1" id="fin-m-1">{{ forecast_results_multicaptive[0]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="2" id="fin-m-2">{{ forecast_results_multicaptive[1]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="3" id="fin-m-3">{{ forecast_results_multicaptive[2]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="4" id="fin-m-4">{{ forecast_results_multicaptive[3]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="5" id="fin-m-5">{{ forecast_results_multicaptive[4]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="6" id="fin-m-6">{{ forecast_results_multicaptive[5]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="7" id="fin-m-7">{{ forecast_results_multicaptive[6]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="8" id="fin-m-8">{{ forecast_results_multicaptive[7]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="9" id="fin-m-9">{{ forecast_results_multicaptive[8]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="10" id="fin-m-10">{{ forecast_results_multicaptive[9]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="11" id="fin-m-11">{{ forecast_results_multicaptive[10]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="12" id="fin-m-12">{{ forecast_results_multicaptive[11]['Forecast FIN'] }}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="13" id="fin-m-13">{{ forecast_results_multicaptive[12]['Forecast FIN'] }}</td>
+        </tr>
 
-    <a href="/">Go Back</a>
+        <!-- Finland runrate -->
+        <tr>
+            <td>Run rate</td>
+            <td>{{ aug2[0]['Forecast FIN'] }}</td>            
+            <td>{{ oct2[0]['Forecast FIN'] }}</td>
+            <td>{{ sep2[0]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="1" id="fin-r-1">{{ forecast_results_runrate[0]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="2" id="fin-r-2">{{ forecast_results_runrate[1]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="3" id="fin-r-3">{{ forecast_results_runrate[2]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="4" id="fin-r-4">{{ forecast_results_runrate[3]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="5" id="fin-r-5">{{ forecast_results_runrate[4]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="6" id="fin-r-6">{{ forecast_results_runrate[5]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="7" id="fin-r-7">{{ forecast_results_runrate[6]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="8" id="fin-r-8">{{ forecast_results_runrate[7]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="9" id="fin-r-9">{{ forecast_results_runrate[8]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="10" id="fin-r-10">{{ forecast_results_runrate[9]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="11" id="fin-r-11">{{ forecast_results_runrate[10]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="12" id="fin-r-12">{{ forecast_results_runrate[11]['Forecast FIN'] }}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="13" id="fin-r-13">{{ forecast_results_runrate[12]['Forecast FIN'] }}</td>
+        </tr>
+
+        <tr>
+            <td>Actuals</td>
+            <td>{{ aug[0]['Actual FIN'] }}</td>
+            <td>{{ oct[0]['Forecast FIN'] }}</td>
+            <td>{{ sep[0]['Forecast FIN'] }}</td>            
+            <td colspan=13>&nbsp;</td>
+        </tr>
+
+        <tr class="header-row">
+            <td></td>
+            <th colspan="16">India</th>
+        </tr>
+
+        <!-- India multiplicative -->
+        <tr>
+            <td>Multiplicative</td>
+            <td>{{ aug[0]['Forecast IND'] }}</td>            
+            <td>{{ oct[0]['Forecast IND'] }}</td>
+            <td>{{ sep[0]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="1" id="ind-m-1">{{ forecast_results_multicaptive[0]['Forecast IND'] }}</td>            
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="2" id="ind-m-2">{{ forecast_results_multicaptive[1]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="3" id="ind-m-3">{{ forecast_results_multicaptive[2]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="4" id="ind-m-4">{{ forecast_results_multicaptive[3]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="5" id="ind-m-5">{{ forecast_results_multicaptive[4]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="6" id="ind-m-6">{{ forecast_results_multicaptive[5]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="7" id="ind-m-7">{{ forecast_results_multicaptive[6]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="8" id="ind-m-8">{{ forecast_results_multicaptive[7]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="9" id="ind-m-9">{{ forecast_results_multicaptive[8]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="10" id="ind-m-10">{{ forecast_results_multicaptive[9]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="11" id="ind-m-11">{{ forecast_results_multicaptive[10]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="12" id="ind-m-12">{{ forecast_results_multicaptive[11]['Forecast IND'] }}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="13" id="ind-m-13">{{ forecast_results_multicaptive[12]['Forecast IND'] }}</td>
+        </tr>
+
+        <!-- India Runrate -->
+        <tr>
+            <td>Run rate</td>            
+            <td>{{ aug2[0]['Forecast IND'] }}</td>            
+            <td>{{ oct2[0]['Forecast IND'] }}</td>
+            <td>{{ sep2[0]['Forecast IND'] }}</td>                     
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="1" id="ind-r-1">{{ forecast_results_runrate[0]['Forecast IND'] }}</td>            
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="2" id="ind-r-2">{{ forecast_results_runrate[1]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="3" id="ind-r-3">{{ forecast_results_runrate[2]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="4" id="ind-r-4">{{ forecast_results_runrate[3]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="5" id="ind-r-5">{{ forecast_results_runrate[4]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="6" id="ind-r-6">{{ forecast_results_runrate[5]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="7" id="ind-r-7">{{ forecast_results_runrate[6]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="8" id="ind-r-8">{{ forecast_results_runrate[7]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="9" id="ind-r-9">{{ forecast_results_runrate[8]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="10" id="ind-r-10">{{ forecast_results_runrate[9]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="11" id="ind-r-11">{{ forecast_results_runrate[10]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="12" id="ind-r-12">{{ forecast_results_runrate[11]['Forecast IND'] }}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="13" id="ind-r-13">{{ forecast_results_runrate[12]['Forecast IND'] }}</td>            
+        </tr>        
+
+        <tr>
+            <td>Actuals</td>
+            <td>{{ aug[0]['Actual IND'] }}</td>
+            <td>{{ oct[0]['Forecast IND'] }}</td>
+            <td>{{ sep[0]['Forecast IND'] }}</td>           
+            <td colspan=13>&nbsp;</td>
+        </tr>   
+
+        <tr class="header-row">
+            <td></td>
+            <th colspan="16">NS</th>
+        </tr>  
+
+        <!-- Nearshore multiplicative -->
+        <tr>
+            <td>Multiplicative</td>
+            <td>{{ aug[0]['Forecast NS'] }}</td>            
+            <td>{{ oct[0]['Forecast NS'] }}</td>
+            <td>{{ sep[0]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="1" id="ns-m-1">{{ forecast_results_multicaptive[0]['Forecast NS'] }}</td>            
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="2" id="ns-m-2">{{ forecast_results_multicaptive[1]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="3" id="ns-m-3">{{ forecast_results_multicaptive[2]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="4" id="ns-m-4">{{ forecast_results_multicaptive[3]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="5" id="ns-m-5">{{ forecast_results_multicaptive[4]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="6" id="ns-m-6">{{ forecast_results_multicaptive[5]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="7" id="ns-m-7">{{ forecast_results_multicaptive[6]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="8" id="ns-m-8">{{ forecast_results_multicaptive[7]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="9" id="ns-m-9">{{ forecast_results_multicaptive[8]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="10" id="ns-m-10">{{ forecast_results_multicaptive[9]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="11" id="ns-m-11">{{ forecast_results_multicaptive[10]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="12" id="ns-m-12">{{ forecast_results_multicaptive[11]['Forecast NS'] }}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="13" id="ns-m-13">{{ forecast_results_multicaptive[12]['Forecast NS'] }}</td>               
+        </tr>
+
+        <!-- Nearshore runrate -->
+        <tr>
+            <td>Run rate</td>
+            <td>{{ aug2[0]['Forecast NS'] }}</td>            
+            <td>{{ oct2[0]['Forecast NS'] }}</td>
+            <td>{{ sep2[0]['Forecast NS'] }}</td>  
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="1" id="ns-r-1">{{ forecast_results_runrate[0]['Forecast NS'] }}</td>            
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="2" id="ns-r-2">{{ forecast_results_runrate[1]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="3" id="ns-r-3">{{ forecast_results_runrate[2]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="4" id="ns-r-4">{{ forecast_results_runrate[3]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="5" id="ns-r-5">{{ forecast_results_runrate[4]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="6" id="ns-r-6">{{ forecast_results_runrate[5]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="7" id="ns-r-7">{{ forecast_results_runrate[6]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="8" id="ns-r-8">{{ forecast_results_runrate[7]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="9" id="ns-r-9">{{ forecast_results_runrate[8]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="10" id="ns-r-10">{{ forecast_results_runrate[9]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="11" id="ns-r-11">{{ forecast_results_runrate[10]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="12" id="ns-r-12">{{ forecast_results_runrate[11]['Forecast NS'] }}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="13" id="ns-r-13">{{ forecast_results_runrate[12]['Forecast NS'] }}</td>              
+        </tr>       
+        
+        <tr>
+            <td>Actuals</td>
+            <td>{{ aug[0]['Actual NS'] }}</td>
+            <td>{{ oct[0]['Forecast NS'] }}</td>
+            <td>{{ sep[0]['Forecast NS'] }}</td>       
+            <td colspan=13>&nbsp;</td>
+        </tr>        
+
+
+
+
+  
+
+        <tr class="header-row">
+            <td></td>
+            <th colspan="16">T&M Forecast Adjustments</th>
+        </tr>
+        <tr>
+            <td>Raise FIN %</td>
+            <td colspan="3" class="no-border"></td>
+            <td id="r-fin-1">0.0</td>            
+            <td id="r-fin-2">0.0</td>
+            <td id="r-fin-3">0.0</td>
+            <td id="r-fin-4">0.0</td>
+            <td id="r-fin-5">1.5</td>
+            <td id="r-fin-6">1.5</td>
+            <td id="r-fin-7">1.5</td>
+            <td id="r-fin-8">1.5</td>
+            <td id="r-fin-9">1.5</td>
+            <td id="r-fin-10">1.5</td>
+            <td id="r-fin-11">1.5</td>
+            <td id="r-fin-12">1.5</td>
+            <td id="r-fin-13">1.5</td>
+        </tr>         
+        <tr>
+            <td>Raise IND %</td>
+            <td colspan="3" class="no-border"></td>
+            <td id="r-ind-1">0.0</td>            
+            <td id="r-ind-2">0.0</td>
+            <td id="r-ind-3">0.0</td>
+            <td id="r-ind-4">0.0</td>
+            <td id="r-ind-5">3</td>
+            <td id="r-ind-6">3</td>
+            <td id="r-ind-7">3</td>
+            <td id="r-ind-8">3</td>
+            <td id="r-ind-9">6</td>
+            <td id="r-ind-10">6</td>
+            <td id="r-ind-11">6</td>
+            <td id="r-ind-12">6</td>
+            <td id="r-ind-13">6</td>
+        </tr>         
+        <tr>
+            <td>Raise NS %</td>
+            <td colspan="3" class="no-border"></td>
+            <td id="r-ns-1">0.0</td>            
+            <td id="r-ns-2">0.0</td>
+            <td id="r-ns-3">0.0</td>
+            <td id="r-ns-4">0.0</td>
+            <td id="r-ns-5">2</td>
+            <td id="r-ns-6">2</td>
+            <td id="r-ns-7">2</td>
+            <td id="r-ns-8">2</td>
+            <td id="r-ns-9">2</td>
+            <td id="r-ns-10">2</td>
+            <td id="r-ns-11">2</td>
+            <td id="r-ns-12">2</td>
+            <td id="r-ns-13">2</td>
+        </tr>   
+        <tr>
+            <td>FIN unusual sick leaves %</td>
+            <td colspan="3" class="no-border"></td>
+            <td id="sl-1">1.0</td>            
+            <td id="sl-2">1.0</td>
+            <td id="sl-3">0.0</td>
+            <td id="sl-4">0.0</td>
+            <td id="sl-5">0.0</td>
+            <td id="sl-6">0.0</td>
+            <td id="sl-7">0.0</td>
+            <td id="sl-8">0.0</td>
+            <td id="sl-9">0.0</td>
+            <td id="sl-10">0.0</td>
+            <td id="sl-11">0.0</td>
+            <td id="sl-12">0.0</td>
+            <td id="sl-13">0.0</td>
+        </tr>          
+
+        <tr class="section-header-row">
+            <th colspan="17">Total Forecast</th>
+        </tr>
+        
+        <tr>
+            <td>Time & Material Total</td>
+            <td colspan="3" class="no-border"></td>
+            <td id="ttm-1"></td>            
+            <td id="ttm-2"></td>
+            <td id="ttm-3"></td>
+            <td id="ttm-4"></td>
+            <td id="ttm-5"></td>
+            <td id="ttm-6"></td>
+            <td id="ttm-7"></td>
+            <td id="ttm-8"></td>
+            <td id="ttm-9"></td>
+            <td id="ttm-10"></td>
+            <td id="ttm-11"></td>
+            <td id="ttm-12"></td>
+            <td id="ttm-13"></td>
+        </tr>
+        
+        <tr>
+            <td>Fixed Fee</td>
+            <td colspan="3" class="no-border"></td>   
+            <td id="ff-1">1000000</td>            
+            <td id="ff-2">1000000</td>
+            <td id="ff-3">1000000</td>
+            <td id="ff-4">1000000</td>
+            <td id="ff-5">1000000</td>
+            <td id="ff-6">1000000</td>
+            <td id="ff-7">1000000</td>
+            <td id="ff-8">1000000</td>
+            <td id="ff-9">1000000</td>
+            <td id="ff-10">1000000</td>
+            <td id="ff-11">1000000</td>
+            <td id="ff-12">1000000</td>
+            <td id="ff-13">1000000</td>
+        </tr>         
+        
+        <tr>
+            <td>Sanctions</td>
+            <td colspan="3" class="no-border"></td>
+            <td id="ss-1">50000</td>            
+            <td id="ss-2">50000</td>
+            <td id="ss-3">0</td>
+            <td id="ss-4">0</td>
+            <td id="ss-5">0</td>
+            <td id="ss-6">0</td>
+            <td id="ss-7">0</td>
+            <td id="ss-8">0</td>
+            <td id="ss-9">0</td>
+            <td id="ss-10">0</td>
+            <td id="ss-11">0</td>
+            <td id="ss-12">0</td>
+            <td id="ss-13">0</td>
+        </tr> 
+        
+        <tr>
+            <td>Personnel changes</td>
+            <td colspan="3" class="no-border"></td>
+            <td id="pc-1">0</td>            
+            <td id="pc-2">100000</td>
+            <td id="pc-3">100000</td>
+            <td id="pc-4">100000</td>
+            <td id="pc-5">200000</td>
+            <td id="pc-6">200000</td>
+            <td id="pc-7">200000</td>
+            <td id="pc-8">200000</td>
+            <td id="pc-9">400000</td>
+            <td id="pc-10">400000</td>
+            <td id="pc-11">400000</td>
+            <td id="pc-12">400000</td>
+            <td id="pc-13">400000</td>
+        </tr>        
+        
+        <tr>
+            <td>Travel costs</td>
+            <td colspan="3" class="no-border"></td>
+            <td id="tc-1">0</td>            
+            <td id="tc-2">0</td>   
+            <td id="tc-3">0</td>   
+            <td id="tc-4">0</td>   
+            <td id="tc-5">100000</td>   
+            <td id="tc-6">0</td>   
+            <td id="tc-7">0</td>   
+            <td id="tc-8">0</td>   
+            <td id="tc-9">0</td>   
+            <td id="tc-10">50000</td>   
+            <td id="tc-11">0</td>   
+            <td id="tc-12">0</td>   
+            <td id="tc-13">0</td>   
+        </tr>       
+        
+        <tr class="sum-row" id="total-row">
+            <td>TOTAL FORECAST</td>
+            <td colspan="3" class="no-border"></td>          
+            <td id="total-1"></td>   
+            <td id="total-2"></td>   
+            <td id="total-3"></td>   
+            <td id="total-4"></td>   
+            <td id="total-5"></td>   
+            <td id="total-6"></td>   
+            <td id="total-7"></td>   
+            <td id="total-8"></td>   
+            <td id="total-9"></td>   
+            <td id="total-10"></td>   
+            <td id="total-11"></td>   
+            <td id="total-12"></td>   
+            <td id="total-13"></td>               
+        </tr>                                         
+    </table>
+
+    
+    <!-- Buttons for actions -->
+    <div class="buttons-container">
+        <button onclick="calculateTotals()">Calculate Totals</button>
+        <button onclick="addRevenueRow2()">Add Revenue Row</button>
+        <button onclick="exportCSV()">Export to CSV (Excel)</button>
+    </div>
+
+    <script>
+
+        function addRevenueRow() {
+            const totalRow = document.getElementById('total-row');  // Find the total row by its ID
+            const tableBody = totalRow.parentNode;  // Get the parent node (the <tbody> or the table)
+
+            // Create a new row
+            const newRow = document.createElement('tr');
+            newRow.classList.add('removable-row');
+
+            // Create cells for the new row
+            const cell1 = document.createElement('td');
+            cell1.textContent = '<add explanation>'
+            newRow.appendChild(cell1)
+
+            const cell2 = document.createElement('td');
+            cell2.setAttribute('colspan', '3')
+            cell2.setAttribute('class', 'no-border')
+            cell2.innerHTML = '&nbsp;'
+            newRow.appendChild(cell2)
+
+            for (let i = 0; i < 13; i++) {
+                const cell = document.createElement('td');
+                cell.textContent = '0';  // Placeholder value
+                newRow.appendChild(cell);
+            }
+
+            removeButtonCell = document.createElement('td')
+            removeButtonCell.setAttribute('class', 'no-border')
+            removeButtonCell.innerHTML = `<button class="remove-btn" onclick="removeRow(this)">Remove</button>`
+            newRow.appendChild(removeButtonCell)
+
+            // Insert the new row before the total row
+            tableBody.insertBefore(newRow, totalRow);
+        }
+
+        function removeRow(button) {
+            // Function to remove a row
+            const row = button.closest('tr');
+            row.parentNode.removeChild(row);
+        }
+
+        function exportCSV(button) {
+            // Function to remove a row
+            alert('Forecast exported to file forecast.csv');
+        }
+
+        // Add event listeners to all selectable cells
+        document.querySelectorAll('.selectable').forEach(cell => {
+            cell.addEventListener('click', function() {
+                const to_id = this.dataset.loc + '-' + this.dataset.fc + '-' + this.dataset.month
+                const to_cell = document.getElementById(to_id)
+                const from_id = this.dataset.loc + (this.dataset.fc=='m' ? '-r-' : '-m-') + this.dataset.month
+                const from_cell = document.getElementById(from_id)
+                to_cell.classList.replace('selectable', 'highlighted');
+                from_cell.classList.replace('highlighted', 'selectable');
+                calculateTTM()
+            });
+        });
+        document.querySelectorAll('.highlighted').forEach(cell => {
+            cell.addEventListener('click', function() {
+ 
+                const to_id = this.dataset.loc + '-' + this.dataset.fc + '-' + this.dataset.month
+                const to_cell = document.getElementById(to_id)
+                const from_id = this.dataset.loc + (this.dataset.fc=='m' ? '-r-' : '-m-') + this.dataset.month
+                const from_cell = document.getElementById(from_id)
+                to_cell.classList.replace('selectable', 'highlighted');
+                from_cell.classList.replace('highlighted', 'selectable');
+                calculateTTM()
+            });
+        });
+
+        function parseNumber(s) {
+            var svalue = s.replace(/ /g, '')
+            const value = parseFloat(svalue)
+            if(isNaN(value)) {
+                alert('Illegal value: ' + s)
+                return 0
+            }
+            return value
+        }
+
+        function calculateTTM() {
+            for(i=1; i<=13; i++) {
+                // Calcuate selected forecasts fields first
+                const fin_m_cell = document.getElementById('fin-m-' + i)                
+                const fin_r_cell = document.getElementById('fin-r-' + i)      
+                const fin = fin_m_cell.classList.contains('highlighted') ? fin_m_cell.textContent : fin_r_cell.textContent
+                const ind_m_cell = document.getElementById('ind-m-' + i)                
+                const ind_r_cell = document.getElementById('ind-r-' + i)      
+                const ind = ind_m_cell.classList.contains('highlighted') ? ind_m_cell.textContent : ind_r_cell.textContent
+                const ns_m_cell = document.getElementById('ns-m-' + i)                
+                const ns_r_cell = document.getElementById('ns-r-' + i)      
+                const ns = ns_m_cell.classList.contains('highlighted') ? ns_m_cell.textContent : ns_r_cell.textContent
+                var value_fin = parseNumber(fin) 
+                var value_ind = parseNumber(ind) 
+                var value_ns = parseNumber(ns)
+                              
+                // Include adjustment terms
+                const raise_fin = document.getElementById('r-fin-' + i).textContent 
+                const raise_ind = document.getElementById('r-ind-' + i).textContent                 
+                const raise_ns = document.getElementById('r-ns-' + i).textContent                 
+                const sl = document.getElementById('sl-' + i).textContent                 
+                value_fin = value_fin * (1 + parseNumber(raise_fin)/100.0)
+                value_fin = value_fin * (1 - parseNumber(sl)/100.0)
+                value_ind = value_ind * (1 + parseNumber(raise_ind)/100.0)
+                value_ns = value_ns * (1 + parseNumber(raise_ns)/100.0)                           
+
+                // Update the sum cell
+                const ttm_cell = document.getElementById('ttm-' + i)   
+                const value = value_fin + value_ind + value_ns
+                ttm_cell.textContent = value
+            }
+
+        }
+
+        function calculateTotals() {
+            calculateTTM()
+            for(i=1; i<=13; i++) {
+                const ttm = document.getElementById('ttm-' + i).textContent
+                const ff = document.getElementById('ff-' + i).textContent
+                const ss = document.getElementById('ss-' + i).textContent
+                const pc = document.getElementById('pc-' + i).textContent
+                const tc = document.getElementById('tc-' + i).textContent
+
+                // Loop through all cells with the class 'new-rev-cell' and the corresponding data-month
+                let newRevTotal = 0;
+                document.querySelectorAll(`.new-rev-cell[data-month="${i}"]`).forEach(cell => {
+                    newRevTotal += parseNumber(cell.textContent);
+                })
+
+                const total =  parseNumber(ttm) + parseNumber(ff) + parseNumber(ss) + parseNumber(pc) + parseNumber(tc) + newRevTotal
+
+                const total_cell = document.getElementById('total-' + i)   
+                total_cell.textContent = total                
+            }
+            
+        }        
+
+        // Function to make the cells editable
+        function makeEditable(cell) {
+            const oldValue = cell.textContent.trim(); // Get the original value
+            const input = document.createElement('input'); // Create an input element
+            input.type = 'text'; // Set input type to text
+            input.value = oldValue; // Set input value to current cell value
+            input.style.width = '60px'; // Adjust width to fit the cell
+
+            // Replace the cell content with the input
+            cell.textContent = ''; // Clear the cell content
+            cell.appendChild(input); // Append the input element to the cell
+
+            // Focus on the input
+            input.focus();
+
+            // Add event listeners for losing focus or pressing 'Enter'
+            input.addEventListener('blur', function() {
+                saveValue(cell, input);
+            });
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    saveValue(cell, input);
+                }
+            });
+        }        
+
+        function saveValue(cell, input) {
+            const newValue = input.value.trim(); // Get the new value
+
+            // Check if the input is still a child of the cell before removing it
+            try {
+                if (cell.contains(input)) {
+                    cell.removeChild(input); // Remove the input field only if it's still present
+                }
+            } catch (error) {
+                // console.warn('Element already removed or could not be removed:', error);
+                // There seem to be no effect on functionality - mute the warning but leave as a comment for possible debugging needs in the future
+            }
+
+            cell.textContent = newValue || '0'; // Set the cell content to the new value, default to '0' if empty
+
+            cell.classList.add('manually-changed');
+        }
+
+        // Add event listeners to the cells in the specified rows
+        document.querySelectorAll('tr td[id^="r-fin-"], tr td[id^="r-ind-"], tr td[id^="r-ns-"], tr td[id^="sl-"], tr td[id^="ttm-"], tr td[id^="ff-"], tr td[id^="ss-"], tr td[id^="pc-"], tr td[id^="tc-"]').forEach(cell => {
+            cell.addEventListener('click', function() {
+                makeEditable(cell); // Call the function to make the cell editable
+            });
+        });
+
+        function addRevenueRow2() {
+            const totalRow = document.getElementById('total-row');  // Find the total row by its ID
+            const tableBody = totalRow.parentNode;  // Get the parent node (the <tbody> or the table)
+
+            // Create a new row
+            const newRow = document.createElement('tr');
+            newRow.classList.add('removable-row');
+
+            // Create cells for the new row
+            const cell1 = document.createElement('td');
+            cell1.textContent = '<add explanation>';
+            newRow.appendChild(cell1);
+            cell1.addEventListener('click', function() {
+                    makeEditable(cell1);
+            });            
+
+            const cell2 = document.createElement('td');
+            cell2.setAttribute('colspan', '3');
+            cell2.setAttribute('class', 'no-border');
+            cell2.innerHTML = '&nbsp;';
+            newRow.appendChild(cell2);
+
+            for (let i = 1; i <= 13; i++) {
+                const cell = document.createElement('td');
+                cell.textContent = '0';  // Placeholder value
+                cell.setAttribute('class', `new-rev-cell`);  // Assign common class for reference
+                cell.setAttribute('data-month', i);  // Store month as data attribute
+
+                // Add an event listener to make the cell editable on click
+                cell.addEventListener('click', function() {
+                    makeEditable(cell);
+                });
+
+                newRow.appendChild(cell);
+            }
+
+            const removeButtonCell = document.createElement('td');
+            removeButtonCell.setAttribute('class', 'no-border');
+            removeButtonCell.innerHTML = `<button class="remove-btn" onclick="removeRow(this)">Remove</button>`;
+            newRow.appendChild(removeButtonCell);
+
+            // Insert the new row before the total row
+            tableBody.insertBefore(newRow, totalRow);
+        }
+    </script>
+
 </body>
 </html>

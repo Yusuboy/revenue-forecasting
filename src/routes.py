@@ -1,38 +1,55 @@
 import os
-from os import getenv
-from app import app
 from flask import render_template, request, redirect, flash, send_file, url_for
 from datetime import datetime
 import pandas as pd
 from preprosessing.preprosessor import main  # Import the main function from preprosessor
-from modelling.forecast_utils import ForecastUtils
-from modelling.revenue_forecast_sarimax import RevenueForecastSarimax
 import matplotlib.pyplot as plt
+from app import app
+from modelling.new_revenue_forecast_multicaptive_2 import RevenueForecastMulticaptive2
+from modelling.revenue_forecast_runrate import RevenueForecastRunrate 
 
-UPLOAD_FOLDER = 'uploads'  # Folder for saving uploaded files
+import csv
+from flask import make_response
+import io
 
-# Create the upload folder if it doesn't exist
+
+# Ensure the directory for uploads exists
+UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'uploads')
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+@app.route('/download_forecast', methods=['GET'])
+def download_forecast():
+    try:
+        csv_filename = os.path.join(UPLOAD_FOLDER, 'forecast_results.csv')
+        return send_file(csv_filename, as_attachment=True, attachment_filename='forecast_results.csv')
+    except Exception as e:
+        return f"Error generating CSV: {str(e)}", 500
+
+
+UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'uploads')
+
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def home():
+    return render_template('home.html')
 
+@app.route('/preprocess')
+def preprocess():
+    return render_template('preprocess.html')
 
 def save_file(file):
-    """Saves the uploaded file to the designated upload folder."""
     filepath = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(filepath)
     return filepath
 
 def process_files(bil_path, tlx_path, calendar_path):
-    """Processes the uploaded files and generates output."""
     current_date = datetime.now().strftime('%Y%m%d')
-    output_datafile_path = os.path.join(UPLOAD_FOLDER, f'output_datafile_path.csv')
-    processed_bil_path = os.path.join(UPLOAD_FOLDER, f'processed_bil.csv')
-    processed_tlx_path = os.path.join(UPLOAD_FOLDER, f'processed_tlx.csv')
-
+    output_datafile_path = os.path.join(UPLOAD_FOLDER, f'output_datafile_{current_date}.csv')
+    processed_bil_path = os.path.join(UPLOAD_FOLDER, f'processed_bil_{current_date}.csv')
+    processed_tlx_path = os.path.join(UPLOAD_FOLDER, f'processed_tlx_{current_date}.csv')
     main(bil_path, tlx_path, calendar_path, output_datafile_path, processed_bil_path, processed_tlx_path)
     return output_datafile_path, processed_bil_path, processed_tlx_path
 
@@ -41,124 +58,135 @@ def process():
     if 'bil_file' not in request.files or 'tlx_file' not in request.files or 'calendar_file' not in request.files:
         flash('No file part')
         return redirect(request.url)
-
     try:
         bil_file = request.files['bil_file']
         tlx_file = request.files['tlx_file']
         calendar_file = request.files['calendar_file']
-
-        # Save the uploaded files
+        
         bil_path = save_file(bil_file)
         tlx_path = save_file(tlx_file)
         calendar_path = save_file(calendar_file)
-
-        # Process files and get the output paths
+        
         output_datafile_path, processed_bil_path, processed_tlx_path = process_files(bil_path, tlx_path, calendar_path)
-
-        # Render a new template with download links
+        
         return render_template('download.html', 
                                output_datafile=output_datafile_path, 
-                               processed_bil=processed_bil_path,
+                               processed_bil=processed_bil_path, 
                                processed_tlx=processed_tlx_path)
-
     except Exception as e:
         flash(f"Error processing files: {str(e)}")
         return redirect(request.url)
-    
-@app.route('/forecast', methods=['GET'])
-def forecast_form():
-    """Serve the forecasting input page."""
-    return render_template('forecast.html')
 
 
-@app.route('/forecast', methods=['POST'])
-def run_forecast():
-    """Handle the forecasting process."""
-    if 'data_file' not in request.files:
-        flash('No file part')
-        return redirect(request.url)
+@app.route('/forecast', methods=['GET', 'POST'])
+def forecast_page():
+    if request.method == 'POST':
+        try:
+            # Train the model
+            service = RevenueForecastMulticaptive2() 
+            service.train_model('2021-10-01', '2024-09-30') 
+            
 
-    try:
-        data_file = request.files['data_file']
-        train_start = request.form['train_start']
-        train_end = request.form['train_end']
-        forecast_start = request.form['forecast_start']
-        forecast_end = request.form['forecast_end']
-        print(1)
+            # Forecasting
+            forecast_fin, forecast_ind, forecast_ns, forecast_total = service.forecast('2024-11-01', '2025-11-30')
+            plix = service.validate(forecast_fin, forecast_ind, forecast_ns, '2024-11-01', '2025-11-30', save_errors=True)
 
-        # Save the uploaded processed data file
-        data_file_path = save_file(data_file)
+            plix.reset_index(inplace=True)
+            validation_results_dict = plix.to_dict(orient='records')
 
-        # Load the data using ForecastUtils
-        df = ForecastUtils.load_data(data_file_path)
-        print(2)
+            forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, forecast_total_aug = service.forecast('2024-08-01', '2024-08-31')
+            plix_aug = service.validate(forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, '2024-08-01', '2024-08-31', save_errors=True)
+            plix_aug.reset_index(inplace=True)
+            validation_results_dict_aug = plix_aug.to_dict(orient='records')
 
-        # Initialize the forecasting model
-        forecast_model = RevenueForecastSarimax()
+            # Forecasting and validating for September 2024
+            forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, forecast_total_sep = service.forecast('2024-09-01', '2024-09-30')
+            plix_sep = service.validate(forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, '2024-09-01', '2024-09-30', save_errors=True)
+            plix_sep.reset_index(inplace=True)
+            validation_results_dict_sep = plix_sep.to_dict(orient='records')
 
-        print(3)
-        # Train the model using the specified period
-        forecast_model.train_model(train_start, train_end)
+            # Forecasting and validating for October 2024
+            forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, forecast_total_oct = service.forecast('2024-10-01', '2024-10-31')
+            plix_oct = service.validate(forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, '2024-10-01', '2024-10-31', save_errors=True)
+            plix_oct.reset_index(inplace=True)
+            validation_results_dict_oct = plix_oct.to_dict(orient='records')
+            # print()
+            # print("AUG")
+            # print(validation_results_dict_aug)
+            # print()
+            # print(validation_results_dict_oct)
+            # print(validation_results_dict_sep)
 
-        print(4)
-        # Run the forecast for the specified period
-        forecast_fin, forecast_ind, forecast_ns, forecast_total = forecast_model.forecast(forecast_start, forecast_end)
+            service2 = RevenueForecastRunrate(use_trend=False) 
+            service2.train_model('2021-10-01', '2024-09-30')
 
-        # Save the plot to a file in the UPLOAD_FOLDER
-        plot_path = save_forecast_plot(df, forecast_fin, forecast_start, forecast_end)
+            forecast_fin, forecast_ind, forecast_ns, forecast_total = service2.forecast('2024-11-01', '2025-11-30')
+            plix2 = service2.validate(forecast_fin, forecast_ind, forecast_ns, '2024-11-01', '2025-11-30', save_errors=True)
 
-        # Store the results in the session to pass to the results page
-        return redirect(url_for('forecast_results', 
-                                forecast_fin=forecast_fin,
-                                forecast_ind=forecast_ind,
-                                forecast_ns=forecast_ns,
-                                forecast_total=forecast_total,
-                                plot_path=plot_path))
+            validation_results_dict2 = plix2.to_dict(orient='records')
 
-    except Exception as e:
-        flash(f"Error running forecast: {str(e)}")
-        return redirect(request.url)
+            forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, forecast_total_aug = service2.forecast('2024-08-01', '2024-08-31')
+            plix_aug2 = service2.validate(forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, '2024-08-01', '2024-08-31', save_errors=True)
+            plix_aug2.reset_index(inplace=True)
+            validation_results_dict_aug2 = plix_aug2.to_dict(orient='records')
 
+            # Forecasting and validating for September 2024
+            forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, forecast_total_sep = service2.forecast('2024-09-01', '2024-09-30')
+            plix_sep2 = service2.validate(forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, '2024-09-01', '2024-09-30', save_errors=True)
+            plix_sep2.reset_index(inplace=True)
+            validation_results_dict_sep2 = plix_sep2.to_dict(orient='records')
 
-@app.route('/forecast/results')
-def forecast_results():
-    """Display the forecasting results."""
-    forecast_fin = request.args.get('forecast_fin', type=float)
-    forecast_ind = request.args.get('forecast_ind', type=float)
-    forecast_ns = request.args.get('forecast_ns', type=float)
-    forecast_total = request.args.get('forecast_total', type=float)
-    plot_path = request.args.get('plot_path', type=str)
+            # Forecasting and validating for October 2024
+            forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, forecast_total_oct = service2.forecast('2024-10-01', '2024-10-31')
+            plix_oct2 = service2.validate(forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, '2024-10-01', '2024-10-31', save_errors=True)
+            plix_oct2.reset_index(inplace=True)
+            validation_results_dict_oct2 = plix_oct2.to_dict(orient='records')
 
-    return render_template(
-        'forecast_results.html', 
-        forecast_fin=forecast_fin,
-        forecast_ind=forecast_ind,
-        forecast_ns=forecast_ns,
-        forecast_total=forecast_total,
-        plot_path=plot_path
-    )
+        
+            # Save to CSV
+            csv_filename = os.path.join(UPLOAD_FOLDER, 'forecast_results.csv')
+            with open(csv_filename, 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow(['Date', 'Actual FIN', 'Forecast FIN', 'Error% FIN',
+                                 'Actual IND', 'Forecast IND', 'Error% IND',
+                                 'Actual NS', 'Forecast NS', 'Error% NS',
+                                 'Actual Total', 'Forecast Total', 'Error% Total'])
 
+                for entry in validation_results_dict:
+                    writer.writerow([
+                        entry['Date'].strftime('%Y-%m-%d'),
+                        entry['Actual FIN'],
+                        entry['Forecast FIN'],
+                        entry['Error% FIN'],
+                        entry['Actual IND'],
+                        entry['Forecast IND'],
+                        entry['Error% IND'],
+                        entry['Actual NS'],
+                        entry['Forecast NS'],
+                        entry['Error% NS'],
+                        entry['Actual Total'],
+                        entry['Forecast Total'],
+                        entry['Error% Total']
+                    ])
 
-def save_forecast_plot(df, forecast_fin, forecast_start, forecast_end):
-    """Save the forecast plot to a file and return the path."""
-    plt.figure(figsize=(10, 6))
-    plt.plot(df.index, df['Revenue FIN'], label='Historical FIN', color='blue')
-    plt.plot(pd.date_range(forecast_start, forecast_end, freq='MS'), forecast_fin, label='Forecast FIN', color='red')
-    plt.title('Forecast vs Historical Revenue FIN')
-    plt.xlabel('Date')
-    plt.ylabel('Revenue')
-    plt.legend()
-    plt.tight_layout()
+            return render_template('forecast_results.html', 
+                                   forecast_results_multicaptive=validation_results_dict,
+                                   forecast_results_runrate=validation_results_dict2, aug=validation_results_dict_aug, 
+                                   oct=validation_results_dict_oct, 
+                                   sep=validation_results_dict_sep,
+                                   aug2=validation_results_dict_aug2, 
+                                   oct2=validation_results_dict_oct2, 
+                                   sep2=validation_results_dict_sep2  )
 
-    plot_path = os.path.join(app.config['UPLOAD_FOLDER'], 'forecast_plot.png')
-    plt.savefig(plot_path)
-    plt.close()  # Close the plot to free memory
+        except Exception as e:
+            flash(f'Error processing request: {str(e)}', 'danger')
+            return redirect(url_for('home'))  # Redirect back to home on error
 
-    return plot_path
+    return redirect(url_for('home'))  # Redirect to home if GET request
+
 
 
 
 @app.route('/download/<filename>', methods=['GET'])
 def download_file(filename):
     return send_file(os.path.join(UPLOAD_FOLDER, filename), as_attachment=True)
-
