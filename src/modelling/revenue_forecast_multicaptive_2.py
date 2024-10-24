@@ -206,7 +206,8 @@ class RevenueForecastMulticaptive2:
         forecast_ind.index = validation_data.index
         forecast_ns.index = validation_data.index
 
-        result = ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=save_errors, plot_errors=plot_errors, model_name='multicaptive', train_data=self.train_data)
+        result = ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=save_errors, plot_errors=plot_errors, model_name='multicaptive_normalized', train_data=self.train_data)
+
         return result
 
 # Usage example / dummy test
@@ -216,10 +217,12 @@ if __name__ == "__main__":
     service = RevenueForecastMulticaptive2() 
 
     # Train the model (it's internal submodels)
-    service.train_model('2021-10-01', '2024-03-31') 
+    service.train_model('2021-10-01', '2024-09-30') 
 
     # Forecasting
-    forecast_fin, forecast_ind, forecast_ns, forecast_total = service.forecast('2024-04-01', '2024-09-30')
+    forecast_fin, forecast_ind, forecast_ns, forecast_total = service.forecast('2024-11-01', '2025-11-30')
+    # forecast_fin, forecast_ind, forecast_ns, forecast_total  = service.forecast('2024-08-01', '2024-08-30') 
+
+    # service.validate(forecast_fin, forecast_ind, forecast_ns, '2024-08-01', '2024-08-30', save_errors=True)
+    service.validate(forecast_fin, forecast_ind, forecast_ns, '2024-11-01', '2025-11-30', save_errors=True)
     
-    # Validating
-    service.validate(forecast_fin, forecast_ind, forecast_ns, '2024-04-01', '2024-09-30', save_errors=True)
