@@ -113,22 +113,22 @@
     <table id="forecast-table">
         <tr class="section-header-row">
             <th>Month</th>
-            <th>Aug</th>
-            <th>Sep</th>
-            <th>Oct</th>
-            <th>Nov</th>
-            <th>Dec</th>            
-            <th>Jan</th>
-            <th>Feb</th>
-            <th>Mar</th>
-            <th>Apr</th>
-            <th>May</th>
-            <th>Jun</th>
-            <th>Jul</th>
-            <th>Aug</th>
-            <th>Sep</th>
-            <th>Oct</th>
-            <th>Nov</th>
+            <th>{{ aug[0]['Date'].strftime('%b') }}</th>
+            <th>{{ oct[0]['Date'].strftime('%b') }}</th>
+            <th>{{ sep[0]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[0]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[1]['Date'].strftime('%b') }}</th>            
+            <th>{{ forecast_results_multicaptive[2]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[3]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[4]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[5]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[6]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[7]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[8]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[9]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[10]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[11]['Date'].strftime('%b') }}</th>
+            <th>{{ forecast_results_multicaptive[12]['Date'].strftime('%b') }}</th>
         </tr>
 
 
@@ -572,13 +572,15 @@
         });
 
         function parseNumber(s) {
-            var svalue = s.replace(/ /g, '')
-            const value = parseFloat(svalue)
-            if(isNaN(value)) {
-                alert('Illegal value: ' + s)
-                return 0
+            var svalue = s.replace(/[, ]/g, '');  // Remove commas and spaces
+            console.log("Parsing value:", svalue); // Log the cleaned string
+            const value = parseFloat(svalue);
+            
+            if (isNaN(value)) {
+                alert('Illegal value: ' + s);
+                return 0;
             }
-            return value
+            return value;
         }
 
         function calculateTTM() {

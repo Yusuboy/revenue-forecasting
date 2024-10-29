@@ -142,6 +142,8 @@ def forecast_page():
             plix_oct2.reset_index(inplace=True)
             validation_results_dict_oct2 = plix_oct2.to_dict(orient='records')
 
+            print(validation_results_dict_aug)
+
         
             # Save to CSV
             csv_filename = os.path.join(UPLOAD_FOLDER, 'forecast_results.csv')
