@@ -29,13 +29,14 @@ The goal of this project is to refine forecasting methods to better predict both
 git clone git@github.com:Yusuboy/revenue-forecasting.git
 ```
 
-1.  Export ZIP
-    -   Create a local directory for the code in your computer
+
+    2.  Export ZIP
+-   Create a local directory for the code in your computer
         -   In GitHub, go to the Repository and open the repository's main page.
         -   Click on "Code": You’ll see a green button labelled "Code" near the top.
         -   Download ZIP: Click "Download ZIP" to download the entire repository as a ZIP file, which you can then extract to your desktop.
         -   Extract the ZIP file to your computer to the directory you created
-2.  Set up a virtual environment and install the requirements in the root directory of the project
+3.  Set up a virtual environment and install the requirements in the root directory of the project
 
 ```
 $ python3 -m venv venv
