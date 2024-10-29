@@ -29,7 +29,7 @@ The goal of this project is to refine forecasting methods to better predict both
 git clone git@github.com:Yusuboy/revenue-forecasting.git
 ```
 
-1.  Export ZIP
+    2. Export ZIP
     -   Create a local directory for the code in your computer
         -   In GitHub, go to the Repository and open the repository's main page.
         -   Click on "Code": You’ll see a green button labelled "Code" near the top.
