@@ -29,13 +29,13 @@ The goal of this project is to refine forecasting methods to better predict both
 git clone git@github.com:Yusuboy/revenue-forecasting.git
 ```
 
-    1.  Export ZIP
-        1.  Create a local directory for the code in your computer
-        2.  In GitHub, go to the Repository and open the repository's main page.
-        3.  Click on "Code": You’ll see a green button labelled "Code" near the top.
-        4.  Download ZIP: Click "Download ZIP" to download the entire repository as a ZIP file, which you can then extract to your desktop.
-        5.  Extract the ZIP file to your computer to the directory you created
-3.  Set up a virtual environment and install the requirements in the root directory of the project
+1.  Export ZIP
+    1.  Create a local directory for the code in your computer
+        1.  In GitHub, go to the Repository and open the repository's main page.
+        2.  Click on "Code": You’ll see a green button labelled "Code" near the top.
+        3.  Download ZIP: Click "Download ZIP" to download the entire repository as a ZIP file, which you can then extract to your desktop.
+        4.  Extract the ZIP file to your computer to the directory you created
+2.  Set up a virtual environment and install the requirements in the root directory of the project
 
 ```
 $ python3 -m venv venv
@@ -43,7 +43,7 @@ $ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
-4.  Run the following command to start the app
+1.  Run the following command to start the app
 
 ```
 $ flask --app src.app run
