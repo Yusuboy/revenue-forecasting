@@ -88,26 +88,26 @@ def forecast_page():
             
 
             # Forecasting
-            forecast_fin, forecast_ind, forecast_ns, forecast_total = service.forecast('2024-11-01', '2025-11-30')
-            plix = service.validate(forecast_fin, forecast_ind, forecast_ns, '2024-11-01', '2025-11-30', save_errors=True)
+            forecast_fin, forecast_ind, forecast_ns, forecast_total = service.forecast('2024-10-01', '2025-10-31')
+            plix = service.validate(forecast_fin, forecast_ind, forecast_ns, '2024-10-01', '2025-10-31', save_errors=True)
 
             plix.reset_index(inplace=True)
             validation_results_dict = plix.to_dict(orient='records')
 
-            forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, forecast_total_aug = service.forecast('2024-08-01', '2024-08-31')
-            plix_aug = service.validate(forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, '2024-08-01', '2024-08-31', save_errors=True)
+            forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, forecast_total_aug = service.forecast('2024-07-01', '2024-07-31')
+            plix_aug = service.validate(forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, '2024-07-01', '2024-07-31', save_errors=True)
             plix_aug.reset_index(inplace=True)
             validation_results_dict_aug = plix_aug.to_dict(orient='records')
 
             # Forecasting and validating for September 2024
-            forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, forecast_total_sep = service.forecast('2024-09-01', '2024-09-30')
-            plix_sep = service.validate(forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, '2024-09-01', '2024-09-30', save_errors=True)
+            forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, forecast_total_sep = service.forecast('2024-08-01', '2024-08-31')
+            plix_sep = service.validate(forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, '2024-08-01', '2024-08-31', save_errors=True)
             plix_sep.reset_index(inplace=True)
             validation_results_dict_sep = plix_sep.to_dict(orient='records')
 
             # Forecasting and validating for October 2024
-            forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, forecast_total_oct = service.forecast('2024-10-01', '2024-10-31')
-            plix_oct = service.validate(forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, '2024-10-01', '2024-10-31', save_errors=True)
+            forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, forecast_total_oct = service.forecast('2024-09-01', '2024-09-30')
+            plix_oct = service.validate(forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, '2024-09-01', '2024-09-30', save_errors=True)
             plix_oct.reset_index(inplace=True)
             validation_results_dict_oct = plix_oct.to_dict(orient='records')
             # print()
@@ -117,28 +117,30 @@ def forecast_page():
             # print(validation_results_dict_oct)
             # print(validation_results_dict_sep)
 
+            # print("Big done")
+
             service2 = RevenueForecastRunrate(use_trend=False) 
             service2.train_model('2021-10-01', '2024-09-30')
 
-            forecast_fin, forecast_ind, forecast_ns, forecast_total = service2.forecast('2024-11-01', '2025-11-30')
-            plix2 = service2.validate(forecast_fin, forecast_ind, forecast_ns, '2024-11-01', '2025-11-30', save_errors=True)
+            forecast_fin, forecast_ind, forecast_ns, forecast_total = service2.forecast('2024-10-01', '2025-10-31')
+            plix2 = service2.validate(forecast_fin, forecast_ind, forecast_ns, '2024-10-01', '2025-10-31', save_errors=True)
 
             validation_results_dict2 = plix2.to_dict(orient='records')
 
-            forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, forecast_total_aug = service2.forecast('2024-08-01', '2024-08-31')
-            plix_aug2 = service2.validate(forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, '2024-08-01', '2024-08-31', save_errors=True)
+            forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, forecast_total_aug = service2.forecast('2024-07-01', '2024-07-31')
+            plix_aug2 = service2.validate(forecast_fin_aug, forecast_ind_aug, forecast_ns_aug, '2024-07-01', '2024-07-31', save_errors=True)
             plix_aug2.reset_index(inplace=True)
             validation_results_dict_aug2 = plix_aug2.to_dict(orient='records')
 
             # Forecasting and validating for September 2024
-            forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, forecast_total_sep = service2.forecast('2024-09-01', '2024-09-30')
-            plix_sep2 = service2.validate(forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, '2024-09-01', '2024-09-30', save_errors=True)
+            forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, forecast_total_sep = service2.forecast('2024-08-01', '2024-08-31')
+            plix_sep2 = service2.validate(forecast_fin_sep, forecast_ind_sep, forecast_ns_sep, '2024-08-01', '2024-08-31', save_errors=True)
             plix_sep2.reset_index(inplace=True)
             validation_results_dict_sep2 = plix_sep2.to_dict(orient='records')
 
             # Forecasting and validating for October 2024
-            forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, forecast_total_oct = service2.forecast('2024-10-01', '2024-10-31')
-            plix_oct2 = service2.validate(forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, '2024-10-01', '2024-10-31', save_errors=True)
+            forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, forecast_total_oct = service2.forecast('2024-09-01', '2024-09-30')
+            plix_oct2 = service2.validate(forecast_fin_oct, forecast_ind_oct, forecast_ns_oct, '2024-09-01', '2024-09-30', save_errors=True)
             plix_oct2.reset_index(inplace=True)
             validation_results_dict_oct2 = plix_oct2.to_dict(orient='records')
 
