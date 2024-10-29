@@ -22,6 +22,7 @@ The goal of this project is to refine forecasting methods to better predict both
 
 1.  Pre-requisites: python installed. If needed, check the [download page](https://www.python.org/downloads/).
 2.  Installation, two options: use Git or Export GitHub repository as a ZIP file:
+   
    **Git**
 -   Clone the repository to your machine and navigate to the root directory.
 
