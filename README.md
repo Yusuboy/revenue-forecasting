@@ -23,18 +23,18 @@ The goal of this project is to refine forecasting methods to better predict both
 1.  Pre-requisites: python installed. If needed, check the [download page](https://www.python.org/downloads/).
 2.  Installation, two options: use Git or Export GitHub repository as a ZIP file:
     1.  Git
-        1.  Clone the repository to your machine and navigate to the root directory.
+-   Clone the repository to your machine and navigate to the root directory.
 
 ```
 git clone git@github.com:Yusuboy/revenue-forecasting.git
 ```
 
 1.  Export ZIP
-    1.  Create a local directory for the code in your computer
-        1.  In GitHub, go to the Repository and open the repository's main page.
-        2.  Click on "Code": You’ll see a green button labelled "Code" near the top.
-        3.  Download ZIP: Click "Download ZIP" to download the entire repository as a ZIP file, which you can then extract to your desktop.
-        4.  Extract the ZIP file to your computer to the directory you created
+    -   Create a local directory for the code in your computer
+        -   In GitHub, go to the Repository and open the repository's main page.
+        -   Click on "Code": You’ll see a green button labelled "Code" near the top.
+        -   Download ZIP: Click "Download ZIP" to download the entire repository as a ZIP file, which you can then extract to your desktop.
+        -   Extract the ZIP file to your computer to the directory you created
 2.  Set up a virtual environment and install the requirements in the root directory of the project
 
 ```
