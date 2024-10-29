@@ -43,6 +43,7 @@ $ python3 -m venv venv
 $ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
+```
 
 1.  Run the following command to start the app
 
