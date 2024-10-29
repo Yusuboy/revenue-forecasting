@@ -35,7 +35,7 @@ git clone git@github.com:Yusuboy/revenue-forecasting.git
 -   Click on "Code": You’ll see a green button labelled "Code" near the top.
 -   Download ZIP: Click "Download ZIP" to download the entire repository as a ZIP file, which you can then extract to your desktop.
 -   Extract the ZIP file to your computer to the directory you created
-4.  Set up a virtual environment and install the requirements in the root directory of the project
+3.  Set up a virtual environment and install the requirements in the root directory of the project
 
 ```
 $ python3 -m venv venv
