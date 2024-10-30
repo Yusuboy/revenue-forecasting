@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 
 from modelling.new_forecast_utils import ForecastUtils
 
-# Revenue forecasting model utilizin SARIMAX and wrapping 4 services
+# Revenue forecasting model utilizin Run-rate based model and wrapping 4 services
 # - Initializion
 # - Training
 # - Forecasting
