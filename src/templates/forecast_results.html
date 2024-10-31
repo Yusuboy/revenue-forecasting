@@ -113,80 +113,81 @@
     <table id="forecast-table">
         <tr class="section-header-row">
             <th>Month</th>
-            <th>{{ aug[0]['Date'].strftime('%b') }}</th>
-            <th>{{ sep[0]['Date'].strftime('%b') }}</th>
-            <th>{{ oct[0]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[0]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[1]['Date'].strftime('%b') }}</th>            
-            <th>{{ forecast_results_multicaptive[2]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[3]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[4]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[5]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[6]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[7]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[8]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[9]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[10]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[11]['Date'].strftime('%b') }}</th>
-            <th>{{ forecast_results_multicaptive[12]['Date'].strftime('%b') }}</th>
+            <th>{{month_headers[0]}}</th>
+            <th>{{month_headers[1]}}</th>
+            <th>{{month_headers[2]}}</th>
+            <th>{{month_headers[3]}}</th>
+            <th>{{month_headers[4]}}</th>            
+            <th>{{month_headers[5]}}</th>
+            <th>{{month_headers[6]}}</th>
+            <th>{{month_headers[7]}}</th>
+            <th>{{month_headers[8]}}</th>
+            <th>{{month_headers[9]}}</th>
+            <th>{{month_headers[10]}}</th>
+            <th>{{month_headers[11]}}</th>
+            <th>{{month_headers[12]}}</th>
+            <th>{{month_headers[13]}}</th>
+            <th>{{month_headers[14]}}</th>
+            <th>{{month_headers[15]}}</th>
         </tr>
 
 
         <tr class="section-header-row">
             <th colspan="17">Time & Material Forecast</th>
         </tr>
-
+        
         <!-- Finland multiplicative -->
         <tr class="header-row">
             <td></td>
             <th colspan="16">Finland</th>
         </tr>
-        <tr>
+        <tr>            
             <td>Multiplicative</td>
-            <td>{{ aug[0]['Forecast FIN'] }}</td>            
-            <td>{{ oct[0]['Forecast FIN'] }}</td>
-            <td>{{ sep[0]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="1" id="fin-m-1">{{ forecast_results_multicaptive[0]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="2" id="fin-m-2">{{ forecast_results_multicaptive[1]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="3" id="fin-m-3">{{ forecast_results_multicaptive[2]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="4" id="fin-m-4">{{ forecast_results_multicaptive[3]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="5" id="fin-m-5">{{ forecast_results_multicaptive[4]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="6" id="fin-m-6">{{ forecast_results_multicaptive[5]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="7" id="fin-m-7">{{ forecast_results_multicaptive[6]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="8" id="fin-m-8">{{ forecast_results_multicaptive[7]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="9" id="fin-m-9">{{ forecast_results_multicaptive[8]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="10" id="fin-m-10">{{ forecast_results_multicaptive[9]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="11" id="fin-m-11">{{ forecast_results_multicaptive[10]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="12" id="fin-m-12">{{ forecast_results_multicaptive[11]['Forecast FIN'] }}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="13" id="fin-m-13">{{ forecast_results_multicaptive[12]['Forecast FIN'] }}</td>
+            <td> </td>            
+            <td> </td>
+            <td> </td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="1" id="fin-m-1">{{forecast_fin_mp[0]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="2" id="fin-m-2">{{forecast_fin_mp[1]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="3" id="fin-m-3">{{forecast_fin_mp[2]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="4" id="fin-m-4">{{forecast_fin_mp[3]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="5" id="fin-m-5">{{forecast_fin_mp[4]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="6" id="fin-m-6">{{forecast_fin_mp[5]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="7" id="fin-m-7">{{forecast_fin_mp[6]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="8" id="fin-m-8">{{forecast_fin_mp[7]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="9" id="fin-m-9">{{forecast_fin_mp[8]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="10" id="fin-m-10">{{forecast_fin_mp[9]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="11" id="fin-m-11">{{forecast_fin_mp[10]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="12" id="fin-m-12">{{forecast_fin_mp[11]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="13" id="fin-m-13">{{forecast_fin_mp[12]}}</td>
         </tr>
 
         <!-- Finland runrate -->
         <tr>
             <td>Run rate</td>
-            <td>{{ aug2[0]['Forecast FIN'] }}</td>            
-            <td>{{ oct2[0]['Forecast FIN'] }}</td>
-            <td>{{ sep2[0]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="1" id="fin-r-1">{{ forecast_results_runrate[0]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="2" id="fin-r-2">{{ forecast_results_runrate[1]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="3" id="fin-r-3">{{ forecast_results_runrate[2]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="4" id="fin-r-4">{{ forecast_results_runrate[3]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="5" id="fin-r-5">{{ forecast_results_runrate[4]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="6" id="fin-r-6">{{ forecast_results_runrate[5]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="7" id="fin-r-7">{{ forecast_results_runrate[6]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="8" id="fin-r-8">{{ forecast_results_runrate[7]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="9" id="fin-r-9">{{ forecast_results_runrate[8]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="10" id="fin-r-10">{{ forecast_results_runrate[9]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="11" id="fin-r-11">{{ forecast_results_runrate[10]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="12" id="fin-r-12">{{ forecast_results_runrate[11]['Forecast FIN'] }}</td>
-            <td class="selectable" data-loc="fin" data-fc="r" data-month="13" id="fin-r-13">{{ forecast_results_runrate[12]['Forecast FIN'] }}</td>
+            <td> </td>            
+            <td> </td>
+            <td> </td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="1" id="fin-r-1">{{forecast_fin_rr[0]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="2" id="fin-r-2">{{forecast_fin_rr[1]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="3" id="fin-r-3">{{forecast_fin_rr[2]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="4" id="fin-r-4">{{forecast_fin_rr[3]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="5" id="fin-r-5">{{forecast_fin_rr[4]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="6" id="fin-r-6">{{forecast_fin_rr[5]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="7" id="fin-r-7">{{forecast_fin_rr[6]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="8" id="fin-r-8">{{forecast_fin_rr[7]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="9" id="fin-r-9">{{forecast_fin_rr[8]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="10" id="fin-r-10">{{forecast_fin_rr[9]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="11" id="fin-r-11">{{forecast_fin_rr[10]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="12" id="fin-r-12">{{forecast_fin_rr[11]}}</td>
+            <td class="selectable" data-loc="fin" data-fc="r" data-month="13" id="fin-r-13">{{forecast_fin_rr[12]}}</td>
         </tr>
 
         <tr>
             <td>Actuals</td>
-            <td>{{ aug[0]['Actual FIN'] }}</td>
-            <td>{{ oct[0]['Forecast FIN'] }}</td>
-            <td>{{ sep[0]['Forecast FIN'] }}</td>            
+            <td>{{actual_fin[0]}}</td>
+            <td>{{actual_fin[1]}}</td>
+            <td>{{actual_fin[2]}}</td>            
+
             <td colspan=13>&nbsp;</td>
         </tr>
 
@@ -198,50 +199,50 @@
         <!-- India multiplicative -->
         <tr>
             <td>Multiplicative</td>
-            <td>{{ aug[0]['Forecast IND'] }}</td>            
-            <td>{{ oct[0]['Forecast IND'] }}</td>
-            <td>{{ sep[0]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="1" id="ind-m-1">{{ forecast_results_multicaptive[0]['Forecast IND'] }}</td>            
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="2" id="ind-m-2">{{ forecast_results_multicaptive[1]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="3" id="ind-m-3">{{ forecast_results_multicaptive[2]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="4" id="ind-m-4">{{ forecast_results_multicaptive[3]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="5" id="ind-m-5">{{ forecast_results_multicaptive[4]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="6" id="ind-m-6">{{ forecast_results_multicaptive[5]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="7" id="ind-m-7">{{ forecast_results_multicaptive[6]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="8" id="ind-m-8">{{ forecast_results_multicaptive[7]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="9" id="ind-m-9">{{ forecast_results_multicaptive[8]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="10" id="ind-m-10">{{ forecast_results_multicaptive[9]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="11" id="ind-m-11">{{ forecast_results_multicaptive[10]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="12" id="ind-m-12">{{ forecast_results_multicaptive[11]['Forecast IND'] }}</td>
-            <td class="highlighted" data-loc="ind" data-fc="m" data-month="13" id="ind-m-13">{{ forecast_results_multicaptive[12]['Forecast IND'] }}</td>
+            <td> </td>            
+            <td> </td>
+            <td> </td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="1" id="ind-m-1">{{forecast_ind_mp[0]}}</td>            
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="2" id="ind-m-2">{{forecast_ind_mp[1]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="3" id="ind-m-3">{{forecast_ind_mp[2]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="4" id="ind-m-4">{{forecast_ind_mp[3]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="5" id="ind-m-5">{{forecast_ind_mp[4]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="6" id="ind-m-6">{{forecast_ind_mp[5]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="7" id="ind-m-7">{{forecast_ind_mp[6]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="8" id="ind-m-8">{{forecast_ind_mp[7]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="9" id="ind-m-9">{{forecast_ind_mp[8]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="10" id="ind-m-10">{{forecast_ind_mp[9]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="11" id="ind-m-11">{{forecast_ind_mp[10]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="12" id="ind-m-12">{{forecast_ind_mp[11]}}</td>
+            <td class="highlighted" data-loc="ind" data-fc="m" data-month="13" id="ind-m-13">{{forecast_ind_mp[12]}}</td>
         </tr>
 
         <!-- India Runrate -->
         <tr>
             <td>Run rate</td>            
-            <td>{{ aug2[0]['Forecast IND'] }}</td>            
-            <td>{{ oct2[0]['Forecast IND'] }}</td>
-            <td>{{ sep2[0]['Forecast IND'] }}</td>                     
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="1" id="ind-r-1">{{ forecast_results_runrate[0]['Forecast IND'] }}</td>            
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="2" id="ind-r-2">{{ forecast_results_runrate[1]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="3" id="ind-r-3">{{ forecast_results_runrate[2]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="4" id="ind-r-4">{{ forecast_results_runrate[3]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="5" id="ind-r-5">{{ forecast_results_runrate[4]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="6" id="ind-r-6">{{ forecast_results_runrate[5]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="7" id="ind-r-7">{{ forecast_results_runrate[6]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="8" id="ind-r-8">{{ forecast_results_runrate[7]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="9" id="ind-r-9">{{ forecast_results_runrate[8]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="10" id="ind-r-10">{{ forecast_results_runrate[9]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="11" id="ind-r-11">{{ forecast_results_runrate[10]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="12" id="ind-r-12">{{ forecast_results_runrate[11]['Forecast IND'] }}</td>
-            <td class="selectable" data-loc="ind" data-fc="r" data-month="13" id="ind-r-13">{{ forecast_results_runrate[12]['Forecast IND'] }}</td>            
+            <td> </td>            
+            <td> </td>
+            <td> </td>                     
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="1" id="ind-r-1">{{forecast_ind_rr[0]}}</td>            
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="2" id="ind-r-2">{{forecast_ind_rr[1]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="3" id="ind-r-3">{{forecast_ind_rr[2]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="4" id="ind-r-4">{{forecast_ind_rr[3]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="5" id="ind-r-5">{{forecast_ind_rr[4]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="6" id="ind-r-6">{{forecast_ind_rr[5]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="7" id="ind-r-7">{{forecast_ind_rr[6]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="8" id="ind-r-8">{{forecast_ind_rr[7]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="9" id="ind-r-9">{{forecast_ind_rr[8]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="10" id="ind-r-10">{{forecast_ind_rr[9]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="11" id="ind-r-11">{{forecast_ind_rr[10]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="12" id="ind-r-12">{{forecast_ind_rr[11]}}</td>
+            <td class="selectable" data-loc="ind" data-fc="r" data-month="13" id="ind-r-13">{{forecast_ind_rr[12]}}</td>            
         </tr>        
 
         <tr>
             <td>Actuals</td>
-            <td>{{ aug[0]['Actual IND'] }}</td>
-            <td>{{ oct[0]['Forecast IND'] }}</td>
-            <td>{{ sep[0]['Forecast IND'] }}</td>           
+            <td>{{actual_ind[0]}}</td>
+            <td>{{actual_ind[1]}}</td>
+            <td>{{actual_ind[2]}}</td>           
             <td colspan=13>&nbsp;</td>
         </tr>   
 
@@ -253,57 +254,52 @@
         <!-- Nearshore multiplicative -->
         <tr>
             <td>Multiplicative</td>
-            <td>{{ aug[0]['Forecast NS'] }}</td>            
-            <td>{{ oct[0]['Forecast NS'] }}</td>
-            <td>{{ sep[0]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="1" id="ns-m-1">{{ forecast_results_multicaptive[0]['Forecast NS'] }}</td>            
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="2" id="ns-m-2">{{ forecast_results_multicaptive[1]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="3" id="ns-m-3">{{ forecast_results_multicaptive[2]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="4" id="ns-m-4">{{ forecast_results_multicaptive[3]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="5" id="ns-m-5">{{ forecast_results_multicaptive[4]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="6" id="ns-m-6">{{ forecast_results_multicaptive[5]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="7" id="ns-m-7">{{ forecast_results_multicaptive[6]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="8" id="ns-m-8">{{ forecast_results_multicaptive[7]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="9" id="ns-m-9">{{ forecast_results_multicaptive[8]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="10" id="ns-m-10">{{ forecast_results_multicaptive[9]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="11" id="ns-m-11">{{ forecast_results_multicaptive[10]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="12" id="ns-m-12">{{ forecast_results_multicaptive[11]['Forecast NS'] }}</td>
-            <td class="highlighted" data-loc="ns" data-fc="m" data-month="13" id="ns-m-13">{{ forecast_results_multicaptive[12]['Forecast NS'] }}</td>               
+            <td> </td>            
+            <td> </td>
+            <td> </td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="1" id="ns-m-1">{{forecast_ns_mp[0]}}</td>            
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="2" id="ns-m-2">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="3" id="ns-m-3">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="4" id="ns-m-4">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="5" id="ns-m-5">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="6" id="ns-m-6">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="7" id="ns-m-7">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="8" id="ns-m-8">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="9" id="ns-m-9">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="10" id="ns-m-10">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="11" id="ns-m-11">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="12" id="ns-m-12">{{forecast_ns_mp[0]}}</td>
+            <td class="highlighted" data-loc="ns" data-fc="m" data-month="13" id="ns-m-13">{{forecast_ns_mp[0]}}</td>               
         </tr>
 
         <!-- Nearshore runrate -->
         <tr>
             <td>Run rate</td>
-            <td>{{ aug2[0]['Forecast NS'] }}</td>            
-            <td>{{ oct2[0]['Forecast NS'] }}</td>
-            <td>{{ sep2[0]['Forecast NS'] }}</td>  
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="1" id="ns-r-1">{{ forecast_results_runrate[0]['Forecast NS'] }}</td>            
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="2" id="ns-r-2">{{ forecast_results_runrate[1]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="3" id="ns-r-3">{{ forecast_results_runrate[2]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="4" id="ns-r-4">{{ forecast_results_runrate[3]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="5" id="ns-r-5">{{ forecast_results_runrate[4]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="6" id="ns-r-6">{{ forecast_results_runrate[5]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="7" id="ns-r-7">{{ forecast_results_runrate[6]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="8" id="ns-r-8">{{ forecast_results_runrate[7]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="9" id="ns-r-9">{{ forecast_results_runrate[8]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="10" id="ns-r-10">{{ forecast_results_runrate[9]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="11" id="ns-r-11">{{ forecast_results_runrate[10]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="12" id="ns-r-12">{{ forecast_results_runrate[11]['Forecast NS'] }}</td>
-            <td class="selectable" data-loc="ns" data-fc="r" data-month="13" id="ns-r-13">{{ forecast_results_runrate[12]['Forecast NS'] }}</td>              
+            <td> </td>            
+            <td> </td>
+            <td> </td>  
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="1" id="ns-r-1">{{forecast_ns_mp[0]}}</td>            
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="2" id="ns-r-2">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="3" id="ns-r-3">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="4" id="ns-r-4">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="5" id="ns-r-5">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="6" id="ns-r-6">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="7" id="ns-r-7">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="8" id="ns-r-8">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="9" id="ns-r-9">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="10" id="ns-r-10">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="11" id="ns-r-11">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="12" id="ns-r-12">{{forecast_ns_mp[0]}}</td>
+            <td class="selectable" data-loc="ns" data-fc="r" data-month="13" id="ns-r-13">{{forecast_ns_mp[0]}}</td>              
         </tr>       
         
         <tr>
             <td>Actuals</td>
-            <td>{{ aug[0]['Actual NS'] }}</td>
-            <td>{{ oct[0]['Forecast NS'] }}</td>
-            <td>{{ sep[0]['Forecast NS'] }}</td>       
+            <td>{{actual_ns[0]}}</td>
+            <td>{{actual_ns[0]}}</td>
+            <td>{{actual_ns[0]}}</td>       
             <td colspan=13>&nbsp;</td>
-        </tr>        
-
-
-
-
-  
+        </tr>         
 
         <tr class="header-row">
             <td></td>

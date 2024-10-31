@@ -47,16 +47,12 @@
         {% endwith %}
         
         <form action="/process" method="post" enctype="multipart/form-data" class="mt-4">
+
             <div class="form-group mb-3">
-                <label for="bil_file">Upload BIL File (CSV):</label>
+                <label for="bil_file">Upload Revenut File (in CSV format, not Excel!):</label>
                 <input type="file" id="bil_file" name="bil_file" accept=".csv" class="form-control" required>
             </div>
-        
-            <div class="form-group mb-3">
-                <label for="tlx_file">Upload TLX File (CSV):</label>
-                <input type="file" id="tlx_file" name="tlx_file" accept=".csv" class="form-control" required>
-            </div>
-        
+               
             <div class="form-group mb-3">
                 <label for="calendar_file">Upload Calendar File (CSV):</label>
                 <input type="file" id="calendar_file" name="calendar_file" accept=".csv" class="form-control" required>
