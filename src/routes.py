@@ -95,13 +95,16 @@ def process():
 #@app.route('/forecast', methods=['GET', 'POST'])
 
 @routes_bp.route('/forecast', methods=['GET', 'POST'])
-def forecast_page():
+def forecast():
 
-    if request.method == 'POST':
+    print('forecast')
+
+    if request.method == 'POST' or request.method == 'GET':
 
         try:
-            # Initializing models
+            # Initializing models            
             print('*** Initializing models ***')
+            
             multiplicative_model = RevenueForecastMulticaptiveNormalized() 
             run_rate_model = RevenueForecastRunrate(use_trend=False) 
 
