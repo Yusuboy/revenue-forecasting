@@ -1,39 +1,84 @@
-<!doctype html>
-<html lang="en" data-bs-theme="dark">
+{% extends "base.html" %}
+
+{% block title %}Preprocessing{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">
-    <title>Revenue Forecasting Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 15px;
+            background-color: #212529; /* Dark background for the body */
+            color: #ffffff; /* Light text color */
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 2px solid #444;
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+        }
+
+        .tab-container li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab-container a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #ffffff; /* Light text for the dark background */
+            border: 1px solid #444;
+            border-bottom: none;
+            background-color: #2c2c2c; /* Darker background for inactive tabs */
+            font-family: Arial, sans-serif;
+        }
+
+        .tab-container a:hover {
+            background-color: #333; /* Slightly lighter dark background for hover */
+        }
+
+        .tab-container a.active {
+            background-color: #444; /* Slightly lighter active tab */
+            font-weight: bold;
+            color: #ffffff; /* Keep active tab text light */
+            border-bottom: 2px solid #212529; /* Blend active tab into body background */
+        }
+
+        .buttons-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .buttons-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff; /* Bootstrap primary color */
+            color: #ffffff; /* Light text color */
+            transition: background-color 0.3s ease; /* Smooth transition for hover */
+        }
+
+        .buttons-container button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
 </head>
-<body class="bg-dark text-white">
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Revenue Forecasting Home</h1>
-        
-        <div class="text-center mt-4">
+<body>
 
-            <!--
-            <a href="/preprocess" class="btn btn-primary btn-lg mx-2">
-                <i class="bi bi-file-earmark-arrow-up"></i> Preprocess Files
-            </a>
-            -->
-
-            <!-- New form for forecasting -->
-            <form action="/forecast" method="POST" class="d-inline">
-                <button type="submit" class="btn btn-primary btn-lg mx-2">
-                    <i class="bi bi-bar-chart-line"></i> Forecast Data
-                </button>
-            </form>
-        </div>
-
-        <footer class="text-center mt-5">
-            <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.3);">
-            <p class="text-muted mb-0">© 2024 Revenue Forecasting Application</p>
-        </footer>
+    <div>
+        <h1>Welcome to the Forecasting App</h1>
+        <p>TODO: add instructions here!</p>
     </div>
 </body>
 </html>
+{% endblock %}

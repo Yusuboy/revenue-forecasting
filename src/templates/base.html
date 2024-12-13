@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My App{% endblock %}</title>
+    <style>
+        .tab-container {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+        }
+
+        .tab-container li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab-container a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .tab-container a:hover {
+            background-color: #eee;
+        }
+
+        .tab-container a.active {
+            background-color: white;
+            font-weight: bold;
+            color: #000;
+            border-bottom: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <ul class="tab-container">
+            <li>
+                <a href="{{ url_for('routes_bp.home') }}" 
+                   class="{% if request.endpoint == 'routes_bp.preprocess' %}active{% endif %}">
+                    Home
+                </a>
+            </li>            
+            <li>
+                <a href="{{ url_for('routes_bp.preprocess') }}" 
+                   class="{% if request.endpoint == 'routes_bp.preprocess' %}active{% endif %}">
+                    Preprocessing
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('routes_bp.forecast') }}" 
+                   class="{% if request.endpoint == 'routes_bp.forecast' %}active{% endif %}">
+                    Forecast Results
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
