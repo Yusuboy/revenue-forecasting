@@ -34,7 +34,7 @@
 
 # Run code
 
--   Change to the *src* sub-directory\*: cd src\*
+-   Change to the *src* sub-directory: *cd src*
 -   Run command *flask --app app run*
 -   If successful, you should see message *Running on http://127.0.0.1:5000*
 -   Open a web browser in address [*http://127.0.0.1:5000*](http://127.0.0.1:5000)
