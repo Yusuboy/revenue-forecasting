@@ -1,6 +1,6 @@
 # Prerequisites
 
--   Python installed. If needed, [download](https://www.python.org/downloads/) and install.
+-   Python installed. If needed, [download](https://www.python.org/downloads/) and install. In installation, ensure that you select adding python to windows path
 -   Verify that python and pip are available:
     -   Open windows command prompt.
     -   Give command *python -V.* You should get a message about your python version.
