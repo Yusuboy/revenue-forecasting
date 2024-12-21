@@ -3,8 +3,8 @@
 -   Python installed. If needed, [download](https://www.python.org/downloads/) and install. In installation, ensure that you select adding python to the windows path environment variable.
 -   Verify that python and pip are available:
     -   Open windows command prompt.
-    -   Give command *python -V.* You should get a message about your python version.
-    -   Give command *pip -V*. You should get a message about your pip version and location.
+    -   Run command *python -V.* You should get a message about your python version.
+    -   Run command *pip -V*. You should get a message about your pip version and location.
     -   In case of python and/or pip not available, check your python installation and path in Windows environment variables.
 
 ![img1](https://github.com/Yusuboy/revenue-forecasting/blob/master/inst_win_img1.jpg)
