@@ -55,23 +55,31 @@ Open installation_windows.md file from root folder and follow instructions
 
 ## If you want to use virtual environment follow instructions below:
 
+
 ###
 Instructions create virtual environment:
 
 1. Create a new directory for your project in a location with a short path (e.g., C:\Projects\forecastProject)
 2. Open a terminal or command prompt and navigate to your new project directory: cd C:\Projects\forecastProject
-3. Create a virtual environment:
-	Using venv (recommended):
-´´´
-python -m venv .venv (This creates a folder named .venv inside your project directory.)
-´´´
+3. Create a virtual environment using venv (recommended): This creates a folder named .venv inside your project directory
+```   
+python -m venv .venv
+```
 
 ###
 Instructions to install requirements:
 
 1. Activate the virtual environment (from your project folder where .venv is located):
-    Windows: .venv\Scripts\activate
-2. Install dependencies: pip install -r requirements.txt (or whatever command you use to install your dependencies)
+
+```
+venv\Scripts\activate
+```
+
+2. Install dependencies (navigate to folder where requirements.txt is located):
+
+```
+pip install -r requirements.txt
+```
 
 Benefits:
 Keeps your global Python installation clean and prevents dependency conflicts.
@@ -80,6 +88,12 @@ Keeps your global Python installation clean and prevents dependency conflicts.
 Running app with venv and installed requirements:
 
 1. Navigate to your project folder where .venv is 
-2. .venv\Scripts\activate
-3. Navigate to your project folder where app.py is located (src folder)
-4. Run command flask --app app run
+2. Activate your virtual environment
+```
+   .venv\Scripts\activate
+```
+3. Navigate to your project folder where app.py is located (src folder) and run following command
+
+```
+flask --app app run
+```
