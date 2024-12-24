@@ -18,7 +18,7 @@ This project is focused on enhancing the revenue forecasting capabilities for a 
 
 The goal of this project is to refine forecasting methods to better predict both short and long term revenues as well as reduce amount of manual work needed for forecasting.
 
-# Instructions
+# Instructions (Python)
 
 1.  Pre-requisites: python installed. If needed, check the [download page](https://www.python.org/downloads/).
 2.  Installation, two options: use Git or Export GitHub repository as a ZIP file:
@@ -48,3 +48,35 @@ $ pip install -r requirements.txt
 ```
 $ flask --app src.app run
 ```
+# Instructions (Windows)
+
+Open installation_windows.md file from root folder and follow instructions
+
+
+## If you want to use virtual environment follow instructions below:
+
+###
+Instructions create virtual environment:
+
+1. Create a new directory for your project in a location with a short path (e.g., C:\Projects\MyProject)
+2. Open a terminal or command prompt and navigate to your new project directory: cd C:\Projects\MyProject
+3. Create a virtual environment:
+	Using venv (recommended): python -m venv .venv (This creates a folder named .venv inside your project directory.)
+
+###
+Instructions to install requirements:
+
+1. Activate the virtual environment (from your project folder where .venv is located):
+    Windows: .venv\Scripts\activate
+2. Install dependencies: pip install -r requirements.txt (or whatever command you use to install your dependencies)
+
+Benefits:
+Keeps your global Python installation clean and prevents dependency conflicts.
+
+###
+Running app with venv and installed requirements:
+
+1. Navigate to your project folder where .venv is 
+2. .venv\Scripts\activate
+3. Navigate to your project folder where app.py is located (src folder)
+4. Run command flask --app app run
