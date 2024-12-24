@@ -97,3 +97,4 @@ Running app with venv and installed requirements:
 ```
 flask --app app run
 ```
+4. Open http-link that you see in command prompt
