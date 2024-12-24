@@ -61,7 +61,10 @@ Instructions create virtual environment:
 1. Create a new directory for your project in a location with a short path (e.g., C:\Projects\forecastProject)
 2. Open a terminal or command prompt and navigate to your new project directory: cd C:\Projects\forecastProject
 3. Create a virtual environment:
-	Using venv (recommended): python -m venv .venv (This creates a folder named .venv inside your project directory.)
+	Using venv (recommended):
+´´´
+python -m venv .venv (This creates a folder named .venv inside your project directory.)
+´´´
 
 ###
 Instructions to install requirements:
