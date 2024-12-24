@@ -57,7 +57,7 @@ Open installation_windows.md file from root folder and follow instructions
 
 
 ###
-Instructions create virtual environment:
+Instructions to create virtual environment:
 
 1. Create a new directory for your project in a location with a short path (e.g., C:\Projects\forecastProject)
 2. Open a terminal or command prompt and navigate to your new project directory: cd C:\Projects\forecastProject
