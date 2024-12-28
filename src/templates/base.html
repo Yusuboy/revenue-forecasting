@@ -5,9 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My App{% endblock %}</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 15px;
+            background-color: #212529; /* Dark background for the body */
+            color: #ffffff; /* Light text color */
+        }
+
         .tab-container {
             display: flex;
-            border-bottom: 2px solid #ddd;
+            border-bottom: 2px solid #444;
             padding: 0;
             margin: 0;
             list-style-type: none;
@@ -22,22 +29,33 @@
             display: block;
             padding: 10px 20px;
             text-decoration: none;
-            color: #333;
-            border: 1px solid #ddd;
+            color: #ffffff; /* Light text for the dark background */
+            border: 1px solid #444;
             border-bottom: none;
-            background-color: #f9f9f9;
+            background-color: #2c2c2c; /* Darker background for inactive tabs */
             font-family: Arial, sans-serif;
         }
 
         .tab-container a:hover {
-            background-color: #eee;
+            background-color: #333; /* Slightly lighter dark background for hover */
         }
 
         .tab-container a.active {
-            background-color: white;
+            background-color: #444; /* Slightly lighter active tab */
             font-weight: bold;
-            color: #000;
-            border-bottom: 2px solid white;
+            color: #ffffff; /* Keep active tab text light */
+            border-bottom: 2px solid #212529; /* Blend active tab into body background */
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #2c2c2c; /* Match the tab background */
+            border: 1px solid #444; /* Consistent border color */
+            border-radius: 8px; /* Slightly rounded corners */
+        }
+
+        h1, p {
+            color: #ffffff;
         }
     </style>
 </head>
@@ -46,10 +64,10 @@
         <ul class="tab-container">
             <li>
                 <a href="{{ url_for('routes_bp.home') }}" 
-                   class="{% if request.endpoint == 'routes_bp.preprocess' %}active{% endif %}">
+                   class="{% if request.endpoint == 'routes_bp.home' %}active{% endif %}">
                     Home
                 </a>
-            </li>            
+            </li>
             <li>
                 <a href="{{ url_for('routes_bp.preprocess') }}" 
                    class="{% if request.endpoint == 'routes_bp.preprocess' %}active{% endif %}">
@@ -65,7 +83,9 @@
         </ul>
     </div>
 
-    {% block content %}
-    {% endblock %}
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>
