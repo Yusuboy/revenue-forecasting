@@ -14,6 +14,8 @@ from flask import make_response
 import io
 from dateutil.relativedelta import relativedelta
 from forecast_utils import ForecastUtils
+import os
+import glob
 
 logging.basicConfig(level=logging.DEBUG)
 routes_bp = Blueprint('routes_bp', __name__)
@@ -49,6 +51,57 @@ def home():
     return render_template('home.html')
 
 #@app.route('/preprocess')
+
+
+@routes_bp.route('/save_changes', methods=['POST'])
+def save_changes():
+    try:
+        # Parse the JSON data from the request
+        data = request.get_json()
+        
+        # Generate a unique filename with datetime
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')  # Format: YYYYMMDD_HHMMSS
+        filename = f"critical_values_{timestamp}.csv"
+        save_path = os.path.join(UPLOAD_FOLDER, filename)
+
+        # Save the data to a CSV file
+        with open(save_path, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            # Write header row
+            writer.writerow(['Cell ID', 'Value'])
+            # Write each modified cell
+            for cell_id, value in data.items():
+                writer.writerow([cell_id, value])
+
+        return f"Changes saved successfully! File: {filename}", 200
+    except Exception as e:
+        logging.error(f"Error saving critical values: {e}")
+        return str(e), 500
+
+
+
+def load_saved_values():
+    try:
+        # Find all CSV files in the UPLOAD_FOLDER
+        csv_files = glob.glob(os.path.join(UPLOAD_FOLDER, 'critical_values_*.csv'))
+        
+        # If no files exist, return an empty dictionary
+        if not csv_files:
+            return {}
+
+        # Sort files by modification time (newest first)
+        csv_files.sort(key=os.path.getmtime, reverse=True)
+
+        # Load data from the newest file
+        latest_file = csv_files[0]
+        with open(latest_file, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)  # Skip header row
+            return {rows[0]: rows[1] for rows in reader}
+
+    except Exception as e:
+        logging.error(f"Error loading saved values: {e}")
+        return {}
 
 @routes_bp.route('/preprocess')
 def preprocess():
@@ -104,6 +157,7 @@ def forecast():
         try:
             # Initializing models            
             print('*** Initializing models ***')
+
             
             multiplicative_model = RevenueForecastMulticaptiveNormalized() 
             run_rate_model = RevenueForecastRunrate(use_trend=False) 
@@ -150,10 +204,13 @@ def forecast():
             actual_fin = list(map(int, actual_fin))
             actual_ind = list(map(int, actual_ind))
             actual_ns = list(map(int, actual_ns))
+            
 
             # Rendering html template
             print('*** Rendering forecast results (forecast_results.html) ***')
+            saved_values = load_saved_values()
             return render_template('forecast_results.html',
+                                   saved_values=saved_values,
                                    forecast_fin_mp=forecast_fin_mp, 
                                    forecast_ind_mp=forecast_ind_mp, 
                                    forecast_ns_mp=forecast_ns_mp, 

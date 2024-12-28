@@ -497,10 +497,62 @@
     <div class="buttons-container">
         <button onclick="calculateTotals()">Calculate Totals</button>
         <button onclick="addRevenueRow2()">Add Revenue Row</button>
-        <button onclick="exportCSV()">Export to CSV (Excel)</button>
+        <button onclick="exportToCSV()">Export to CSV (Excel)</button>
+        <button onclick="saveChanges()">Save Changes</button>
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render the saved data into the JavaScript object using Flask's template engine
+            const savedValues = JSON.parse('{{ saved_values | tojson | safe }}');
+            
+            // Populate the cells with saved data
+            for (const [id, value] of Object.entries(savedValues)) {
+                const cell = document.getElementById(id);
+                if (cell) {
+                    cell.textContent = value;
+                }
+            }
+        });
+        function saveChanges() {
+            const modifiedCells = {};
+            
+            // Collect only the critical cells to save based on their IDs
+            document.querySelectorAll('td[id]').forEach(cell => {
+                const id = cell.id;
+                // Save only the critical categories
+                if (
+                    id.startsWith('r-fin-') || // Raise FIN %
+                    id.startsWith('r-ind-') || // Raise IND %
+                    id.startsWith('r-ns-') ||  // Raise NS %
+                    id.startsWith('sl-') ||    // Sick Leaves
+                    id.startsWith('ff-') ||    // Fixed Fee
+                    id.startsWith('ss-') ||    // Sanctions
+                    id.startsWith('pc-') ||    // Personnel Changes
+                    id.startsWith('tc-')       // Travel Costs
+                ) {
+                    modifiedCells[id] = cell.textContent.trim();
+                }
+            });
+
+            // Send the filtered data to the server
+            fetch('/save_changes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(modifiedCells),
+            })
+            .then(response => response.text())
+            .then(message => {
+                alert(message); // Show the backend response, including the filename
+            })
+            .catch(error => {
+                console.error('Error saving changes:', error);
+                alert('Error occurred while saving changes.');
+            });
+        }
+
 
         function addRevenueRow() {
             const totalRow = document.getElementById('total-row');  // Find the total row by its ID
@@ -585,61 +637,70 @@
         }
 
         function calculateTTM() {
-            for(i=1; i<=13; i++) {
-                // Calcuate selected forecasts fields first
-                const fin_m_cell = document.getElementById('fin-m-' + i)                
-                const fin_r_cell = document.getElementById('fin-r-' + i)      
-                const fin = fin_m_cell.classList.contains('highlighted') ? fin_m_cell.textContent : fin_r_cell.textContent
-                const ind_m_cell = document.getElementById('ind-m-' + i)                
-                const ind_r_cell = document.getElementById('ind-r-' + i)      
-                const ind = ind_m_cell.classList.contains('highlighted') ? ind_m_cell.textContent : ind_r_cell.textContent
-                const ns_m_cell = document.getElementById('ns-m-' + i)                
-                const ns_r_cell = document.getElementById('ns-r-' + i)      
-                const ns = ns_m_cell.classList.contains('highlighted') ? ns_m_cell.textContent : ns_r_cell.textContent
-                var value_fin = parseNumber(fin) 
-                var value_ind = parseNumber(ind) 
-                var value_ns = parseNumber(ns)
-                              
+            for (let i = 1; i <= 13; i++) {
+                // Calculate selected forecast fields
+                const fin_m_cell = document.getElementById('fin-m-' + i);
+                const fin_r_cell = document.getElementById('fin-r-' + i);
+                const fin = fin_m_cell.classList.contains('highlighted') ? fin_m_cell.textContent : fin_r_cell.textContent;
+                const ind_m_cell = document.getElementById('ind-m-' + i);
+                const ind_r_cell = document.getElementById('ind-r-' + i);
+                const ind = ind_m_cell.classList.contains('highlighted') ? ind_m_cell.textContent : ind_r_cell.textContent;
+                const ns_m_cell = document.getElementById('ns-m-' + i);
+                const ns_r_cell = document.getElementById('ns-r-' + i);
+                const ns = ns_m_cell.classList.contains('highlighted') ? ns_m_cell.textContent : ns_r_cell.textContent;
+
+                let value_fin = Math.ceil(parseNumber(fin)); // Round up
+                let value_ind = Math.ceil(parseNumber(ind)); // Round up
+                let value_ns = Math.ceil(parseNumber(ns)); // Round up
+
                 // Include adjustment terms
-                const raise_fin = document.getElementById('r-fin-' + i).textContent 
-                const raise_ind = document.getElementById('r-ind-' + i).textContent                 
-                const raise_ns = document.getElementById('r-ns-' + i).textContent                 
-                const sl = document.getElementById('sl-' + i).textContent                 
-                value_fin = value_fin * (1 + parseNumber(raise_fin)/100.0)
-                value_fin = value_fin * (1 - parseNumber(sl)/100.0)
-                value_ind = value_ind * (1 + parseNumber(raise_ind)/100.0)
-                value_ns = value_ns * (1 + parseNumber(raise_ns)/100.0)                           
+                const raise_fin = document.getElementById('r-fin-' + i).textContent;
+                const raise_ind = document.getElementById('r-ind-' + i).textContent;
+                const raise_ns = document.getElementById('r-ns-' + i).textContent;
+                const sl = document.getElementById('sl-' + i).textContent;
+
+                value_fin = Math.ceil(value_fin * (1 + parseNumber(raise_fin) / 100.0));
+                value_fin = Math.ceil(value_fin * (1 - parseNumber(sl) / 100.0));
+                value_ind = Math.ceil(value_ind * (1 + parseNumber(raise_ind) / 100.0));
+                value_ns = Math.ceil(value_ns * (1 + parseNumber(raise_ns) / 100.0));
 
                 // Update the sum cell
-                const ttm_cell = document.getElementById('ttm-' + i)   
-                const value = value_fin + value_ind + value_ns
-                ttm_cell.textContent = value
+                const ttm_cell = document.getElementById('ttm-' + i);
+                const value = Math.ceil(value_fin + value_ind + value_ns); // Round up final total
+                ttm_cell.textContent = value;
             }
-
         }
 
-        function calculateTotals() {
-            calculateTTM()
-            for(i=1; i<=13; i++) {
-                const ttm = document.getElementById('ttm-' + i).textContent
-                const ff = document.getElementById('ff-' + i).textContent
-                const ss = document.getElementById('ss-' + i).textContent
-                const pc = document.getElementById('pc-' + i).textContent
-                const tc = document.getElementById('tc-' + i).textContent
 
-                // Loop through all cells with the class 'new-rev-cell' and the corresponding data-month
+        function calculateTotals() {
+            calculateTTM(); // Ensure TTM is calculated first
+            for (let i = 1; i <= 13; i++) {
+                const ttm = document.getElementById('ttm-' + i).textContent;
+                const ff = document.getElementById('ff-' + i).textContent;
+                const ss = document.getElementById('ss-' + i).textContent;
+                const pc = document.getElementById('pc-' + i).textContent;
+                const tc = document.getElementById('tc-' + i).textContent;
+
+                // Loop through all cells with the class 'new-rev-cell' for the current month
                 let newRevTotal = 0;
                 document.querySelectorAll(`.new-rev-cell[data-month="${i}"]`).forEach(cell => {
                     newRevTotal += parseNumber(cell.textContent);
-                })
+                });
 
-                const total =  parseNumber(ttm) + parseNumber(ff) + parseNumber(ss) + parseNumber(pc) + parseNumber(tc) + newRevTotal
+                const total = Math.ceil(
+                    parseNumber(ttm) +
+                    parseNumber(ff) +
+                    parseNumber(ss) +
+                    parseNumber(pc) +
+                    parseNumber(tc) +
+                    Math.ceil(newRevTotal) // Round up
+                );
 
-                const total_cell = document.getElementById('total-' + i)   
-                total_cell.textContent = total                
+                const total_cell = document.getElementById('total-' + i);
+                total_cell.textContent = total; // Update rounded total
             }
-            
-        }        
+        }
+      
 
         // Function to make the cells editable
         function makeEditable(cell) {
@@ -735,6 +796,35 @@
 
             // Insert the new row before the total row
             tableBody.insertBefore(newRow, totalRow);
+        function exportToCSV() {
+            // Collect all table data
+            const table = document.getElementById('forecast-table'); // Assuming your table has this ID
+            let csvContent = "";
+
+            // Iterate through rows to build the CSV content
+            Array.from(table.rows).forEach(row => {
+                const rowData = Array.from(row.cells)
+                    .map(cell => cell.textContent.trim()) // Get cell text
+                    .join(','); // Join cells with commas
+                csvContent += rowData + "\n"; // Add row to CSV content
+            });
+
+            // Create a blob for the CSV file
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+
+            // Create a temporary link element for download
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'forecast_export.csv'); // File name for download
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+
+            // Trigger the download
+            link.click();
+            document.body.removeChild(link); // Clean up the link element
+        }
+
         }
     </script>
 
