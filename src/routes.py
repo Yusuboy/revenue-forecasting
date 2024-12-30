@@ -58,7 +58,7 @@ def save_changes():
     try:
         # Parse the JSON data from the request
         data = request.get_json()
-        
+
         # Generate a unique filename with datetime
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')  # Format: YYYYMMDD_HHMMSS
         filename = f"critical_values_{timestamp}.csv"
@@ -82,26 +82,54 @@ def save_changes():
 
 def load_saved_values():
     try:
-        # Find all CSV files in the UPLOAD_FOLDER
         csv_files = glob.glob(os.path.join(UPLOAD_FOLDER, 'critical_values_*.csv'))
-        
-        # If no files exist, return an empty dictionary
         if not csv_files:
             return {}
 
         # Sort files by modification time (newest first)
         csv_files.sort(key=os.path.getmtime, reverse=True)
-
-        # Load data from the newest file
         latest_file = csv_files[0]
+
         with open(latest_file, 'r') as csvfile:
             reader = csv.reader(csvfile)
             next(reader)  # Skip header row
-            return {rows[0]: rows[1] for rows in reader}
+            saved_values = {rows[0]: rows[1] for rows in reader}
+        
+        print("Loaded saved values:", saved_values)  # Debugging loaded values
+        
+        # Get the month names from the table headers dynamically
+        now = datetime.now()
+        month_headers = [calendar.month_abbr[(now.month - 3 + i) % 12 or 12] for i in range(16)]
+        print("Month headers:", month_headers)  # Debugging month headers
+        
+        remapped_values = {}
+        for key, value in saved_values.items():
+            # Split the key into month and the suffix (e.g., "Jan:r-fin")
+            try:
+                month, id_suffix = key.split(':')
+            except ValueError:
+                logging.error(f"Skipping invalid key: {key}")
+                continue
+
+            print(f"Processing key: {key}, month: {month}, id_suffix: {id_suffix}")  # Debugging split key
+            
+            # Ensure the month is in the current month's headers
+            if month in month_headers:
+                month_index = month_headers.index(month) + 1  # Get column index for the month
+                # Remap the saved key to match the current table structure
+                remapped_key = f"{id_suffix}-{month_index}"
+                remapped_values[remapped_key] = value
+                print(f"Mapped key: {remapped_key}, value: {value}")  # Debugging remapped key
+        
+        print("Remapped values:", remapped_values)  # Debugging final remapped values
+        return remapped_values
 
     except Exception as e:
         logging.error(f"Error loading saved values: {e}")
         return {}
+
+
+
 
 @routes_bp.route('/preprocess')
 def preprocess():
@@ -183,6 +211,8 @@ def forecast():
             # Creating monthly column headers
             now = datetime.now()
             month_headers = [calendar.month_abbr[(now.month - 3 + i) % 12 or 12] for i in range(16)]
+
+            print(month_headers)
 
             # Convert forecasts to list and round to int to allow easy handling in the html template
             forecast_fin_mp = list(map(int, forecast_fin_mp))

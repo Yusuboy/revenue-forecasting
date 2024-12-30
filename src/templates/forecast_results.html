@@ -505,22 +505,36 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Render the saved data into the JavaScript object using Flask's template engine
             const savedValues = JSON.parse('{{ saved_values | tojson | safe }}');
-            
-            // Populate the cells with saved data
-            for (const [id, value] of Object.entries(savedValues)) {
-                const cell = document.getElementById(id);
-                if (cell) {
-                    cell.textContent = value;
+
+            // Loop through each entry in savedValues
+            savedValues.forEach(([key, value]) => {
+                // Split the key into monthYear and id
+                const [monthYear, id] = key.split(':');
+
+                // Find the index of the <th> element corresponding to monthYear
+                const monthIndex = Array.from(document.querySelectorAll('th')).findIndex(th => th.textContent.trim() === monthYear) + 1;
+
+                // If a valid monthIndex is found
+                if (monthIndex > 0) {
+                    // Construct the cell ID dynamically
+                    const cellId = `${id}-${monthIndex}`;
+                    const cell = document.getElementById(cellId);
+                    if (cell) {
+                        // Set the cell's text content to the saved value
+                        cell.textContent = value;
+                    }
                 }
-            }
+            });
         });
         function saveChanges() {
+            const monthHeaders = JSON.parse('{{ month_headers | tojson }}');  // Pass the month headers from the backend
             const modifiedCells = {};
-            
+
             // Collect only the critical cells to save based on their IDs
             document.querySelectorAll('td[id]').forEach(cell => {
                 const id = cell.id;
-                // Save only the critical categories
+
+                // Check if the cell's ID matches one of the critical categories
                 if (
                     id.startsWith('r-fin-') || // Raise FIN %
                     id.startsWith('r-ind-') || // Raise IND %
@@ -531,27 +545,41 @@
                     id.startsWith('pc-') ||    // Personnel Changes
                     id.startsWith('tc-')       // Travel Costs
                 ) {
-                    modifiedCells[id] = cell.textContent.trim();
+                    // Extract the month index from the ID (e.g., "1" from "r-fin-1")
+                    const monthIndex = parseInt(id.match(/\d+/)[0], 10); // Get the number part like "1", "2", "3"
+
+                    // The forecast starts from month_headers[3] onward, so adjust accordingly
+                    const monthName = monthHeaders[monthIndex + 2];  // Correct adjustment to match monthHeaders starting at index 3
+
+                    // Build a dynamic key with the month name, full ID (e.g., r-fin-1), and value
+                    const key = `${monthName}: ${id}`; // Key should be like "Dec: r-fin-1"
+                    
+                    // Store the cell's content
+                    modifiedCells[key] = cell.textContent.trim();
                 }
             });
 
-            // Send the filtered data to the server
+            // Send the modified data to the server
             fetch('/save_changes', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(modifiedCells),
             })
             .then(response => response.text())
-            .then(message => {
-                alert(message); // Show the backend response, including the filename
-            })
+            .then(message => alert(message)) // Show server response (message)
             .catch(error => {
                 console.error('Error saving changes:', error);
                 alert('Error occurred while saving changes.');
             });
         }
+
+
+
+
+
+
+
+
 
 
         function addRevenueRow() {
