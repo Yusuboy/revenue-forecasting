@@ -502,30 +502,35 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Render the saved data into the JavaScript object using Flask's template engine
-            const savedValues = JSON.parse('{{ saved_values | tojson | safe }}');
-
-            // Loop through each entry in savedValues
-            savedValues.forEach(([key, value]) => {
-                // Split the key into monthYear and id
-                const [monthYear, id] = key.split(':');
-
-                // Find the index of the <th> element corresponding to monthYear
-                const monthIndex = Array.from(document.querySelectorAll('th')).findIndex(th => th.textContent.trim() === monthYear) + 1;
-
-                // If a valid monthIndex is found
-                if (monthIndex > 0) {
-                    // Construct the cell ID dynamically
-                    const cellId = `${id}-${monthIndex}`;
-                    const cell = document.getElementById(cellId);
-                    if (cell) {
-                        // Set the cell's text content to the saved value
-                        cell.textContent = value;
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch the saved values from the server
+            fetch('/load_saved_values')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        console.error("No saved values found:", data.message);
+                        return;
                     }
-                }
-            });
+
+                    // Populate the table cells with the saved values
+                    for (const [key, value] of Object.entries(data)) {
+                        // Extract month name and cell ID from the key (e.g., "Dec: r-fin-1")
+                        const [month, id] = key.split(':');
+
+                        // Find the correct cell using the ID
+                        const cell = document.getElementById(id.trim());
+
+                        // If the cell exists, update its value
+                        if (cell) {
+                            cell.textContent = value;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading saved values:', error);
+                });
         });
+
         function saveChanges() {
             const monthHeaders = JSON.parse('{{ month_headers | tojson }}');  // Pass the month headers from the backend
             const modifiedCells = {};
