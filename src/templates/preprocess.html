@@ -37,35 +37,36 @@
 <body class="bg-dark text-white">
     <div class="container mt-5">
         <h1 class="text-center">Revenue Forecasting</h1>
-        
+
         <!-- Flash Messages -->
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
-            <div class="alert alert-warning">
-              <ul class="list-unstyled">
-                {% for message in messages %}
-                  <li>{{ message }}</li>
-                {% endfor %}
-              </ul>
+            <div class="alert-container">
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
             </div>
           {% endif %}
         {% endwith %}
-        
+
         <form action="/process" method="post" enctype="multipart/form-data" class="mt-4">
 
             <div class="form-group mb-3">
-                <label for="bil_file">Upload Revenut File (in CSV format, not Excel!):</label>
+                <label for="bil_file">Upload Revenue File (in CSV format, not Excel!):</label>
                 <input type="file" id="bil_file" name="bil_file" accept=".csv" class="form-control" required>
             </div>
-               
+
             <div class="form-group mb-3">
                 <label for="calendar_file">Upload Calendar File (CSV):</label>
                 <input type="file" id="calendar_file" name="calendar_file" accept=".csv" class="form-control" required>
             </div>
-        
+
             <button type="submit" class="btn btn-primary btn-block mt-3">Process Data</button>
         </form>
-        
+
         <footer class="text-center mt-4">
             <p class="text-muted">© 2024 Revenue Forecasting Application</p>
         </footer>

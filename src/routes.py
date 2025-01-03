@@ -120,11 +120,11 @@ def save_file(file):
 
 def process_files(bil_path, calendar_path):
     current_date = datetime.now().strftime('%Y%m%d')
-    output_datafile_path = os.path.join(UPLOAD_FOLDER, f'output_datafile_{current_date}.csv')
+    output_datafile_path = os.path.join(f'data.csv')
     #processed_bil_path = os.path.join(UPLOAD_FOLDER, f'processed_bil_{current_date}.csv')
     #processed_tlx_path = os.path.join(UPLOAD_FOLDER, f'processed_tlx_{current_date}.csv')
     preprocessor = Preprocessor()
-    preprocessor.prerpocess(bil_path, calendar_path, output_datafile_path                            )
+    preprocessor.prerpocess(bil_path, calendar_path, output_datafile_path)
     return output_datafile_path #, processed_bil_path, processed_tlx_path#
 
 
@@ -132,24 +132,23 @@ def process_files(bil_path, calendar_path):
 
 @routes_bp.route('/process', methods=['POST'])
 def process():
-    
-    print('process...')
     if 'bil_file' not in request.files or 'calendar_file' not in request.files:
-        flash('No file part')
-        return redirect(request.url)
+        flash('Both files are required!', 'danger')
+        return redirect(url_for('routes_bp.preprocess'))
+
     try:
         bil_file = request.files['bil_file']
         calendar_file = request.files['calendar_file']
-        
+
         bil_path = save_file(bil_file)
-        calendar_path = save_file(calendar_file)        
-        output_datafile_path = process_files(bil_path, calendar_path)
-        
-        return render_template('download.html', output_datafile=output_datafile_path)
-    
+        calendar_path = save_file(calendar_file)
+        process_files(bil_path, calendar_path)
+
+        flash('Preprocessing completed successfully!', 'success')
     except Exception as e:
-        flash(f"Error processing files: {str(e)}")
-        return redirect(request.url)
+        flash(f"Error during preprocessing: {str(e)}", 'danger')
+
+    return redirect(url_for('routes_bp.preprocess'))
 
 #@app.route('/forecast', methods=['GET', 'POST'])
 
