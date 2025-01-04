@@ -182,21 +182,38 @@ class ForecastUtils:
     @staticmethod  
     def plot_results(train_data, validation_data, forecast_FIN, forecast_IND, forecast_NS):  
 
-        # Plot forecasted vs actual Revenue IND and Revenue FIN
-        plt.figure(figsize=(10, 6))
+        # Logging forecast and validation data
+        print('----------------------')
+        print('forecast FIN')
+        print(forecast_FIN)
+        print('forecast IND')
+        print(forecast_IND)        
+        print('----------------------')
+        print('Validation data')
+        print(validation_data)
+        print('----------------------')
+
+        plt.figure(figsize=(12, 6))
 
         # Plot training data
         if train_data is not None and not train_data.empty:
-            plt.plot(train_data.index, train_data['Revenue FIN'], label='Actual Revenue FIN (Training)', color='blue', linestyle='--')
-            plt.plot(train_data.index, train_data['Revenue IND'], label='Actual Revenue IND (Training)', color='green', linestyle='--')
+            plt.plot(train_data.index, train_data['Revenue FIN'], label='Training FIN', linestyle='--', color='blue')
+            plt.plot(train_data.index, train_data['Revenue IND'], label='Training IND', linestyle='--', color='green')
 
-        # Plot validation data
-        plt.plot(validation_data.index, validation_data['Revenue FIN'], label='Actual FIN', color='blue')
-        plt.plot(validation_data.index, forecast_FIN, label='Forecasted FIN', linestyle='--', color='red')
-        plt.plot(validation_data.index, validation_data['Revenue IND'], label='Actual IND', color='green')        
-        plt.plot(validation_data.index, forecast_IND, label='Forecasted IND', linestyle='--', color='orange')
+        # Plot validation data and forecast
+        if validation_data is not None and not validation_data.empty:
+            if len(validation_data) == 1:  # Single-month validation data
+                plt.scatter(validation_data.index, validation_data['Revenue FIN'], label='Validation FIN', color='blue', marker='o')
+                plt.scatter(validation_data.index, forecast_FIN, label='Forecasted FIN', color='red', marker='x')
+                plt.scatter(validation_data.index, validation_data['Revenue IND'], label='Validation IND', color='green', marker='o')
+                plt.scatter(validation_data.index, forecast_IND, label='Forecasted IND', color='orange', marker='x')
+            else:
+                plt.plot(validation_data.index, validation_data['Revenue FIN'], label='Validation FIN', color='blue')
+                plt.plot(validation_data.index, forecast_FIN, label='Forecasted FIN', linestyle='--', color='red')
+                plt.plot(validation_data.index, validation_data['Revenue IND'], label='Validation IND', color='green')
+                plt.plot(validation_data.index, forecast_IND, label='Forecasted IND', linestyle='--', color='orange')
 
-        plt.title('Forecasted vs Actual for IND and FIN ')
+        plt.title('Forecasted vs Actual Revenue')
         plt.xlabel('Date')
         plt.ylabel('Revenue')
         plt.legend()

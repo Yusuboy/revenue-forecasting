@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Preprocessing{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 15px;
+            background-color: #212529; /* Dark background for the body */
+            color: #ffffff; /* Light text color */
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 2px solid #444;
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+        }
+
+        .tab-container li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab-container a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #ffffff; /* Light text for the dark background */
+            border: 1px solid #444;
+            border-bottom: none;
+            background-color: #2c2c2c; /* Darker background for inactive tabs */
+            font-family: Arial, sans-serif;
+        }
+
+        .tab-container a:hover {
+            background-color: #333; /* Slightly lighter dark background for hover */
+        }
+
+        .tab-container a.active {
+            background-color: #444; /* Slightly lighter active tab */
+            font-weight: bold;
+            color: #ffffff; /* Keep active tab text light */
+            border-bottom: 2px solid #212529; /* Blend active tab into body background */
+        }
+
+        .buttons-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .buttons-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff; /* Bootstrap primary color */
+            color: #ffffff; /* Light text color */
+            transition: background-color 0.3s ease; /* Smooth transition for hover */
+        }
+
+        .buttons-container button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <h1>Welcome to AI Assisted Forecasting!</h1>
+        <p>
+            <img src="flow.jpg" />
+        </p>
+        <p>
+            Link instructions here
+        </p>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -144,7 +144,7 @@ def process():
         calendar_path = save_file(calendar_file)
         process_files(bil_path, calendar_path)
 
-        flash('Preprocessing completed successfully!', 'success')
+        flash('Preprocessing completed successfully. See file data.csv in the exection directory.', 'success')
     except Exception as e:
         flash(f"Error during preprocessing: {str(e)}", 'danger')
 

@@ -71,13 +71,73 @@
         .buttons-container button:hover {
             background-color: #0056b3; /* Darker shade on hover */
         }
+        img.scaled {
+            width: 80%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
 
     <div>
-        <h1>Welcome to the Forecasting App</h1>
-        <p>TODO: add instructions here!</p>
+        <h1>Welcome to AI Assisted Revenue Forecasting</h1>
+        <p>
+            <strong>- a maching learning based tool for revenue forecasting in FPB Finance / OP.</strong>
+        </p>
+        <p>
+            <img class ="scaled" src="{{ url_for('static', filename='flow.jpg') }}" />
+        </p>        
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <h3>0. Prerequisites</h3>
+            <ul>
+                <li>Revenue forecasting application installed. See instructions for Windows installation in GitHub.</li>
+                <li>Revenue data exported from finance system. For support, please contact Joonas Rosi.</li>
+                <li>Revenue data needs to be in CSV format. In case it is in Excel format, save a version in CSV format.</li>
+                <li>The timestamp format is strict: <i>dd/mm/yyyy HH:MM</i>.<br>
+                    <em>Note:</em> When using Excel for conversion, extra cautiousness with timestamps is needed.
+                </li>
+                <li>Up-to-date calendar file available for the application. Calendar file includes number of monthly working days per location and historical rate raise percentages.</li>
+            </ul>
+        
+            <h3>1. Upload Data</h3>
+            <ul>
+                <li>Copy data to a directory where you want to store it. The directory needs to be available for the application through the web UI.</li>
+            </ul>
+        
+            <h3>2. Start Application</h3>
+            <ul>
+                <li>Change to the <code>src</code> sub-directory: <code>cd &lt;application root&gt;/src</code>. Application root is the directory where you have installed the application.</li>
+                <li>Run command: <code>flask --app app run</code>.</li>
+                <li>If successful, you should see a message: <code>Running on http://127.0.0.1:5000</code>.</li>
+                <li>Open a web browser and navigate to: <code>http://127.0.0.1:5000</code>. You should see the home page with three tabs: <strong>Home, Preprocessing,</strong> and <strong>Forecast</strong>.</li>
+            </ul>
+        
+            <h3>3. Preprocess Data</h3>
+            <ul>
+                <li>Browse to the <strong>Preprocess</strong> tab.</li>
+                <li>Select the revenue data file with the file picker.</li>
+                <li>Select the calendar file with the file picker.</li>
+                <li>Click the <strong>Process Data</strong> button.</li>
+                <li>The preprocessed data file <code>data.csv</code> is available in the directory where the application was run.</li>
+                <li>
+                    In case there are some incomplete data for the ongoing month in the revenue file, the result data for that month needs to be removed from <strong>data.csv</strong> manually.<br>
+                    <em>Example:</em> If the export is done in early January 2025 and there is already some January 2025 revenue data in the export, January 2025 cells in columns <strong>Revenue*</strong> need to be removed.
+                </li>
+            </ul>
+        
+            <h3>4. Forecast</h3>
+            <ul>
+                <li>Browse to the <strong>Forecast</strong> tab.</li>
+                <li>Choose the used model per month from pre-calculated values.</li>
+                <li>Add correction terms.</li>
+                <li>Add additional revenue components.</li>
+                <li>Always click the <strong>Calculate Totals</strong> button to calculate the effect of adjustments. The totals are not updated automatically.</li>
+                <li>Remember to save the inputs (<strong>Save Changes</strong> button) if you want to make the adjustments available in the next run.</li>
+                <li>The forecast can be exported in CSV format to be used further in Excel.</li>
+            </ul>
+        </div>
+        
     </div>
 </body>
 </html>

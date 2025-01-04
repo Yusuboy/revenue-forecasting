@@ -108,7 +108,7 @@ class RevenueForecastRunrate:
     def validate(self, forecast_fin, forecast_ind, forecast_ns, validation_start, validation_end, save_errors=False):
         validation_data = ForecastUtils.split_data(self.data, validation_start, validation_end)
         model_name = 'runrate without trend' if not self.use_trend else 'runrate with trend'
-        result = ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=save_errors, model_name=model_name, train_data=self.train_data,  plot_errors=True)
+        result = ForecastUtils.validation_results(validation_data, forecast_fin, forecast_ind, forecast_ns, save_errors=save_errors, model_name=model_name, train_data=self.train_data, plot_errors=True)
         return result
 
 # Usage example / dummy test
@@ -116,17 +116,17 @@ if __name__ == "__main__":
 
     # Instantiate two services: one to forecast without trend, one with trend
     service_without_trend = RevenueForecastRunrate() 
-    service_with_trend = RevenueForecastRunrate(use_trend=True) 
+    #service_with_trend = RevenueForecastRunrate(use_trend=True) 
 
     # Train the model (it's internal submodels)
-    service_without_trend.train_model('2021-10-01', '2024-09-30') 
-    service_with_trend.train_model('2021-10-01', '2024-03-31') 
+    service_without_trend.train_model('2021-10-01', '2024-10-31') 
+    #service_with_trend.train_model('2021-10-01', '2024-03-31') 
 
     # Forecasting
-    forecast_fin, forecast_ind, forecast_ns, forecast_total = service_without_trend.forecast('2024-04-01', '2024-09-30')
-    forecast_with_trend_fin, forecast_with_trend_ind, forecast_with_trend_ns, forecast_with_trend_total = service_with_trend.forecast('2024-04-01', '2024-09-30')
+    forecast_fin, forecast_ind, forecast_ns, forecast_total = service_without_trend.forecast('2024-11-01', '2024-12-31')
+    #forecast_with_trend_fin, forecast_with_trend_ind, forecast_with_trend_ns, forecast_with_trend_total = service_with_trend.forecast('2024-04-01', '2024-09-30')
 
     # Validating
-    service_without_trend.validate(forecast_fin, forecast_ind, forecast_ns, '2024-04-01', '2024-09-30')    
-    service_with_trend.validate(forecast_with_trend_fin, forecast_with_trend_ind, forecast_with_trend_ns, '2024-04-01', '2024-09-30')    
+    service_without_trend.validate(forecast_fin, forecast_ind, forecast_ns, '2024-11-01', '2024-12-31')    
+    #service_with_trend.validate(forecast_with_trend_fin, forecast_with_trend_ind, forecast_with_trend_ns, '2024-04-01', '2024-09-30')    
 

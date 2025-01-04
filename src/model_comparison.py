@@ -18,38 +18,34 @@ def model_comparison():
     multicaptive_model_normalized = RevenueForecastMulticaptiveNormalized()
 
     training_start = '2021-10-01'
-    training_end = '2024-03-31'
+    training_end = '2024-10-31'
     sarimax_model.train_model(training_start, training_end) 
     runrate_model_without_trend.train_model(training_start, training_end) 
     runrate_model_with_trend.train_model(training_start, training_end) 
     multicaptive_model.train_model(training_start, training_end) 
     multicaptive_model_normalized.train_model(training_start, training_end) 
 
-    forecast_start = '2024-04-01'
-    forecast_end = '2024-09-30'
+    forecast_start = '2024-11-01'
+    forecast_end = '2024-12-31'
     forecast_fin_sm, forecast_ind_sm, forecast_ns_sm, forecast_total_sm = sarimax_model.forecast(forecast_start, forecast_end) 
     forecast_fin_rn, forecast_ind_rn, forecast_ns_rn, forecast_total_rn = runrate_model_without_trend.forecast(forecast_start, forecast_end) 
     forecast_fin_rt, forecast_ind_rt, forecast_ns_rt, forecast_total_sm = runrate_model_with_trend.forecast(forecast_start, forecast_end) 
     forecast_fin_mc, forecast_ind_mc, forecast_ns_mc, forecast_total_mc = multicaptive_model.forecast(forecast_start, forecast_end) 
     forecast_fin_mn, forecast_ind_mn, forecast_ns_mn, forecast_total_mn = multicaptive_model_normalized.forecast(forecast_start, forecast_end)     
 
-    sarimax_model.validate(forecast_fin_sm, forecast_ind_sm, forecast_ns_sm, forecast_start, forecast_end, plot_errors=False, save_errors=True)
-    runrate_model_without_trend.validate(forecast_fin_rn, forecast_ind_rn, forecast_ns_rn, forecast_start, forecast_end, plot_errors=False, save_errors=True)
-    runrate_model_with_trend.validate(forecast_fin_rt, forecast_ind_rt, forecast_ns_rt, forecast_start, forecast_end, plot_errors=False, save_errors=True)
-    multicaptive_model.validate(forecast_fin_mc, forecast_ind_mc, forecast_ns_mc, forecast_start, forecast_end, plot_errors=False, save_errors=True)
-    multicaptive_model_normalized.validate(forecast_fin_mn, forecast_ind_mn, forecast_ns_mn, forecast_start, forecast_end, plot_errors=False, save_errors=True)
+    sarimax_model.validate(forecast_fin_sm, forecast_ind_sm, forecast_ns_sm, forecast_start, forecast_end, save_errors=True)
+    runrate_model_without_trend.validate(forecast_fin_rn, forecast_ind_rn, forecast_ns_rn, forecast_start, forecast_end, save_errors=True)
+    runrate_model_with_trend.validate(forecast_fin_rt, forecast_ind_rt, forecast_ns_rt, forecast_start, forecast_end, save_errors=True)
+    multicaptive_model.validate(forecast_fin_mc, forecast_ind_mc, forecast_ns_mc, forecast_start, forecast_end, save_errors=True)
+    multicaptive_model_normalized.validate(forecast_fin_mn, forecast_ind_mn, forecast_ns_mn, forecast_start, forecast_end, save_errors=True)
 
 # Rolling validation
 # To remove risk of any interference, always create a new model instance for each round even if the same instance with re-training should work
 def model_comparison_rolling_validation():
 
     rolling_validation_periods = [
-        ['2024-03-31', '2024-04-01', '2024-04-30'],
-        ['2024-04-30', '2024-05-01', '2024-05-31'],
-        ['2024-05-31', '2024-06-01', '2024-06-30'],
-        ['2024-06-30', '2024-07-01', '2024-07-31'],
-        ['2024-07-31', '2024-08-01', '2024-08-31'],
-        ['2024-08-31', '2024-09-01', '2024-09-30']        
+        ['2024-10-31', '2024-11-01', '2024-11-30'],
+        ['2024-11-30', '2024-12-01', '2024-12-31']        
     ]
 
     # Loop through the rolling validation periods and collect results
@@ -83,11 +79,11 @@ def model_comparison_rolling_validation():
         forecast_fin_mc, forecast_ind_mc, forecast_ns_mc, forecast_total_mc = multicaptive_model.forecast(forecast_start, forecast_end) 
         forecast_fin_mn, forecast_ind_mn, forecast_ns_mn, forecast_total_mn = multicaptive_model_normalized.forecast(forecast_start, forecast_end) 
 
-        results_sm = sarimax_model.validate(forecast_fin_sm, forecast_ind_sm, forecast_ns_sm, forecast_start, forecast_end, plot_errors=False, save_errors=False)
-        results_rn = runrate_model_without_trend.validate(forecast_fin_rn, forecast_ind_rn, forecast_ns_rn, forecast_start, forecast_end, plot_errors=False, save_errors=False)
-        results_rt = runrate_model_with_trend.validate(forecast_fin_rt, forecast_ind_rt, forecast_ns_rt, forecast_start, forecast_end, plot_errors=False, save_errors=False)  
-        results_mc = multicaptive_model.validate(forecast_fin_mc, forecast_ind_mc, forecast_ns_mc, forecast_start, forecast_end, plot_errors=False, save_errors=False)
-        results_mn = multicaptive_model_normalized.validate(forecast_fin_mn, forecast_ind_mn, forecast_ns_mn, forecast_start, forecast_end, plot_errors=False, save_errors=False)         
+        results_sm = sarimax_model.validate(forecast_fin_sm, forecast_ind_sm, forecast_ns_sm, forecast_start, forecast_end, save_errors=False)
+        results_rn = runrate_model_without_trend.validate(forecast_fin_rn, forecast_ind_rn, forecast_ns_rn, forecast_start, forecast_end, save_errors=False)
+        results_rt = runrate_model_with_trend.validate(forecast_fin_rt, forecast_ind_rt, forecast_ns_rt, forecast_start, forecast_end, save_errors=False)  
+        results_mc = multicaptive_model.validate(forecast_fin_mc, forecast_ind_mc, forecast_ns_mc, forecast_start, forecast_end, save_errors=False)
+        results_mn = multicaptive_model_normalized.validate(forecast_fin_mn, forecast_ind_mn, forecast_ns_mn, forecast_start, forecast_end, save_errors=False)         
 
         results.append([results_sm, results_rn, results_rt, results_mc, results_mn])
 
@@ -223,6 +219,6 @@ def forecast_12_months():
 
     print(f"12-month forecast saved to {csv_file_path}")
 
-#model_comparison_rolling_validation()
+model_comparison_rolling_validation()
 #model_comparison()
-forecast_12_months()
+#forecast_12_months()

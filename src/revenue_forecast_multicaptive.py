@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import statsmodels.api as sm
-from modelling.forecast_utils import ForecastUtils
+from forecast_utils import ForecastUtils
 from statsmodels.tsa.seasonal import seasonal_decompose
 from scipy.stats import linregress
 
