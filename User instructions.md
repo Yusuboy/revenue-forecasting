@@ -35,5 +35,5 @@
 -   Add correction terms.
 -   Add additional revenue components.
 -   Always click the *Calculate Totals* button to calculate effect of adjustment. The totals are not updated automatically.
--   Remember to save the changes (Save Changes button) if you want to make the adjustments available in the next run.
+-   Remember to save the inputs (*Save Changes* button) if you want to make the adjustments available in the next run.
 -   The forecast can be exported in CSV format to be used further in Excel.
