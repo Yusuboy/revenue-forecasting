@@ -503,7 +503,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Fetch the saved values from the server
             fetch('/load_saved_values')
                 .then(response => response.json())
                 .then(data => {
@@ -512,24 +511,43 @@
                         return;
                     }
 
-                    // Populate the table cells with the saved values
+                    // Get the current month and adjust for 13 months
+                    const now = new Date();
+                    const currentMonth = now.getMonth(); // 0 = Jan, 1 = Feb, etc.
+                    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+                    // Generate the 13-month sequence
+                    const monthSequence = [];
+                    for (let i = 0; i < 13; i++) {
+                        monthSequence.push(monthNames[(currentMonth + i) % 12]);
+                    }
+                    console.log(monthSequence); // Log the array of 13 months to check
+
+
+                    // Map saved values to the correct cells
                     for (const [key, value] of Object.entries(data)) {
-                        // Extract month name and cell ID from the key (e.g., "Dec: r-fin-1")
-                        const [month, id] = key.split(':');
+                        const [savedMonth, cellId] = key.split(':').map(str => str.trim());
 
-                        // Find the correct cell using the ID
-                        const cell = document.getElementById(id.trim());
+                        // Find the index of the saved month in the current sequence
+                        const expectedColumnIndex = monthSequence.indexOf(savedMonth);
 
-                        // If the cell exists, update its value
-                        if (cell) {
-                            cell.textContent = value;
+                        if (expectedColumnIndex !== -1) {
+                            // Get the actual cell ID in the current table
+                            const actualCellId = cellId.trim();
+
+                            // Update the cell content if it exists
+                            const cell = document.getElementById(actualCellId);
+                            if (cell) {
+                                cell.textContent = value;
+                            }
+                            console.log(`Generated actualCellId: ${actualCellId}`);
+
                         }
                     }
                 })
-                .catch(error => {
-                    console.error('Error loading saved values:', error);
-                });
+                .catch(error => console.error('Error loading saved values:', error));
         });
+
 
         function saveChanges() {
             const monthHeaders = JSON.parse('{{ month_headers | tojson }}');  // Pass the month headers from the backend
