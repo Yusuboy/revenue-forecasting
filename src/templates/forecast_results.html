@@ -110,6 +110,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <h2 style="text-align: center;">12 Month Forecast</h2>
@@ -163,7 +164,7 @@
             <td class="highlighted" data-loc="fin" data-fc="m" data-month="10" id="fin-m-10">{{forecast_fin_mp[9]}}</td>
             <td class="highlighted" data-loc="fin" data-fc="m" data-month="11" id="fin-m-11">{{forecast_fin_mp[10]}}</td>
             <td class="highlighted" data-loc="fin" data-fc="m" data-month="12" id="fin-m-12">{{forecast_fin_mp[11]}}</td>
-            <td class="highlighted" data-loc="fin" data-fc="m" data-month="13" id="fin-m-13">{{forecast_fin_mp[12]}}</td>
+            <td class="highlighted" data-loc="fin" data-fc="m" data-month="13" id="fin-m-13">{{forecast_fin_mp[12]}}</td>      
         </tr>
 
         <!-- Finland runrate -->
@@ -549,8 +550,6 @@
                 .catch(error => console.error('Error loading saved values:', error));
         });
 
-
-
         document.addEventListener('DOMContentLoaded', () => {
             fetch('/load_dynamic_rows')
                 .then(response => response.json())
@@ -599,16 +598,6 @@
                 .catch(error => console.error('Error loading dynamic rows:', error));
         });
 
-
-
-
-
-
-
-
-
-
-
         function saveChanges() {
             const monthHeaders = JSON.parse('{{ month_headers | tojson }}');  // Pass the month headers from the backend
             const modifiedCells = {};
@@ -655,10 +644,8 @@
                 alert('Error occurred while saving changes.');
             });
 
-            saveDynamicRows()
-            
+            saveDynamicRows()            
         }
-
 
 
         function saveDynamicRows() {
@@ -693,9 +680,6 @@
                 alert('Error occurred while saving dynamic rows.');
             });
         }
-
-
-
 
 
         function addRevenueRow() {
@@ -940,35 +924,38 @@
 
             // Insert the new row before the total row
             tableBody.insertBefore(newRow, totalRow);
+        }
+
         function exportToCSV() {
-            // Collect all table data
-            const table = document.getElementById('forecast-table'); // Assuming your table has this ID
+            const table = document.getElementById("forecast-table");
             let csvContent = "";
 
             // Iterate through rows to build the CSV content
-            Array.from(table.rows).forEach(row => {
-                const rowData = Array.from(row.cells)
-                    .map(cell => cell.textContent.trim()) // Get cell text
-                    .join(','); // Join cells with commas
-                csvContent += rowData + "\n"; // Add row to CSV content
+            Array.from(table.rows).forEach((row, rowIndex) => {
+                let rowData = Array.from(row.cells).map(cell => cell.textContent.trim());
+
+                if (rowIndex > 14) {
+                    // Keep the first column as is, add 3 empty columns, then append the rest of the data
+                    rowData = [rowData[0], "", ""].concat(rowData.slice(1));
+                }
+
+                csvContent += rowData.join(",") + "\n"; // Add row to CSV content
             });
 
             // Create a blob for the CSV file
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
             const url = URL.createObjectURL(blob);
 
             // Create a temporary link element for download
-            const link = document.createElement('a');
-            link.setAttribute('href', url);
-            link.setAttribute('download', 'forecast_export.csv'); // File name for download
-            link.style.visibility = 'hidden';
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", "forecast_export.csv"); // File name for download
+            link.style.visibility = "hidden";
             document.body.appendChild(link);
 
             // Trigger the download
             link.click();
             document.body.removeChild(link); // Clean up the link element
-        }
-
         }
     </script>
 
