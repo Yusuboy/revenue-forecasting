@@ -55,13 +55,15 @@ Open installation_windows.md file from root folder and follow instructions
 
 ## If you want to use virtual environment follow instructions below:
 
+1. Create a new directory for your project in a location with a short path (e.g., C:\Projects\forecastProject)
+2. Download zip file for the code and extract it to your project file on your computer
 
-###
+### 
+
 Instructions to create virtual environment:
 
-1. Create a new directory for your project in a location with a short path (e.g., C:\Projects\forecastProject)
-2. Open a terminal or command prompt and navigate to your new project directory: cd C:\Projects\forecastProject
-3. Create a virtual environment using venv (recommended): This creates a folder named .venv inside your project directory
+1. Open a terminal or command prompt and navigate to your new project directory: cd C:\Projects\forecastProject
+2. Create a virtual environment using venv (recommended): This creates a folder named .venv inside your project directory
 ```   
 python -m venv .venv
 ```
