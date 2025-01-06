@@ -56,25 +56,26 @@ Open installation_windows.md file from root folder and follow instructions
 ## If you want to use virtual environment follow instructions below:
 
 1. Create a new directory for your project in a location with a short path (e.g., C:\Projects\forecastProject)
-2. Download zip file for the code and extract it to your project file on your computer
+2. Download zip file for the code and extract it to your project folder on your computer
 
 ### Instructions to create virtual environment:
 
 1. Open a terminal or command prompt and navigate to your new project directory: cd C:\Projects\forecastProject
-2. Create a virtual environment using venv (recommended): This creates a folder named .venv inside your project directory
+2. Navigate to master folder: cd C:\Projects\forecastProject\revenue-forecasting-master
+3. Create a virtual environment using venv (recommended): This creates a folder named <your_virtual_env> inside your project directory
 ```   
-python -m venv .venv
+python -m venv <your_virtual_env>
 ```
 
 ### Instructions to install requirements:
 
-1. Activate the virtual environment (from your project folder where .venv is located):
+1. Activate the virtual environment (from your project folder where folder named <your_virtual_env> is located):
 
 ```
-venv\Scripts\activate
+<your_virtual_env>\Scripts\activate
 ```
 
-2. Install dependencies (navigate to folder where requirements.txt is located):
+2. Install dependencies (navigate to folder where requirements.txt is located). This will take few minutes most likely:
 
 ```
 pip install -r requirements.txt
@@ -85,10 +86,10 @@ Keeps your global Python installation clean and prevents dependency conflicts.
 
 ### Running app with venv and installed requirements:
 
-1. Navigate to your project folder where .venv is 
+1. Navigate to your project folder where folder named <your_virtual_env> is located
 2. Activate your virtual environment
 ```
-   .venv\Scripts\activate
+   <your_virtual_env>\Scripts\activate
 ```
 3. Navigate to your project folder where app.py is located (src folder) and run following command
 
