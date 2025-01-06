@@ -58,9 +58,7 @@ Open installation_windows.md file from root folder and follow instructions
 1. Create a new directory for your project in a location with a short path (e.g., C:\Projects\forecastProject)
 2. Download zip file for the code and extract it to your project file on your computer
 
-### 
-
-Instructions to create virtual environment:
+### Instructions to create virtual environment:
 
 1. Open a terminal or command prompt and navigate to your new project directory: cd C:\Projects\forecastProject
 2. Create a virtual environment using venv (recommended): This creates a folder named .venv inside your project directory
@@ -68,8 +66,7 @@ Instructions to create virtual environment:
 python -m venv .venv
 ```
 
-###
-Instructions to install requirements:
+### Instructions to install requirements:
 
 1. Activate the virtual environment (from your project folder where .venv is located):
 
@@ -86,8 +83,7 @@ pip install -r requirements.txt
 Benefits:
 Keeps your global Python installation clean and prevents dependency conflicts.
 
-###
-Running app with venv and installed requirements:
+### Running app with venv and installed requirements:
 
 1. Navigate to your project folder where .venv is 
 2. Activate your virtual environment
