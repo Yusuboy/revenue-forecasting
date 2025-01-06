@@ -499,6 +499,7 @@
         <button onclick="addRevenueRow2()">Add Revenue Row</button>
         <button onclick="exportToCSV()">Export to CSV (Excel)</button>
         <button onclick="saveChanges()">Save Changes</button>
+
     </div>
 
     <script>
@@ -549,6 +550,65 @@
         });
 
 
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/load_dynamic_rows')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        console.error("No dynamic rows found:", data.message);
+                        return;
+                    }
+
+                    // Populate the dynamic rows
+                    data.dynamic_rows.forEach(row => {
+                        const newRow = document.createElement('tr');
+                        newRow.classList.add('removable-row');
+
+                        // Explanation cell
+                        const explanationCell = document.createElement('td');
+                        explanationCell.textContent = row.explanation;
+                        newRow.appendChild(explanationCell);
+
+                        // Add empty cells for columns 1 to 3
+                        for (let i = 0; i < 3; i++) {
+                            const emptyCell = document.createElement('td');
+                            emptyCell.classList.add('no-border'); // Add styling to match other empty cells
+                            emptyCell.innerHTML = '&nbsp;'; // Ensure these cells remain blank
+                            newRow.appendChild(emptyCell);
+                        }
+
+                        // Month values start from the fourth column
+                        row.months.forEach(month => {
+                            const monthCell = document.createElement('td');
+                            monthCell.textContent = month.value;
+                            monthCell.classList.add('new-rev-cell'); // Add common class for new revenue cells
+                            newRow.appendChild(monthCell);
+                        });
+
+                        // Remove button
+                        const removeButtonCell = document.createElement('td');
+                        removeButtonCell.innerHTML = `<button class="remove-btn" onclick="removeRow(this)">Remove</button>`;
+                        newRow.appendChild(removeButtonCell);
+
+                        // Insert into table
+                        const totalRow = document.getElementById('total-row');
+                        totalRow.parentNode.insertBefore(newRow, totalRow);
+                    });
+                })
+                .catch(error => console.error('Error loading dynamic rows:', error));
+        });
+
+
+
+
+
+
+
+
+
+
+
         function saveChanges() {
             const monthHeaders = JSON.parse('{{ month_headers | tojson }}');  // Pass the month headers from the backend
             const modifiedCells = {};
@@ -594,12 +654,45 @@
                 console.error('Error saving changes:', error);
                 alert('Error occurred while saving changes.');
             });
+
+            saveDynamicRows()
+            
         }
 
 
 
+        function saveDynamicRows() {
+            const dynamicRows = [];
 
+            // Collect data for dynamic rows
+            document.querySelectorAll('.removable-row').forEach(row => {
+                const explanation = row.querySelector('td').textContent.trim();  // First cell (explanation)
+                const months = [];
 
+                // Collect month values dynamically
+                row.querySelectorAll('td.new-rev-cell').forEach(cell => {
+                    months.push(cell.textContent.trim());
+                });
+
+                dynamicRows.push({
+                    explanation: explanation,
+                    months: months,
+                });
+            });
+
+            // Send dynamic rows data to the server
+            fetch('/save_dynamic_rows', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dynamicRows),
+            })
+            .then(response => response.text())
+            .then(message => alert(message)) // Show server response (message)
+            .catch(error => {
+                console.error('Error saving dynamic rows:', error);
+                alert('Error occurred while saving dynamic rows.');
+            });
+        }
 
 
 

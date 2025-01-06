@@ -107,6 +107,73 @@ def load_saved_values():
         return {"message": str(e)}, 500
 
 
+@routes_bp.route('/save_dynamic_rows', methods=['POST'])
+def save_dynamic_rows():
+    try:
+        # Parse the JSON data from the request
+        data = request.get_json()
+
+        # Verify data is received correctly
+        if not data:
+            logging.error("No data received in the request")
+            return "No data provided", 400
+
+        # Generate a unique filename for dynamic rows
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = f"dynamic_rows_{timestamp}.csv"
+        save_path = os.path.join(UPLOAD_FOLDER, filename)
+
+        # Save the dynamic row data to a CSV file
+        with open(save_path, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['Explanation', 'Month', 'Value'])  # Write header
+
+            # Iterate over rows
+            for row in data:
+                explanation = row.get('explanation')
+                months = row.get('months', [])  # Expect months as a list
+                for i, value in enumerate(months):
+                    writer.writerow([explanation, f"Month {i + 1}", value])
+
+        logging.info(f"Dynamic rows saved to {filename}")
+        return f"Dynamic rows saved successfully! File: {filename}", 200
+    except Exception as e:
+        logging.error(f"Error saving dynamic rows: {e}")
+        return str(e), 500
+
+
+
+@routes_bp.route('/load_dynamic_rows', methods=['GET'])
+def load_dynamic_rows():
+    try:
+        # Find the most recent file
+        csv_files = glob.glob(os.path.join(UPLOAD_FOLDER, 'dynamic_rows_*.csv'))
+        if not csv_files:
+            return {"message": "No dynamic rows found"}, 404
+
+        csv_files.sort(key=os.path.getmtime, reverse=True)
+        latest_file = csv_files[0]
+
+        dynamic_rows = {}
+        with open(latest_file, 'r') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                explanation = row['Explanation']
+                month = row['Month']
+                value = row['Value']
+
+                if explanation not in dynamic_rows:
+                    dynamic_rows[explanation] = []
+                dynamic_rows[explanation].append({'month': month, 'value': value})
+
+        # Format response for the frontend
+        response = [{'explanation': explanation, 'months': rows} for explanation, rows in dynamic_rows.items()]
+        return {'dynamic_rows': response}, 200
+    except Exception as e:
+        logging.error(f"Error loading dynamic rows: {e}")
+        return {"message": str(e)}, 500
+
+
 
 
 @routes_bp.route('/preprocess')
