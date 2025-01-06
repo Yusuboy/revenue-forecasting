@@ -3,142 +3,192 @@
 {% block title %}Preprocessing{% endblock %}
 
 {% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 15px;
-            background-color: #212529; /* Dark background for the body */
-            color: #ffffff; /* Light text color */
-        }
-
-        .tab-container {
-            display: flex;
-            border-bottom: 2px solid #444;
-            padding: 0;
-            margin: 0;
-            list-style-type: none;
-        }
-
-        .tab-container li {
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
+            background: linear-gradient(135deg, #1e1e1e, #333333);
+            color: #f0f0f0;
+            box-sizing: border-box;
         }
 
-        .tab-container a {
-            display: block;
-            padding: 10px 20px;
-            text-decoration: none;
-            color: #ffffff; /* Light text for the dark background */
-            border: 1px solid #444;
-            border-bottom: none;
-            background-color: #2c2c2c; /* Darker background for inactive tabs */
-            font-family: Arial, sans-serif;
+        .hero {
+            background: url('path_to_your_hero_image.jpg') no-repeat center center;
+            background-size: cover;
+            padding: 40px 20px;
+            text-align: center;
+            color: #fff;
         }
 
-        .tab-container a:hover {
-            background-color: #333; /* Slightly lighter dark background for hover */
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #66ccff;
         }
 
-        .tab-container a.active {
-            background-color: #444; /* Slightly lighter active tab */
-            font-weight: bold;
-            color: #ffffff; /* Keep active tab text light */
-            border-bottom: 2px solid #212529; /* Blend active tab into body background */
+        .hero p {
+            font-size: 1rem;
+            color: #e0e0e0;
         }
 
-        .buttons-container {
+        .container {
+            max-width: 1000px;
+            margin: 0px auto;
+            padding: 20px;
+        }
+
+        .flow-image {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .flow-image img.scaled {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #66ccff;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: #99ccff;
             margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #ccc;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        ul ul {
+            margin-left: 20px;
+            color: #aaa;
+        }
+
+        code {
+            background-color: #2c2c2c;
+            color: #66ccff;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            h3 {
+                font-size: 1.4rem;
+            }
+        }
+        .footer {
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            padding: 10px 0;
+             /* Dark background to match the overall theme */
+            color: #aaa;
             text-align: center;
         }
 
-        .buttons-container button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            background-color: #007bff; /* Bootstrap primary color */
-            color: #ffffff; /* Light text color */
-            transition: background-color 0.3s ease; /* Smooth transition for hover */
-        }
-
-        .buttons-container button:hover {
-            background-color: #0056b3; /* Darker shade on hover */
-        }
-        img.scaled {
-            width: 80%;
-            height: auto;
-        }
     </style>
 </head>
 <body>
 
-    <div>
+    <div class="hero">
         <h1>Welcome to AI Assisted Revenue Forecasting</h1>
-        <p>
-            <strong>- a maching learning based tool for revenue forecasting in FPB Finance / OP.</strong>
-        </p>
-        <p>
-            <img class ="scaled" src="{{ url_for('static', filename='flow.jpg') }}" />
-        </p>        
-        <div class="instructions">
-            <h2>Instructions</h2>
-            <h3>0. Prerequisites</h3>
-            <ul>
-                <li>Revenue forecasting application installed. See instructions for Windows installation in GitHub.</li>
-                <li>Revenue data exported from finance system. For support, please contact Joonas Rosi.</li>
-                <li>Revenue data needs to be in CSV format. In case it is in Excel format, save a version in CSV format.</li>
-                <li>The timestamp format is strict: <i>dd/mm/yyyy HH:MM</i>.<br>
-                    <em>Note:</em> When using Excel for conversion, extra cautiousness with timestamps is needed.
-                </li>
-                <li>Up-to-date calendar file available for the application. Calendar file includes number of monthly working days per location and historical rate raise percentages.</li>
-            </ul>
-        
-            <h3>1. Upload Data</h3>
-            <ul>
-                <li>Copy data to a directory where you want to store it. The directory needs to be available for the application through the web UI.</li>
-            </ul>
-        
-            <h3>2. Start Application</h3>
-            <ul>
-                <li>Change to the <code>src</code> sub-directory: <code>cd &lt;application root&gt;/src</code>. Application root is the directory where you have installed the application.</li>
-                <li>Run command: <code>flask --app app run</code>.</li>
-                <li>If successful, you should see a message: <code>Running on http://127.0.0.1:5000</code>.</li>
-                <li>Open a web browser and navigate to: <code>http://127.0.0.1:5000</code>. You should see the home page with three tabs: <strong>Home, Preprocessing,</strong> and <strong>Forecast</strong>.</li>
-            </ul>
-        
-            <h3>3. Preprocess Data</h3>
-            <ul>
-                <li>Browse to the <strong>Preprocess</strong> tab.</li>
-                <li>Select the revenue data file with the file picker.</li>
-                <li>Select the calendar file with the file picker.</li>
-                <li>Click the <strong>Process Data</strong> button.</li>
-                <li>The preprocessed data file <code>data.csv</code> is available in the directory where the application was run.</li>
-                <li>
-                    In case there are some incomplete data for the ongoing month in the revenue file, the result data for that month needs to be removed from <strong>data.csv</strong> manually.<br>
-                    <em>Example:</em> If the export is done in early January 2025 and there is already some January 2025 revenue data in the export, January 2025 cells in columns <strong>Revenue*</strong> need to be removed.
-                </li>
-            </ul>
-        
-            <h3>4. Forecast</h3>
-            <ul>
-                <li>Browse to the <strong>Forecast</strong> tab.</li>
-                <li>Choose the used model per month from pre-calculated values.</li>
-                <li>Add correction terms.</li>
-                <li>Add additional revenue components.</li>
-                <li>Always click the <strong>Calculate Totals</strong> button to calculate the effect of adjustments. The totals are not updated automatically.</li>
-                <li>Remember to save the inputs (<strong>Save Changes</strong> button) if you want to make the adjustments available in the next run.</li>
-                <li>The forecast can be exported in CSV format to be used further in Excel.</li>
-            </ul>
-        </div>
-        
+        <p>Your tool for machine learning-based revenue forecasting in FPB Finance / OP</p>
     </div>
+
+    <div class="container">
+        <div class="flow-image">
+            <img class="scaled" src="{{ url_for('static', filename='flow.jpg') }}" alt="Process Flow Diagram">
+        </div>
+
+        <h2>Instructions</h2>
+        
+
+        <h3>0. Prerequisites</h3>
+        <ul>
+            <li>Install the revenue forecasting application (see GitHub for Windows instructions).</li>
+            <li>Export revenue data from the finance system. For support, contact Joonas Rosi.</li>
+            <li>Ensure data is in CSV format. If using Excel, save it as a CSV file.</li>
+            <li>Timestamps must follow <code>dd/mm/yyyy HH:MM</code> format. Be cautious when using Excel.</li>
+            <li>Ensure the calendar file is up-to-date. It should include:</li>
+            <ul>
+                <li>Monthly working days per location</li>
+                <li>Historical rate raise percentages</li>
+            </ul>
+        </ul>
+
+        <h3>1. Upload Data</h3>
+        <ul>
+            <li>Copy data to an accessible directory for the web UI.</li>
+        </ul>
+
+        <h3>2. Start Application</h3>
+        <ul>
+            <li>Navigate to <code>src</code>: <code>cd &lt;application root&gt;/src</code>.</li>
+            <li>Run: <code>flask --app app run</code>.</li>
+            <li>Open <code>http://127.0.0.1:5000</code> in your browser. You should see the tabs: Home, Preprocessing, and Forecast.</li>
+        </ul>
+
+        <h3>3. Preprocess Data</h3>
+        <ul>
+            <li>Go to the <strong>Preprocess</strong> tab.</li>
+            <li>Select the revenue data and calendar files.</li>
+            <li>Click <strong>Process Data</strong>.</li>
+            <li>Locate the output file <code>data.csv</code> in your run directory.</li>
+            <li>Manually remove incomplete monthly data if necessary (e.g., partial January 2025 revenue).</li>
+        </ul>
+
+        <h3>4. Forecast</h3>
+        <ul>
+            <li>Go to the <strong>Forecast</strong> tab.</li>
+            <li>Select models, add corrections, and additional revenue components.</li>
+            <li>Click <strong>Calculate Totals</strong> to update adjustments.</li>
+            <li>Click <strong>Save Changes</strong> to preserve inputs for future runs.</li>
+            <li>Export the forecast as a CSV file for Excel.</li>
+        </ul>
+    </div>
+    <div>
+        <footer class="footer text-center mt-4">
+            <p class="text-muted">© 2024 Revenue Forecasting Application</p>
+        </footer>
+    </div>
+
 </body>
 </html>
+
 {% endblock %}
