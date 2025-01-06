@@ -32,6 +32,52 @@
 
 ![img5](https://github.com/Yusuboy/revenue-forecasting/blob/master/inst_win_img6.jpg)
 
+## If you want to use virtual environment follow instructions below:
+
+1. Create a new directory for your project in a location with a short path (e.g., C:\Projects\forecastProject)
+2. Download zip file for the code and extract it to your project folder on your computer
+
+### Instructions to create virtual environment:
+
+1. Open a terminal or command prompt and navigate to your new project directory: cd C:\Projects\forecastProject
+2. Navigate to master folder: cd C:\Projects\forecastProject\revenue-forecasting-master
+3. Create a virtual environment using venv (recommended): This creates a folder named <your_virtual_env> inside your project directory
+```   
+python -m venv <your_virtual_env>
+```
+
+### Instructions to install requirements:
+
+1. Activate the virtual environment (from your project folder where folder named <your_virtual_env> is located):
+
+```
+<your_virtual_env>\Scripts\activate
+```
+
+2. Install dependencies (navigate to folder where requirements.txt is located). This will take few minutes most likely:
+
+```
+pip install -r requirements.txt
+```
+
+Benefits:
+Keeps your global Python installation clean and prevents dependency conflicts.
+
+### Running app with venv and installed requirements:
+
+1. Navigate to your project folder where folder named <your_virtual_env> is located
+2. Activate your virtual environment
+```
+   <your_virtual_env>\Scripts\activate
+```
+3. Navigate to your project folder where app.py is located (src folder) and run following command
+
+```
+flask --app app run
+```
+4. Open http-link that you see in command prompt
+
+
 # Run code
 
 -   Change to the *src* sub-directory: *cd src*
