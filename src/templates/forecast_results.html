@@ -499,7 +499,8 @@
         <button onclick="calculateTotals()">Calculate Totals</button>
         <button onclick="addRevenueRow2()">Add Revenue Row</button>
         <button onclick="exportToCSV()">Export to CSV (Excel)</button>
-        <button onclick="saveChanges()">Save Changes</button>
+        <button onclick="saveChangesToCSV()">Save Adjustments</button>
+        <button onclick="loadFromCSV()">Load Adjustments</button>
 
     </div>
 
@@ -598,6 +599,39 @@
                 .catch(error => console.error('Error loading dynamic rows:', error));
         });
 
+        function saveDynamicRows() {
+            const dynamicRows = [];
+
+            // Collect data for dynamic rows
+            document.querySelectorAll('.removable-row').forEach(row => {
+                const explanation = row.querySelector('td').textContent.trim();  // First cell (explanation)
+                const months = [];
+
+                // Collect month values dynamically
+                row.querySelectorAll('td.new-rev-cell').forEach(cell => {
+                    months.push(cell.textContent.trim());
+                });
+
+                dynamicRows.push({
+                    explanation: explanation,
+                    months: months,
+                });
+            });
+
+            // Send dynamic rows data to the server
+            fetch('/save_dynamic_rows', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dynamicRows),
+            })
+            .then(response => response.text())
+            .then(message => alert(message)) // Show server response (message)
+            .catch(error => {
+                console.error('Error saving dynamic rows:', error);
+                alert('Error occurred while saving dynamic rows.');
+            });
+        }
+
         function saveChanges() {
             const monthHeaders = JSON.parse('{{ month_headers | tojson }}');  // Pass the month headers from the backend
             const modifiedCells = {};
@@ -646,41 +680,6 @@
 
             saveDynamicRows()            
         }
-
-
-        function saveDynamicRows() {
-            const dynamicRows = [];
-
-            // Collect data for dynamic rows
-            document.querySelectorAll('.removable-row').forEach(row => {
-                const explanation = row.querySelector('td').textContent.trim();  // First cell (explanation)
-                const months = [];
-
-                // Collect month values dynamically
-                row.querySelectorAll('td.new-rev-cell').forEach(cell => {
-                    months.push(cell.textContent.trim());
-                });
-
-                dynamicRows.push({
-                    explanation: explanation,
-                    months: months,
-                });
-            });
-
-            // Send dynamic rows data to the server
-            fetch('/save_dynamic_rows', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dynamicRows),
-            })
-            .then(response => response.text())
-            .then(message => alert(message)) // Show server response (message)
-            .catch(error => {
-                console.error('Error saving dynamic rows:', error);
-                alert('Error occurred while saving dynamic rows.');
-            });
-        }
-
 
         function addRevenueRow() {
             const totalRow = document.getElementById('total-row');  // Find the total row by its ID
@@ -957,6 +956,181 @@
             link.click();
             document.body.removeChild(link); // Clean up the link element
         }
+
+        async function saveChangesToCSV() {
+            const csvRows = []; // Array to hold CSV rows
+
+            // Add the save date as the first row
+            const saveDate = new Date().toISOString(); // Save date in ISO format
+            csvRows.push(`Save Date,${saveDate}`);
+
+            // Collect permanent rows based on their IDs
+            document.querySelectorAll('td[id]').forEach(cell => {
+                const id = cell.id;
+
+                if (
+                    id.startsWith('r-fin-') || // Raise FIN %
+                    id.startsWith('r-ind-') || // Raise IND %
+                    id.startsWith('r-ns-') ||  // Raise NS %
+                    id.startsWith('sl-') ||    // Sick Leaves
+                    id.startsWith('ff-') ||    // Fixed Fee
+                    id.startsWith('ss-') ||    // Sanctions
+                    id.startsWith('pc-') ||    // Personnel Changes
+                    id.startsWith('tc-')       // Travel Costs
+                ) {
+                    const value = cell.textContent.trim();
+                    csvRows.push(`${id},${value}`); // Save key-value pair
+                }
+            });
+
+            // Collect dynamic rows
+            document.querySelectorAll('.removable-row').forEach(row => {
+                const rowHeader = row.querySelector('td:first-child').textContent.trim(); // Header in column 0
+                const dynamicCells = row.querySelectorAll('td.new-rev-cell'); // Dynamic data cells
+
+                dynamicCells.forEach((cell, index) => {
+                    const monthIndex = index + 1; // Month index aligns with permanent rows
+                    const key = `dynamic-${rowHeader}-${monthIndex}`; // Construct key
+                    const value = cell.textContent.trim(); // Cell value
+                    csvRows.push(`${key},${value}`); // Append to CSV
+                });
+            });
+
+            const csvContent = csvRows.join('\n'); // Combine rows into CSV
+
+            // Save to file using File System Access API
+            try {
+                const fileHandle = await window.showSaveFilePicker({
+                    suggestedName: 'forecast_data.csv',
+                    types: [
+                        {
+                            description: 'CSV File',
+                            accept: { 'text/csv': ['.csv'] },
+                        },
+                    ],
+                });
+
+                const writableStream = await fileHandle.createWritable();
+                await writableStream.write(csvContent);
+                await writableStream.close();
+
+                alert('File saved successfully!');
+            } catch (error) {
+                console.error('Error saving file:', error);
+                alert('Error occurred while saving the file.');
+            }
+        }
+
+        async function loadFromCSV() {
+            try {
+                // Open file picker to select the CSV file
+                const [fileHandle] = await window.showOpenFilePicker({
+                    types: [
+                        {
+                            description: 'CSV File',
+                            accept: { 'text/csv': ['.csv'] },
+                        },
+                    ],
+                });
+
+                const file = await fileHandle.getFile();
+                const content = await file.text(); // Read file content as text
+
+                // Parse the CSV content
+                const rows = content.split('\n').map(row => row.split(',').map(cell => cell.trim()));
+                const saveDateRow = rows.shift(); // Extract the save date (first row)
+                const saveDate = new Date(saveDateRow[1]); // Parse the save date
+                if (isNaN(saveDate)) {
+                    alert('Invalid save date format in the file.');
+                    return;
+                }
+
+                // Calculate the column shift
+                const currentDate = new Date();
+                const saveMonth = saveDate.getMonth(); // 0 = January
+                const currentMonth = currentDate.getMonth(); // 0 = January
+                const columnShift = (currentMonth - saveMonth + 12) % 12; // Handle wrapping around the year
+
+                // Process permanent rows
+                rows.forEach(([key, value]) => {
+                    if (!key.startsWith('dynamic-')) { // Only process permanent rows
+                        const match = key.match(/(\d+)$/); // Extract the month index (e.g., *-*-1 -> 1)
+                        if (match) {
+                            const savedMonthIndex = parseInt(match[1], 10); // Month index from saved data
+                            const targetMonthIndex = ((savedMonthIndex - 1 + columnShift) % 13) + 1; // Correct wrapping for 13 months
+                            const targetId = key.replace(/-\d+$/, `-${targetMonthIndex}`); // Update the ID with the new month index
+                            const targetCell = document.getElementById(targetId); // Find the cell by ID
+                            if (targetCell) {
+                                targetCell.textContent = value; // Update the cell content
+                            }
+                        }
+                    }
+                });
+
+                // Process dynamic rows
+                rows.forEach(([key, value]) => {
+                    if (key.startsWith('dynamic-')) { // Only process dynamic rows
+                        const match = key.match(/dynamic-(.*)-(\d+)$/); // Extract the row header and month index
+                        if (match) {
+                            const rowHeader = match[1]; // Extract the row header
+                            const savedMonthIndex = parseInt(match[2], 10); // Month index from saved data
+                            const targetMonthIndex = ((savedMonthIndex - 1 + columnShift) % 13) + 1; // Correct wrapping for 13 months
+
+                            // Check if the row already exists
+                            let row = Array.from(document.querySelectorAll('.removable-row')).find(r => r.cells[0].textContent.trim() === rowHeader);
+
+                            // If the row doesn't exist, create it
+                            if (!row) {
+                                row = document.createElement('tr');
+                                row.classList.add('removable-row');
+
+                                // Add the explanation cell
+                                const explanationCell = document.createElement('td');
+                                explanationCell.textContent = rowHeader;
+                                row.appendChild(explanationCell);
+
+                                // Add three empty columns for history data
+                                for (let i = 0; i < 3; i++) {
+                                    const emptyCell = document.createElement('td');
+                                    emptyCell.classList.add('no-border');
+                                    emptyCell.innerHTML = '&nbsp;';
+                                    row.appendChild(emptyCell);
+                                }
+
+                                // Add 13 month columns
+                                for (let i = 1; i <= 13; i++) {
+                                    const cell = document.createElement('td');
+                                    cell.classList.add('new-rev-cell');
+                                    cell.setAttribute('data-month', i);
+                                    cell.textContent = '0'; // Initialize with default value
+                                    row.appendChild(cell);
+                                }
+
+                                // Add a remove button
+                                const removeButtonCell = document.createElement('td');
+                                removeButtonCell.innerHTML = `<button class="remove-btn" onclick="removeRow(this)">Remove</button>`;
+                                row.appendChild(removeButtonCell);
+
+                                // Insert the new row into the table before the total row
+                                const totalRow = document.getElementById('total-row');
+                                totalRow.parentNode.insertBefore(row, totalRow);
+                            }
+
+                            // Update the cell content for the specific month
+                            const targetCell = row.querySelector(`td.new-rev-cell[data-month="${targetMonthIndex}"]`);
+                            if (targetCell) {
+                                targetCell.textContent = value; // Update the cell content
+                            }
+                        }
+                    }
+                });
+
+                alert('Data loaded successfully!');
+            } catch (error) {
+                console.error('Error loading file:', error);
+                alert('Failed to load the file.');
+            }
+        }       
     </script>
 
 </body>
