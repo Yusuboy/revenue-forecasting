@@ -18,6 +18,8 @@
 -   If successful, you should see a message *Running on* [*http://127.0.0.1:5000*](http://127.0.0.1:5000)*.*
 -   Open a web browser in address [*http://127.0.0.1:5000*](http://127.0.0.1:5000). You should see the home page of the app with three tabs: *Home, Preprocessing and Forecast*.
 
+Note: If you are using virtual environment remember to activate it first (see installation_windows.md)
+
 # 3. Preprocess Data
 
 -   Browse to the *Preprocess* tab.
