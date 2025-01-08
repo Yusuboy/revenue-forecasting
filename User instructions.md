@@ -31,13 +31,21 @@ Note: If you are using virtual environment remember to activate it first (see in
     -   For example, if the export is done in early January 2025 and there is already some January 2025 revenue data in export, January 2025 cells in columns Revenue\* need to be removed.
 -    *data.csv* in src folder is used to train models when you select *Forecast* tab. It is adviced to copy this file to a separate folder (and rename it for example *data_0125.csv*) in case you want (or need) to inspect predictions from some specific month in more detail.
 
+Note: When you click *Process data* it will overwrite any existing *data.csv* in your src folder.
 
 # 4. Forecast
 
--   Browse to the *Forecast* tab.
--   Choose the used model per month from precalculated values.
--   Add correction terms.
--   Add additional revenue components.
--   Always click the *Calculate Totals* button to calculate effect of adjustment. The totals are not updated automatically.
--   Remember to save the inputs (*Save Changes* button) if you want to make the adjustments available in the next run.
--   The forecast can be exported in CSV format to be used further in Excel.
+## Time and Material forecast
+-   Browse to the *Forecast* tab. This will use *data.csv* to train models (Multiplicative and Run rate) and produces 12 month forecast per each model.
+-   On top you can see 12 month forecast per each model (Multiplicative and Run rate). Green cell indicates that this value will be used when calculating total forecast per month per location (at the bottom).
+
+## T&M Forecast adjustments
+-   You can add adjustments to forecast per month per location based on your better knowledge. Red indicates that a cell has been activated in order to manipulate its value.
+-   You can add additional revenue components from bottom by clicking *Add Revenue Row*. This will create a new row that will be used in calculating total revenue forecast.
+-   If you want to use same adjustments in the next run you can save modified adjustments and added revenue components by clicking *Save Changes* button.
+
+## Total Forecast
+
+-   *Calculate totals* gives you a final forecast that takes in consideration all adjustments and added revenue components.
+-   If you make adjustments to your forceast remenber to always click the *Calculate Totals* button. Totals are not updated automatically.
+-   The forecast can be exported in CSV format to be used further in Excel (see your usual download folder).
