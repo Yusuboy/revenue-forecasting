@@ -25,7 +25,7 @@ Note: If you are using virtual environment remember to activate it first (see in
 -   Browse to the *Preprocess* tab.
 -   Select the revenue data file with the file picker.
 -   Select the calendar file with the file picker.
--   Click the *Process Data* button.
+-   Click the *Process Data* button. This may take a while so be prepared to wait for few minutes.
 -   The preprocessed datafile *data.csv* is available in the directory where the application was run.
 -   In case there are some incomplete data for the ongoing month in the revenue file, the result data for that month needs to be removed from *data.csv* manually.
     -   For example, if the export is done in early January 2025 and there is already some January 2025 revenue data in export, January 2025 cells in columns Revenue\* need to be removed.
