@@ -29,6 +29,8 @@ Note: If you are using virtual environment remember to activate it first (see in
 -   The preprocessed datafile *data.csv* is available in the directory where the application was run.
 -   In case there are some incomplete data for the ongoing month in the revenue file, the result data for that month needs to be removed from *data.csv* manually.
     -   For example, if the export is done in early January 2025 and there is already some January 2025 revenue data in export, January 2025 cells in columns Revenue\* need to be removed.
+-    *data.csv* in src folder is used to train models when you select *Forecast* tab. It is adviced to copy this file to a separate folder (and rename it for example *data_0125.csv*) in case you want (or need) to inspect predictions from some specific month in more detail.
+
 
 # 4. Forecast
 
