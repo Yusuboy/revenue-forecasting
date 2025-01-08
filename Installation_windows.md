@@ -50,6 +50,9 @@ Note: If you want to use virtual environment, jump to section "Using virtual env
 
 # Using virtual environment
 
+Benefits for using virtual environment:
+Keeps your global Python installation clean and prevents dependency conflicts.
+
 ## Download code and define project folder:
 
 (In case you did this already you can skip this phase)
@@ -79,9 +82,6 @@ python -m venv <your_virtual_env>
 ```
 pip install -r requirements.txt
 ```
-
-Benefits for using virtual environment:
-Keeps your global Python installation clean and prevents dependency conflicts.
 
 ## Running app with virtual environment and installed requirements:
 
