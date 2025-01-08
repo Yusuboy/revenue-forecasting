@@ -13,7 +13,7 @@
 
 # 2. Start Application
 
--   Change to the src sub-directory: "cd <application root>\src". Application root is the directory where you have installed the application.*
+-   Change to the src sub-directory: cd <application root'>src. Application root is the directory where you have installed the application.*
 -   Run command *flask --app app run.*
 -   If successful, you should see a message *Running on* [*http://127.0.0.1:5000*](http://127.0.0.1:5000)*.*
 -   Open a web browser in address [*http://127.0.0.1:5000*](http://127.0.0.1:5000). You should see the home page of the app with three tabs: *Home, Preprocessing and Forecast*.
