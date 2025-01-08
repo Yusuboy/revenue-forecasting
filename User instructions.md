@@ -5,7 +5,7 @@
 -   Revenue data needs to be in CSV format. In case it is in Excel format, save a version in CSV format.
 -   The timestamp format is strict: dd/mm/yyyy HH:MM.
     -   When using Excel for conversion, extra cautiousness with timestamps is needed.
--   Up-to-date *calendar.csv* file available for the application. Calendar file includes number of monthly working days per location and historical rate raise percentages. You may find this file in src folder of this application (remember to update it as time goes on).
+-   Up-to-date *calendar.csv* file available for the application. Calendar file includes number of monthly working days per location and historical rate raise percentages. You may find this file in src folder of this application (remember to update *calendar.csv* as time goes on).
 
 # 1. Upload Data
 
@@ -35,7 +35,7 @@ Note: When you click *Process data* it will overwrite any existing *data.csv* in
 
 # 4. Forecast
 
-## Time and Material forecast
+## T&M Forecast
 -   Browse to the *Forecast* tab. This will use *data.csv* to train models (Multiplicative and Run rate) and produces 12 month forecast per each model.
 -   On top you can see 12 month forecast per each model (Multiplicative and Run rate). Green cell indicates that this value will be used when calculating total forecast per month per location (at the bottom).
 
