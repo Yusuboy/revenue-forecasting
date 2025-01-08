@@ -5,7 +5,7 @@
 -   Revenue data needs to be in CSV format. In case it is in Excel format, save a version in CSV format.
 -   The timestamp format is strict: dd/mm/yyyy HH:MM.
     -   When using Excel for conversion, extra cautiousness with timestamps is needed.
--   Up-to date calendar file available for the application. Calendar file includes number of monthly working days per location and historical rate raise percentages.
+-   Up-to-date *calendar.csv* file available for the application. Calendar file includes number of monthly working days per location and historical rate raise percentages. You may find this file in src folder of this application (remember to update it as time goes on).
 
 # 1. Upload Data
 
@@ -29,6 +29,9 @@ Note: If you are using virtual environment remember to activate it first (see in
 -   The preprocessed datafile *data.csv* is available in the directory where the application was run.
 -   In case there are some incomplete data for the ongoing month in the revenue file, the result data for that month needs to be removed from *data.csv* manually.
     -   For example, if the export is done in early January 2025 and there is already some January 2025 revenue data in export, January 2025 cells in columns Revenue\* need to be removed.
+
+**Important:** Incomplete data for the current month must be manually removed from data.csv. Failure to do so will lead to incorrect forecasts. For example, if exporting data in early January 2025, and the export contains some January 2025 revenue, you must remove those specific rows from data.csv. We are working on automating this step in the future.
+
 -    *data.csv* in src folder is used to train models when you select *Forecast* tab. It is adviced to copy this file to a separate folder (and rename it for example *data_0125.csv*) in case you want (or need) to inspect predictions from some specific month in more detail.
 
 Note: When you click *Process data* it will overwrite any existing *data.csv* in your src folder.
@@ -52,4 +55,4 @@ Note: If forecasts provided by both models differ significantly from each others
 -   If you make adjustments to your forceast remenber to always click the *Calculate Totals* button. Totals are not updated automatically.
 -   The forecast can be exported in CSV format to be used further in Excel (see your usual download folder).
 
-Note: Models provide only a baseline for total forecast based on revenue data exported from finance system. Person executing this forecast may add domain knolwdge outside that data through adjustmens mentioned above.
+Note: Models provide only a baseline for total forecast based on revenue data exported from finance system. Person executing this forecast may add domain knolwdge outside that data through adjustments mentioned above.
