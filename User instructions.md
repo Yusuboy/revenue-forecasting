@@ -27,11 +27,8 @@ Note: If you are using virtual environment remember to activate it first (see in
 -   Select the calendar file with the file picker.
 -   Click the *Process Data* button. Processing usually takes 2 to 10 minutes, depending on data size.
 -   The preprocessed datafile *data.csv* is available in the directory where the application was run.
--   In case there are some incomplete data for the ongoing month in the revenue file, the result data for that month needs to be removed from *data.csv* manually.
+-   **Important:** In case there are some incomplete data for the ongoing month in the revenue file, the result data for that month needs to be removed from *data.csv* manually.
     -   For example, if the export is done in early January 2025 and there is already some January 2025 revenue data in export, January 2025 cells in columns Revenue\* need to be removed.
-
-**Important:** Incomplete data for the current month must be manually removed from data.csv. Failure to do so will lead to incorrect forecasts. For example, if exporting data in early January 2025, and the export contains some January 2025 revenue, you must remove those specific rows from data.csv. We are working on automating this step in the future.
-
 -    *data.csv* in src folder is used to train models when you select *Forecast* tab. It is adviced to copy this file to a separate folder (and rename it for example *data_0125.csv*) in case you want (or need) to inspect predictions from some specific month in more detail.
 
 Note: When you click *Process data* it will overwrite any existing *data.csv* in your src folder.
