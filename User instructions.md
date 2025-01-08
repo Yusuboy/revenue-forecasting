@@ -39,6 +39,8 @@ Note: When you click *Process data* it will overwrite any existing *data.csv* in
 -   Browse to the *Forecast* tab. This will use *data.csv* to train models (Multiplicative and Run rate) and produces 12 month forecast per each model.
 -   On top you can see 12 month forecast per each model (Multiplicative and Run rate). Green cell indicates that this value will be used when calculating total forecast per month per location (at the bottom).
 
+Note: If forecasts provided by both models differ significantly from each others it may be wise to consider possible explanations for that.
+
 ## T&M Forecast adjustments
 -   You can add adjustments to forecast per month per location based on your better knowledge. Red indicates that a cell has been activated in order to manipulate its value.
 -   You can add additional revenue components from bottom by clicking *Add Revenue Row*. This will create a new row that will be used in calculating total revenue forecast.
@@ -49,3 +51,5 @@ Note: When you click *Process data* it will overwrite any existing *data.csv* in
 -   *Calculate totals* gives you a final forecast that takes in consideration all adjustments and added revenue components.
 -   If you make adjustments to your forceast remenber to always click the *Calculate Totals* button. Totals are not updated automatically.
 -   The forecast can be exported in CSV format to be used further in Excel (see your usual download folder).
+
+Note: Models provide only a baseline for total forecast based on revenue data exported from finance system. Person executing this forecast may add domain knolwdge outside that data through adjustmens mentioned above.
