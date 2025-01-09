@@ -6,6 +6,7 @@
     -   Run command *python -V.* You should get a message about your python version.
     -   Run command *pip -V*. You should get a message about your pip version and location.
     -   In case of python and/or pip not available, check your python installation and path in Windows environment variables.
+-   Visua Studio Build Tools installed. If needed, download and install from https://visualstudio.microsoft.com/visual-cpp-build-tools/
 
 ![img1](https://github.com/Yusuboy/revenue-forecasting/blob/master/inst_win_img1.jpg)
 
