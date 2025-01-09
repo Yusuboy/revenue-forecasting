@@ -18,7 +18,7 @@ This software is focused on enhancing the revenue forecasting capabilities for a
 
 The goal of this project is to refine forecasting methods to better predict both short and long term revenues as well as reduce amount of manual work needed for forecasting.
 
-# Instructions
+## Instructions
 
 -   Installation on Windows: <https://github.com/Yusuboy/revenue-forecasting/blob/master/Installation_windows.md>
 -   User guide: <https://github.com/Yusuboy/revenue-forecasting/blob/master/User%20instructions.md>
