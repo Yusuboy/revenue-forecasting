@@ -1,8 +1,8 @@
-# Revenue Forcasting
+# Revenue Forecasting
 
 ## Project Overview
 
-This project is focused on enhancing the revenue forecasting capabilities for a real-world ICT company that is part of a major global ICT corporation
+This software is focused on enhancing the revenue forecasting capabilities for an ICT company that is part of a major global ICT corporation
 
 ### Company Details
 
@@ -18,37 +18,7 @@ This project is focused on enhancing the revenue forecasting capabilities for a 
 
 The goal of this project is to refine forecasting methods to better predict both short and long term revenues as well as reduce amount of manual work needed for forecasting.
 
-# Instructions (Python)
+# Instructions
 
-1.  Pre-requisites: python installed. If needed, check the [download page](https://www.python.org/downloads/).
-2.  Installation, two options: use Git or Export GitHub repository as a ZIP file:
-   
-   **Git**
--   Clone the repository to your machine and navigate to the root directory.
-
-```
-git clone git@github.com:Yusuboy/revenue-forecasting.git
-```
-   **Export zip**
--   Create a local directory for the code in your computer
--   In GitHub, go to the Repository and open the repository's main page.
--   Click on "Code": You’ll see a green button labelled "Code" near the top.
--   Download ZIP: Click "Download ZIP" to download the entire repository as a ZIP file, which you can then extract to your desktop.
--   Extract the ZIP file to your computer to the directory you created
-3.  Set up a virtual environment and install the requirements in the root directory of the project
-
-```
-$ python3 -m venv venv
-$ source venv/bin/activate
-$ pip install -r requirements.txt
-```
-
-4.  Run the following command to start the app
-
-```
-$ flask --app src.app run
-```
-# Instructions (Windows)
-
-Open installation_windows.md file from root folder and follow instructions.
-
+-   Installation on Windows: <https://github.com/Yusuboy/revenue-forecasting/blob/master/Installation_windows.md>
+-   User guide: <https://github.com/Yusuboy/revenue-forecasting/blob/master/User%20instructions.md>
